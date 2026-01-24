@@ -20,6 +20,7 @@ ln -s /path/to/agent-skills/weekly-review ~/.claude/skills/weekly-review
 
 | Skill | Description |
 |-------|-------------|
+| [start-day](./start-day/) | Morning briefing with focus, tasks, and intentions |
 | [weekly-review](./weekly-review/) | Conduct a weekly review using mdvault |
 
 ## Structure
