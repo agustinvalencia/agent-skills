@@ -124,11 +124,15 @@ You're set! Focus: [project], First task: [task]
 
 Go get it - I'll be here if you need me.
 ```
+
 ### 8. Ask for planned meetings
 
-Ask the user if there are meetings that should be considered in today's agenda
+Ask the user if there are meetings that should be considered in today's agenda, 
+If the daily note has an agenda section add them: 
 
-
+```
+- [time start] - [meeting]
+```
 
 ### 9. In case of late starts
 

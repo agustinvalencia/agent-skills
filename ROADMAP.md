@@ -1,51 +1,58 @@
 # Agent Skills Roadmap
 
-Tracking planned skills for the ADHD-friendly productivity system.
+Tracking skills for the ADHD-friendly productivity system.
 
-## Implemented
+## Implemented (14 skills)
 
+### Daily Routines
 | Skill | Version | Description |
 |-------|---------|-------------|
 | start-day | 2.0 | Morning briefing - ONE task, ONE intention |
 | close-day | 1.0 | Evening wind-down - acknowledge, capture, rest |
-| weekly-review | 2.0 | Weekly reflection - wins first, ONE goal |
-| create-project | 1.0 | Standardized project creation |
-| create-task | 1.0 | Low-friction task creation |
-| complete-task | 1.0 | Mark done with celebration - proper closure + dopamine |
-| quick-capture | 1.0 | Instant thought dump - zero friction, process later |
-| unstuck | 1.0 | Paralysis breaker - picks ONE tiny action for you |
-| monthly-report | 1.0 | Generate monthly summary - accomplishments, patterns, shareable |
 
-## Planned
+### Reviews & Reports
+| Skill | Version | Description |
+|-------|---------|-------------|
+| weekly-review | 2.0 | Weekly reflection - wins first, ONE goal |
+| monthly-report | 1.0 | Generate monthly summary - accomplishments, patterns |
+| project-review | 1.0 | Deep dive on single project health |
 
 ### Task Flow
-| Skill | Priority | Description |
-|-------|----------|-------------|
-| set-focus | Medium | Switch project focus with proper context handoff |
+| Skill | Version | Description |
+|-------|---------|-------------|
+| create-task | 1.0 | Low-friction task creation |
+| complete-task | 1.0 | Mark done with celebration - closure + dopamine |
+| quick-capture | 1.0 | Instant thought dump - zero friction |
+
+### Focus & Context
+| Skill | Version | Description |
+|-------|---------|-------------|
+| set-focus | 1.0 | Switch project focus with context handoff |
+| context-switch | 1.0 | Full context transition - close old, open new |
+| take-break | 1.0 | Proper pause with clean handoff |
 
 ### When Stuck
-| Skill | Priority | Description |
-|-------|----------|-------------|
-| brain-dump | Medium | Get everything out of head, then prioritize ONE |
+| Skill | Version | Description |
+|-------|---------|-------------|
+| unstuck | 1.0 | Paralysis breaker - picks ONE tiny action |
+| brain-dump | 1.0 | Empty head into vault, then pick ONE thing |
 
-### Reviews
-| Skill | Priority | Description |
-|-------|----------|-------------|
-| project-review | Medium | Deep dive on single project health |
+### Creation
+| Skill | Version | Description |
+|-------|---------|-------------|
+| create-project | 1.0 | Standardised project creation |
 
-### Context Management
-| Skill | Priority | Description |
-|-------|----------|-------------|
-| take-break | Low | Proper pause with gentle return prompt |
-| context-switch | Low | Close current work properly, open new context |
+## Ideas (Future Consideration)
 
-## Ideas (Unvalidated)
-
-- `pomodoro` - Timed work session with structured breaks
-- `weekly-planning` - Proactive week setup (vs reactive review)
-- `energy-check` - Match task to current energy level
-- `delegate` - Capture something to ask/assign to someone else
-- `waiting-for` - Track things blocked on others
+| Idea | Description |
+|------|-------------|
+| pomodoro | Timed work session with structured breaks |
+| weekly-planning | Proactive week setup (vs reactive review) |
+| energy-check | Match task to current energy level |
+| delegate | Capture something to ask/assign to someone else |
+| waiting-for | Track things blocked on others |
+| daily-standup | Quick status for async team updates |
+| retrospective | Team/project retrospective facilitation |
 
 ## Design Principles
 

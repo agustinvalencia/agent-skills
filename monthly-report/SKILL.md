@@ -170,10 +170,12 @@ Key wins:
 ```
 
 **Work-focused** (if user mentions "work" or "for my manager"):
-- Emphasise completed deliverables
 - Group by work projects only
+- Emphasise completed deliverables
 - More formal language
 - Include blockers/dependencies if relevant
+- Prefer paragraph long-form writing over a collection of bullet points: Tell a story.
+- If the report of the previous month is available try to connect the stories to show progress.
 
 **Personal** (default):
 - All projects included

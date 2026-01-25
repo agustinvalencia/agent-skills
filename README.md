@@ -43,6 +43,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 |-------|-------------|
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
 | [monthly-report](./monthly-report/) | Generate monthly summary - accomplishments, patterns, shareable |
+| [project-review](./project-review/) | Deep dive on single project health |
 
 ### Task Flow
 
@@ -52,13 +53,22 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [complete-task](./complete-task/) | Mark done with celebration - proper closure + dopamine |
 | [quick-capture](./quick-capture/) | Instant thought dump - zero friction, process later |
 
+### Focus & Context
+
+| Skill | Description |
+|-------|-------------|
+| [set-focus](./set-focus/) | Switch project focus with proper context handoff |
+| [context-switch](./context-switch/) | Full context transition - close old, open new properly |
+| [take-break](./take-break/) | Proper pause with clean handoff and gentle return |
+
 ### When Stuck
 
 | Skill | Description |
 |-------|-------------|
 | [unstuck](./unstuck/) | Paralysis breaker - picks ONE tiny action for you |
+| [brain-dump](./brain-dump/) | Empty your head into vault, then pick ONE thing |
 
-### Creation (Standardized Procedures)
+### Creation (Standardised Procedures)
 
 | Skill | Description |
 |-------|-------------|
@@ -69,7 +79,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | Reference | Purpose |
 |-----------|---------|
 | [ADHD-PRINCIPLES.md](./references/ADHD-PRINCIPLES.md) | Design guidelines all skills follow |
-| [ROADMAP.md](./ROADMAP.md) | Planned skills and ideas |
+| [ROADMAP.md](./ROADMAP.md) | Future ideas and enhancements |
 
 ## Structure
 
@@ -81,11 +91,16 @@ agent-skills/
 ├── close-day/
 ├── weekly-review/
 ├── monthly-report/
+├── project-review/
 ├── create-project/
 ├── create-task/
 ├── complete-task/
 ├── quick-capture/
+├── set-focus/
+├── context-switch/
+├── take-break/
 ├── unstuck/
+├── brain-dump/
 ├── ROADMAP.md
 └── README.md
 ```
