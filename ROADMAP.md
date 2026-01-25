@@ -14,6 +14,7 @@ Tracking planned skills for the ADHD-friendly productivity system.
 | complete-task | 1.0 | Mark done with celebration - proper closure + dopamine |
 | quick-capture | 1.0 | Instant thought dump - zero friction, process later |
 | unstuck | 1.0 | Paralysis breaker - picks ONE tiny action for you |
+| monthly-report | 1.0 | Generate monthly summary - accomplishments, patterns, shareable |
 
 ## Planned
 
@@ -31,7 +32,6 @@ Tracking planned skills for the ADHD-friendly productivity system.
 | Skill | Priority | Description |
 |-------|----------|-------------|
 | project-review | Medium | Deep dive on single project health |
-| monthly-review | Low | Broader patterns, project lifecycle decisions |
 
 ### Context Management
 | Skill | Priority | Description |

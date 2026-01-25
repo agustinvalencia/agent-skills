@@ -1,6 +1,6 @@
 ---
 name: create-task
-description: Create a new task in the vault with standardized structure. Uses current focus project by default. Minimal friction - just needs a title. Use when the user wants to add a task, says "new task", or describes something to do.
+description: Create a new task in the vault with standardised structure. Uses current focus project by default. Minimal friction - just needs a title. Use when the user wants to add a task, says "new task", or describes something to do.
 metadata:
   author: mdvault
   version: "1.0"
@@ -84,7 +84,7 @@ Only ask/set if user mentions time:
 - "tomorrow" → tomorrow's date
 - "urgent" → today
 
-Don't ask for due date if not mentioned. Most tasks don't need one.
+Don't ask for due date if not mentioned.
 
 ### 5. Create the Task
 

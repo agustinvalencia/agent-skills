@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Create a new project in the vault with standardized structure. Gathers title, context (work/personal/family), and expected outcome. Low friction with sensible defaults. Use when the user wants to start a new project or says "new project".
+description: Create a new project in the vault with standardised structure. Gathers title, context (work/personal/family), and expected outcome. Low friction with sensible defaults. Use when the user wants to start a new project or says "new project".
 metadata:
   author: mdvault
   version: "1.0"
@@ -44,9 +44,9 @@ Context determines where in life this project lives:
 ```
 What area is this for?
 - work
-- personal
+- side-project
 - family
-- research
+- university
 ```
 
 If user gives something else, map it:

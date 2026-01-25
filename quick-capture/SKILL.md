@@ -1,6 +1,6 @@
 ---
 name: quick-capture
-description: Instantly capture a thought, idea, or todo before it disappears. Zero friction - just dumps to daily note or inbox. No categorization, no decisions. Use when the user says "capture", "remember", "note to self", or mentions something they don't want to forget.
+description: Instantly capture a thought, idea, or todo before it disappears. Zero friction - just dumps to daily note or inbox. No categorization, no decisions. Use when the user says "capture", "quick note", "note to self", or mentions something they don't want to forget.
 metadata:
   author: mdvault
   version: "1.0"
@@ -36,14 +36,14 @@ No preamble. If user says something to capture, capture it:
 ```
 add_to_daily_note(
   content: "- [ ] [captured thought]",
-  subsection: "Notes"
+  subsection: "Inbox"
 )
 ```
 
 Or use the capture tool if configured:
 ```
 capture_content(
-  name: "inbox",
+  name: "Inbox",
   text: "[captured thought]"
 )
 ```
@@ -82,7 +82,7 @@ Agent: Captured: "Call mom"
 User: what if we used redis for caching
 Agent: Captured: "Idea: use redis for caching"
 ```
-→ Add as note: `- Idea: use redis for caching`
+→ Add as bullet: `- Idea: use redis for caching`
 
 **If it's a reminder:**
 ```
@@ -96,11 +96,11 @@ Agent: Captured: "Bring umbrella tomorrow"
 User: the meeting is at 3pm not 2pm
 Agent: Captured: "Meeting at 3pm not 2pm"
 ```
-→ Add as note: `- Meeting at 3pm not 2pm`
+→ Add as bullet: `- Meeting at 3pm not 2pm`
 
 ## Where to Capture
 
-**Default:** Daily note → Notes section
+**Default:** Daily note → Inbox section
 
 **If inbox configured:** Use `capture_content` with name "inbox"
 
@@ -168,7 +168,6 @@ But don't suggest this proactively. Capture is capture.
 ## Trigger Phrases
 
 - "capture"
-- "remember"
 - "note to self"
 - "don't let me forget"
 - "quick note"

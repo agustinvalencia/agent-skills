@@ -37,11 +37,12 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [start-day](./start-day/) | Low-friction morning briefing - ONE task, ONE intention |
 | [close-day](./close-day/) | Gentle evening wind-down - acknowledge, capture, rest |
 
-### Reviews
+### Reviews & Reports
 
 | Skill | Description |
 |-------|-------------|
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
+| [monthly-report](./monthly-report/) | Generate monthly summary - accomplishments, patterns, shareable |
 
 ### Task Flow
 
@@ -79,6 +80,7 @@ agent-skills/
 ├── start-day/
 ├── close-day/
 ├── weekly-review/
+├── monthly-report/
 ├── create-project/
 ├── create-task/
 ├── complete-task/

@@ -124,6 +124,16 @@ You're set! Focus: [project], First task: [task]
 
 Go get it - I'll be here if you need me.
 ```
+### 8. Ask for planned meetings
+
+Ask the user if there are meetings that should be considered in today's agenda
+
+
+
+### 9. In case of late starts
+
+If the user is starting the day, but the current time is no longer "morning",
+keep it as a quick start.
 
 ## What NOT to Do
 
