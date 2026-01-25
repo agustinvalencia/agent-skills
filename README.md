@@ -30,11 +30,25 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 
 ## Skills
 
+### Daily Routines
+
 | Skill | Description |
 |-------|-------------|
 | [start-day](./start-day/) | Low-friction morning briefing - ONE task, ONE intention |
 | [close-day](./close-day/) | Gentle evening wind-down - acknowledge, capture, rest |
+
+### Reviews
+
+| Skill | Description |
+|-------|-------------|
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
+
+### Creation (Standardized Procedures)
+
+| Skill | Description |
+|-------|-------------|
+| [create-project](./create-project/) | Create project with title, context, outcome |
+| [create-task](./create-task/) | Create task with minimal friction - uses focus project |
 
 ## Shared References
 
@@ -46,13 +60,17 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 
 ```
 agent-skills/
-├── references/           # Shared guidelines
+├── references/
 │   └── ADHD-PRINCIPLES.md
 ├── start-day/
 │   └── SKILL.md
 ├── close-day/
 │   └── SKILL.md
 ├── weekly-review/
+│   └── SKILL.md
+├── create-project/
+│   └── SKILL.md
+├── create-task/
 │   └── SKILL.md
 └── README.md
 ```
