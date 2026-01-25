@@ -33,6 +33,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | Skill | Description |
 |-------|-------------|
 | [start-day](./start-day/) | Low-friction morning briefing - ONE task, ONE intention |
+| [close-day](./close-day/) | Gentle evening wind-down - acknowledge, capture, rest |
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
 
 ## Shared References
@@ -48,6 +49,8 @@ agent-skills/
 ├── references/           # Shared guidelines
 │   └── ADHD-PRINCIPLES.md
 ├── start-day/
+│   └── SKILL.md
+├── close-day/
 │   └── SKILL.md
 ├── weekly-review/
 │   └── SKILL.md
