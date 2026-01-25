@@ -2,7 +2,7 @@
 
 Tracking skills for the ADHD-friendly productivity system.
 
-## Implemented (14 skills)
+## Implemented (15 skills)
 
 ### Daily Routines
 | Skill | Version | Description |
@@ -41,6 +41,11 @@ Tracking skills for the ADHD-friendly productivity system.
 | Skill | Version | Description |
 |-------|---------|-------------|
 | create-project | 1.0 | Standardised project creation |
+
+### Research
+| Skill | Version | Description |
+|-------|---------|-------------|
+| read-paper | 1.0 | Multi-pass paper reading + discussion + zettel extraction |
 
 ## Ideas (Future Consideration)
 

@@ -68,6 +68,12 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [unstuck](./unstuck/) | Paralysis breaker - picks ONE tiny action for you |
 | [brain-dump](./brain-dump/) | Empty your head into vault, then pick ONE thing |
 
+### Research
+
+| Skill | Description |
+|-------|-------------|
+| [read-paper](./read-paper/) | Multi-pass paper reading with active engagement + zettel extraction |
+
 ### Creation (Standardised Procedures)
 
 | Skill | Description |
@@ -101,6 +107,7 @@ agent-skills/
 ├── take-break/
 ├── unstuck/
 ├── brain-dump/
+├── read-paper/
 ├── ROADMAP.md
 └── README.md
 ```
