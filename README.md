@@ -43,18 +43,32 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 |-------|-------------|
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
 
+### Task Flow
+
+| Skill | Description |
+|-------|-------------|
+| [create-task](./create-task/) | Create task with minimal friction - uses focus project |
+| [complete-task](./complete-task/) | Mark done with celebration - proper closure + dopamine |
+| [quick-capture](./quick-capture/) | Instant thought dump - zero friction, process later |
+
+### When Stuck
+
+| Skill | Description |
+|-------|-------------|
+| [unstuck](./unstuck/) | Paralysis breaker - picks ONE tiny action for you |
+
 ### Creation (Standardized Procedures)
 
 | Skill | Description |
 |-------|-------------|
 | [create-project](./create-project/) | Create project with title, context, outcome |
-| [create-task](./create-task/) | Create task with minimal friction - uses focus project |
 
 ## Shared References
 
 | Reference | Purpose |
 |-----------|---------|
 | [ADHD-PRINCIPLES.md](./references/ADHD-PRINCIPLES.md) | Design guidelines all skills follow |
+| [ROADMAP.md](./ROADMAP.md) | Planned skills and ideas |
 
 ## Structure
 
@@ -63,15 +77,14 @@ agent-skills/
 ├── references/
 │   └── ADHD-PRINCIPLES.md
 ├── start-day/
-│   └── SKILL.md
 ├── close-day/
-│   └── SKILL.md
 ├── weekly-review/
-│   └── SKILL.md
 ├── create-project/
-│   └── SKILL.md
 ├── create-task/
-│   └── SKILL.md
+├── complete-task/
+├── quick-capture/
+├── unstuck/
+├── ROADMAP.md
 └── README.md
 ```
 
