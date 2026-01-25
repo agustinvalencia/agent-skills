@@ -27,10 +27,29 @@ Weekly reviews can trigger shame spirals for ADHD brains. This skill:
 
 Collect state - process it before presenting:
 
-- `get_context_week` - Current week's activity
-- `get_context_week` with `week: "last"` - For comparison (optional)
-- `get_project_progress` - Project completion rates
-- `list_tasks` with `status_filter: "doing"` - Stalled work
+**Call these tools:**
+- `get_context_week` - Current week's full activity breakdown
+- `get_context_week` with `week: "last"` - Previous week for comparison
+- `get_project_progress` - All projects with completion rates
+- `list_tasks` with `status_filter: "doing"` - Tasks in progress (potential stalls)
+
+**Extract from `get_context_week`:**
+- `week` - Week identifier (e.g., "2026-W04")
+- `summary.tasks_completed` - Total tasks completed (celebrate!)
+- `summary.tasks_created` - Tasks created (planning counts)
+- `summary.notes_modified` - Activity indicator
+- `summary.active_days` - Days with vault activity
+- `days[]` - Daily breakdown with focus per day
+- `tasks.completed[]` - List of completed tasks (wins!)
+- `tasks.created[]` - New tasks added
+- `tasks.in_progress[]` - Tasks still active
+- `projects[]` - Which projects had activity
+
+**Use this data for:**
+- Wins: `tasks.completed` list + `summary.tasks_completed` count
+- Activity: `summary.active_days` + `summary.notes_modified`
+- Focus pattern: Check `days[].focus` to see what dominated
+- Stalled detection: Compare `tasks.in_progress` across weeks
 
 ### 2. Celebrate Wins First
 

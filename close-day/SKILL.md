@@ -32,9 +32,32 @@ This skill:
 
 Collect the day's activity:
 
-- `get_context_day` with `date: "today"` - What happened
-- `get_daily_dashboard` - Quick status check
-- `read_note` on today's daily note - See what's already logged
+**Call these tools:**
+- `get_context_day` with `date: "today"` - Full day activity
+- `get_context_focus` - Current focus project context
+- `get_daily_dashboard` - Quick status (but ignore overdue at night)
+
+**Extract from `get_context_day`:**
+- `date` - Today's date
+- `day_of_week` - Day name for greeting
+- `daily_note.exists` - Whether note exists
+- `daily_note.sections` - Check for "Closing Thoughts" section
+- `summary.tasks_completed` - Wins to acknowledge
+- `summary.tasks_created` - Planning activity to acknowledge
+- `summary.notes_modified` - General activity
+- `summary.focus` - What project dominated the day
+- `tasks.completed[]` - Specific wins to mention
+- `tasks.created[]` - Tasks added (planning = work)
+- `modified_notes[]` - What was touched
+
+**Extract from `get_context_focus`:**
+- `project` - Current focus (to mention continuity)
+- `context.recent_tasks.completed` - Recent wins
+- `note` - Why they were focusing (for acknowledgment)
+
+**DO NOT use from dashboard:**
+- Overdue tasks (don't mention at night)
+- Due tomorrow (anxiety trigger)
 
 ### 2. Warm Wind-Down
 

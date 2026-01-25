@@ -28,11 +28,18 @@ Standardized task creation. Minimal friction, maximum consistency.
 ### 1. Check Focus Context (Silent)
 
 First, get current focus:
-```
-get_context_focus()
-```
 
-This tells us which project to attach the task to by default.
+**Call:** `get_context_focus()`
+
+**Extract:**
+- `project` - Current focus project name (use as default)
+- `project_path` - Path for logging
+- `context.tasks.todo` - Open task count (for duplicate detection)
+- `context.recent_tasks.active` - Active tasks (check for similar)
+
+**If no focus set** (`project` is null):
+- Will need to ask user which project
+- Use `list_projects` with `status_filter: "active"` to show options
 
 ### 2. Extract or Ask for Title
 

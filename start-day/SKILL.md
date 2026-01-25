@@ -19,9 +19,29 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 
 Collect state using MCP tools - don't dump this on the user:
 
-- `get_daily_dashboard` - Tasks overview
-- `get_context_focus` - Current project focus
-- `get_context_day` with `date: "today"` - Daily note status
+**Call these tools:**
+- `get_context_focus` - Returns focus project with task counts and recent activity
+- `get_context_day` with `date: "today"` - Returns daily note status and today's activity
+- `get_daily_dashboard` - Returns overdue/due today/in-progress tasks
+
+**Extract from `get_context_focus`:**
+- `project` - Current focus project name
+- `note` - Why they're focusing on it
+- `context.tasks.todo` - Open tasks count
+- `context.tasks.done` - Completed tasks count
+- `context.recent_tasks.completed` - Recent wins to celebrate
+- `context.recent_tasks.active` - Tasks currently in progress
+
+**Extract from `get_context_day`:**
+- `daily_note.exists` - Whether daily note exists
+- `summary.tasks_completed` - Tasks done today
+- `summary.tasks_created` - Tasks created today
+- `tasks.in_progress` - Active tasks to suggest
+
+**Extract from `get_daily_dashboard`:**
+- Overdue tasks (first one for priority)
+- Due today tasks
+- In-progress tasks
 
 ### 2. Warm Greeting with Orientation
 
