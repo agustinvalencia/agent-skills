@@ -79,6 +79,11 @@ Creating literature note for: [Title]
 
 **Call:** Create literature note with template, or open existing
 
+**Log:**
+```
+log_to_daily_note("Started Literature Review: [Paper Title]")
+```
+
 ### 2. Research Question (Before Reading)
 
 This is crucial for retention:
@@ -156,6 +161,11 @@ Knowing what NOT to read deeply is valuable.
 Note saved. Moving on.
 ```
 
+**Log to Daily:**
+```
+log_to_daily_note("[time]: [Paper Title] Pass 1 Finished. Verdict: [verdict]")
+```
+
 Log and exit.
 
 ### 4. Pass 2: Understand (20-30 minutes)
@@ -217,6 +227,11 @@ Good progress. Take a break?
 [ ] Done for now - paper captured, can go deeper later
 ```
 
+**Log to Daily:**
+```
+log_to_daily_note("[time]: [Paper Title] Pass 2 Finished")
+```
+
 ### 5. Pass 3: Deep Read (Optional, as needed)
 
 ```
@@ -259,6 +274,12 @@ update_metadata(
 )
 ```
 
+**Log to Daily:**
+```
+log_to_daily_note("[time]: [Paper Title] Pass 3 Finished")
+```
+
+
 ### 6. Discussion (Optional)
 
 Offer Feynman-style discussion:
@@ -291,6 +312,12 @@ Connect:
 ```
 
 Capture insights from discussion to note.
+
+**Log to Daily:**
+```
+log_to_daily_note("[time]: [Paper Title] Discussion done")
+```
+
 
 ### 7. Extract Zettels (Optional)
 
@@ -349,6 +376,11 @@ append_to_note(
   content: "- [[zettel-title]]",
   subsection: "Atomic Notes (Extracted)"
 )
+```
+
+**Log to Daily:**
+```
+log_to_daily_note("[time]: [Paper Title] Extracted zettels - [zettels]")
 ```
 
 ### 8. Wrap Up
