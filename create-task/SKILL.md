@@ -19,6 +19,7 @@ Standardized task creation. Minimal friction, maximum consistency.
 |-------|----------|--------|---------|
 | title | Yes | Ask user or extract from request | - |
 | project | No | Current focus | Active focus project |
+| planned_for | No | Ask if mentioned or infer | None |
 | due_date | No | Ask only if mentioned | None |
 | priority | No | Never ask | medium |
 | description | No | Ask only if complex | (empty) |
@@ -86,7 +87,16 @@ Only ask/set if user mentions time:
 
 Don't ask for due date if not mentioned.
 
-### 5. Create the Task
+### 5. Handle Planned Date (Internal Schedule)
+
+Ask or infer when the user *intends* to work on this:
+- "on Tuesday" -> set `planned_for` to that date.
+- "this afternoon" -> set `planned_for` to today.
+- "next week" -> set `planned_for` to next Monday (if no due date mentioned).
+
+If a task is created *from* a Daily Note or during a planning session, set `planned_for` to that day.
+
+### 6. Create the Task
 
 Use MCP tool:
 
@@ -94,13 +104,14 @@ Use MCP tool:
 create_task(
   title: "[title]",
   project: "[project or omit for focus]",
-  due_date: "[YYYY-MM-DD or omit]"
+  due_date: "[YYYY-MM-DD or omit]",
+  planned_for: "[YYYY-MM-DD or omit]"
 )
 ```
 
 Never set priority explicitly - let it default to medium.
 
-### 6. Confirm Simply
+### 7. Confirm Simply
 
 ```
 Created: [TASK-ID] - [Title]
@@ -110,7 +121,7 @@ Project: [Project Name]
 
 No follow-up questions. Task is created, done.
 
-### 7. Log to Daily Note
+### 8. Log to Daily Note
 
 ```
 log_to_daily_note("Created task [ID]: [Title]")
@@ -187,12 +198,17 @@ Agent: Created: HPO-003 - Book flights
        Project: Honeymoon Planning
 ```
 
-**With date:**
+**With dates:**
 ```
 User: submit report by friday
 Agent: Created: WRK-012 - Submit report
        Project: Work
        Due: 2026-01-31
+
+User: plan to call mom on Tuesday
+Agent: Created: PRS-008 - Call mom
+       Project: Personal
+       Planned: 2026-02-03
 ```
 
 **Different project:**

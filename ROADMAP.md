@@ -2,19 +2,20 @@
 
 Tracking skills for the ADHD-friendly productivity system.
 
-## Implemented (15 skills)
+## Implemented (17 skills)
 
 ### Daily Routines
 | Skill | Version | Description |
 |-------|---------|-------------|
 | start-day | 2.0 | Morning briefing - ONE task, ONE intention |
 | close-day | 1.0 | Evening wind-down - acknowledge, capture, rest |
+| daily-standup | 1.0 | Quick async standup - yesterday, today, blockers |
 
 ### Reviews & Reports
 | Skill | Version | Description |
 |-------|---------|-------------|
 | weekly-review | 2.0 | Weekly reflection - wins first, ONE goal |
-| monthly-report | 1.0 | Generate monthly summary - accomplishments, patterns |
+| monthly-report | 2.0 | Generate monthly summary - uses activity reports |
 | project-review | 1.0 | Deep dive on single project health |
 
 ### Task Flow
@@ -41,6 +42,7 @@ Tracking skills for the ADHD-friendly productivity system.
 | Skill | Version | Description |
 |-------|---------|-------------|
 | create-project | 1.0 | Standardised project creation |
+| create-meeting | 1.0 | Meeting note with auto-generated ID |
 
 ### Research
 | Skill | Version | Description |
@@ -56,7 +58,6 @@ Tracking skills for the ADHD-friendly productivity system.
 | energy-check | Match task to current energy level |
 | delegate | Capture something to ask/assign to someone else |
 | waiting-for | Track things blocked on others |
-| daily-standup | Quick status for async team updates |
 | retrospective | Team/project retrospective facilitation |
 
 ## Design Principles

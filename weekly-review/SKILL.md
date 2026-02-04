@@ -140,7 +140,10 @@ What's the ONE main focus for next week?
 
 If next week's note doesn't exist, offer to create it.
 
-Write the single focus item. Resist adding more.
+**Action:**
+- Write the single focus item to the weekly note.
+- **Set `planned_for`** dates for any specific tasks the user commits to for early next week.
+- Resist adding too many items.
 
 ### 7. Quick Cleanup (Optional, Ask First)
 

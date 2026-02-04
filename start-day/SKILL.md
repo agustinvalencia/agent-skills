@@ -39,6 +39,7 @@ Collect state using MCP tools - don't dump this on the user:
 - `tasks.in_progress` - Active tasks to suggest
 
 **Extract from `get_daily_dashboard`:**
+- Tasks `planned_for` today (Top Priority)
 - Overdue tasks (first one for priority)
 - Due today tasks
 - In-progress tasks
@@ -68,16 +69,17 @@ Find something. Even "You showed up today" counts.
 ### 4. Surface ONE Priority
 
 Don't list all tasks. Pick ONE based on:
-1. Overdue with nearest deadline
-2. Due today
-3. Blocking other work
+1. **Planned for today** (User's specific intention)
+2. Overdue with nearest deadline
+3. Due today
+4. Blocking other work
 4. User's stated focus area
 
 Present it simply:
 
 ```
 One thing that needs you today:
-→ [Task title] (due [when] / overdue by [X days])
+→ [Task title] (Planned for today / due [when] / overdue [X days])
 
 Want to start with this, or pick something else?
 ```

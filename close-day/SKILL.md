@@ -115,6 +115,9 @@ For tomorrow, one thing to keep in mind:
 That's it. The rest can wait until morning.
 ```
 
+**Action:** If user agrees to a task, set its `planned_for` date to tomorrow:
+`update_metadata(note_path="...", metadata_json='{"planned_for": "YYYY-MM-DD"}')`
+
 If user seems tired, skip this entirely:
 ```
 Tomorrow will sort itself out. Rest now.

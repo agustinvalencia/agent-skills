@@ -3,8 +3,8 @@ name: monthly-report
 description: Generate a monthly summary report aggregating weekly data, project progress, and accomplishments. Useful for work updates, personal tracking, or reflection. Outputs a formatted report. Use when the user wants a monthly summary, needs to report progress, or says "monthly report".
 metadata:
   author: mdvault
-  version: "1.0"
-compatibility: Requires mdvault MCP server with vault configured
+  version: "2.0"
+compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 ---
 
 # Monthly Report
@@ -40,29 +40,33 @@ This skill:
 
 ### 2. Gather Data (Silent)
 
-Collect data for all weeks in the month:
+Use the activity report tool to get pre-aggregated monthly data:
 
-**Call for each week in month:**
+**Call:**
 ```
-get_context_week(week: "2026-W01")
-get_context_week(week: "2026-W02")
-get_context_week(week: "2026-W03")
-get_context_week(week: "2026-W04")
+get_activity_report(month: "2026-01")
 ```
 
-**Also call:**
+This returns aggregated data for the entire month including:
+- Total tasks completed/created
+- Notes modified
+- Active days
+- Per-project breakdown
+- Week-by-week summary
+
+**Also call for additional context:**
 ```
 get_project_progress()
-list_tasks(status_filter: "done")  // Get completed tasks
+list_tasks(status_filter: "done")  // Get completed task details
 ```
 
-**Aggregate from weekly data:**
-- `summary.tasks_completed` - Sum across weeks
-- `summary.tasks_created` - Sum across weeks
-- `summary.notes_modified` - Sum across weeks
-- `summary.active_days` - Sum across weeks
-- `tasks.completed[]` - Combine all completed tasks
-- `projects[]` - Which projects had activity each week
+**Extract from activity report:**
+- `summary.tasks_completed` - Total for month
+- `summary.tasks_created` - Total for month
+- `summary.notes_modified` - Total for month
+- `summary.active_days` - Total for month
+- `projects[]` - Which projects had activity
+- `weeks[]` - Weekly breakdown if needed
 
 ### 3. Calculate Metrics
 
