@@ -44,6 +44,12 @@ Collect state using MCP tools - don't dump this on the user:
 - Due today tasks
 - In-progress tasks
 
+### 1b. Ensure Daily Note Exists (Silent)
+
+If `daily_note.exists` is `false` from the context above, create today's daily note **before doing anything else**:
+- Call `create_daily_note` MCP tool (no arguments needed for today)
+- This MUST happen before any `add_to_daily_note`, `log_to_daily_note`, or `append_to_note` calls, otherwise a bare note without proper template sections will be created
+
 ### 2. Warm Greeting with Orientation
 
 Start with day context (combats time blindness):

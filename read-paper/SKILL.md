@@ -30,7 +30,7 @@ This skill:
 
 ## Literature Note Metadata
 
-Track reading progress in frontmatter:
+Track reading progress in frontmatter (matches `literature.lua` type schema):
 
 ```yaml
 type: literature
@@ -38,12 +38,13 @@ title: "Paper Title"
 authors: ["Author 1", "Author 2"]
 year: 2024
 url: "https://..."
-status: skimming | reading | completed | abandoned
+source_type: article  # article | book | video | podcast | other
+status: skimming  # skimming | reading | completed | abandoned
+research_question: "What brought me to this paper?"
+verdict: null  # relevant | not-relevant | revisit-later
 pass_1_date: null
 pass_2_date: null
 pass_3_date: null
-research_question: "What brought me to this paper?"
-verdict: null | relevant | not-relevant | revisit-later
 ```
 
 ## Steps
@@ -77,7 +78,24 @@ If new:
 Creating literature note for: [Title]
 ```
 
-**Call:** Create literature note with template, or open existing
+**Call:** Use `create_literature_note` MCP tool:
+```
+create_literature_note(
+  title: "[Full Paper Title]",
+  short_title: "[slug-for-filename]",
+  authors: "[Author 1, Author 2]",
+  year: [year],
+  url: "[url or DOI]",
+  source_type: "article"
+)
+```
+Then use `update_metadata` to set authors as a YAML list:
+```
+update_metadata(
+  note_path: "[literature note path]",
+  metadata_json: '{"authors": ["Author 1", "Author 2"]}'
+)
+```
 
 **Log:**
 ```
@@ -217,6 +235,8 @@ update_metadata(
   metadata_json: '{"pass_2_date": "[today]", "status": "reading"}'
 )
 ```
+
+> Note: status values are `skimming` → `reading` → `completed` (or `abandoned`).
 
 **Offer break:**
 ```
