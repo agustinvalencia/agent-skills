@@ -3,261 +3,392 @@ name: monthly-report
 description: Generate a monthly summary report aggregating weekly data, project progress, and accomplishments. Useful for work updates, personal tracking, or reflection. Outputs a formatted report. Use when the user wants a monthly summary, needs to report progress, or says "monthly report".
 metadata:
   author: mdvault
-  version: "2.0"
-compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
+  version: "3.0"
+compatibility: Requires mdvault MCP server (v0.3.4+) with vault configured
 ---
 
 # Monthly Report
 
-Generate a comprehensive monthly summary. Good for work updates, self-review, or tracking progress over time.
+Generate a comprehensive monthly summary with separate work and personal sections. The work section is designed to be copy-pasteable for work reports.
 
 **Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
 
 ## Mindset
 
 Monthly reports serve different purposes than weekly reviews:
-- More formal/shareable output
-- Bigger picture patterns
-- Useful for work updates or self-advocacy
+- More formal/shareable output (especially the work section)
+- Bigger picture patterns across weeks
+- Useful for work updates, self-advocacy, and manager syncs
 - Can highlight accomplishments you've forgotten
 
 This skill:
-- Aggregates data across weeks
-- Focuses on accomplishments (not failures)
-- Produces a shareable document
-- Keeps ADHD-friendly framing
+- Produces a structured note in `Journal/Monthly/`
+- Separates work and personal clearly
+- Builds a narrative per project (not just bullet points)
+- Connects to the previous report to show continuity
+- Keeps ADHD-friendly framing throughout
+
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `create_monthly_report` | Create the monthly report note from template |
+| `get_activity_report` | Aggregated monthly/weekly metrics |
+| `get_context_week` | Per-week breakdown for the period |
+| `get_project_progress` | All projects with completion rates |
+| `get_project_status` | Kanban view per project |
+| `list_projects` | Active project list with context (work/personal) |
+| `list_tasks` | Query completed/active tasks |
+| `search_notes` | Find previous monthly report |
+| `read_note` | Read previous report for continuity |
+| `append_to_note` | Write sections to the report note |
+| `log_to_daily_note` | Log report generation |
+| `update_metadata` | Mark report as final |
 
 ## Steps
 
-### 1. Determine Month
+### 1. Determine Period
 
-**If not specified:** Use current month (or previous month if early in new month)
+**If not specified:** Use current month, or previous month if we're in the first week of a new month.
 
-**If specified:** Parse month from user input
+**If specified:** Parse from user input:
 - "January" → 2026-01
 - "last month" → previous month
 - "2026-01" → as specified
+- "since last report" → find last report and use its end date as start
 
-### 2. Gather Data (Silent)
+**For non-calendar periods** (e.g., work reporting cycles):
+Ask if the period matches the calendar month or has custom boundaries.
 
-Use the activity report tool to get pre-aggregated monthly data:
+### 2. Find Previous Report
+
+Search for the most recent monthly report to establish continuity.
 
 **Call:**
 ```
-get_activity_report(month: "2026-01")
+search_notes(query: "type: monthly-report", folder: "Journal/Monthly")
 ```
 
-This returns aggregated data for the entire month including:
-- Total tasks completed/created
-- Notes modified
-- Active days
-- Per-project breakdown
-- Week-by-week summary
-
-**Also call for additional context:**
+If found, read it:
 ```
-get_project_progress()
-list_tasks(status_filter: "done")  // Get completed task details
+read_note(note_path: "Journal/Monthly/YYYY-MM.md")
 ```
 
-**Extract from activity report:**
-- `summary.tasks_completed` - Total for month
-- `summary.tasks_created` - Total for month
-- `summary.notes_modified` - Total for month
-- `summary.active_days` - Total for month
-- `projects[]` - Which projects had activity
-- `weeks[]` - Weekly breakdown if needed
+**Extract from previous report:**
+- What projects were active
+- What "Looking Ahead" items were mentioned
+- The narrative thread to continue
+- The period_end date (to determine this report's period_start)
 
-### 3. Calculate Metrics
+### 3. Gather Data (Silent)
 
-**Activity metrics:**
-- Total active days / total days in month
-- Total notes modified
-- Total tasks completed vs created
-- Average tasks per week
+Collect everything before generating. Call in parallel:
 
-**Project metrics:**
-- Projects with most activity
-- Projects with completed tasks
-- Progress changes (if trackable)
+**Activity data:**
+- `get_activity_report(month: "YYYY-MM")` — aggregated metrics
+- `get_context_week` for each week in the period — weekly breakdown
 
-### 4. Identify Accomplishments
+**Project data:**
+- `list_projects(status_filter: "active")` — all active projects
+- `get_project_progress()` — completion rates across all projects
+- For each active project: `get_project_status(project_name: "...")` — task-level detail
 
-From completed tasks, group by project and highlight:
+**Task data:**
+- `list_tasks(status_filter: "done")` — completed tasks (filter by period)
+- `list_tasks(status_filter: "doing")` — in-progress tasks (carry-overs)
 
-**Major accomplishments** (prioritise):
-- Tasks marked as high priority that were completed
-- Projects with significant progress
-- Multi-task completions in one area
+### 4. Create the Report Note
 
-**Format accomplishments positively:**
-- "Completed API migration (5 tasks)"
-- "Shipped wedding website MVP"
-- "Finished NOMS paper rebuttal → accepted!"
+**Call:**
+```
+create_monthly_report(period: "YYYY-MM")
+```
 
-### 5. Identify Patterns
+Or with custom period boundaries:
+```
+create_monthly_report(
+  period: "YYYY-MM",
+  period_start: "YYYY-MM-DD",
+  period_end: "YYYY-MM-DD"
+)
+```
 
-Look for trends across weeks:
-- Which projects dominated focus?
-- Any weeks with low/high activity? (note, don't judge)
-- Recurring themes in task types?
+This creates `Journal/Monthly/YYYY-MM.md` with the template structure.
 
-### 6. Generate Report
+### 5. Categorise Projects
 
-Present formatted report:
+Split projects by context for the work/personal sections:
 
+**Work projects:** context = "work" or "uni"
+**Personal projects:** context = "personal", "family", "side-project"
+
+For each project, prepare:
+- Progress change (compare to previous report if available)
+- Tasks completed this period
+- Key milestones or achievements
+- Current status and next steps
+
+### 6. Write the Work Section
+
+This section should be **narrative-style, formal enough to share with a manager**. Not bullet points — tell the story.
+
+**Call:** `append_to_note` to write under `## Work`
+
+#### 6a. Work Summary
+
+A 2-3 paragraph high-level narrative of the reporting period. Connect to the previous report's "Looking Ahead" section.
+
+```
+append_to_note(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  content: "[narrative summary]",
+  subsection: "Summary"
+)
+```
+
+**Writing style:**
+- Paragraph form, not bullet points
+- Lead with accomplishments
+- Connect to previous period: "Following up on last month's focus on X..."
+- Mention key decisions and their outcomes
+- Professional but not dry
+
+**Example:**
+> This period saw significant progress on the NOMS conference preparation,
+> culminating in the paper acceptance. The focus shifted mid-month from
+> paper revisions to presentation preparation and travel logistics.
+> On the tooling side, the mdvault MCP server received several quality-of-life
+> improvements including task cancellation support and automated logging.
+
+#### 6b. Work Project Subsections
+
+For each work project with activity, create a subsection under `### Projects`:
+
+```
+append_to_note(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  content: "#### [Project Name]\n\n[narrative + key items]",
+  subsection: "Projects"
+)
+```
+
+**Per project, include:**
+- 1-2 sentence narrative of what happened
+- Key completed tasks (grouped logically, not as a raw list)
+- Progress: X% → Y% (if measurable)
+- Current status
+
+**Example:**
+> #### NOMS 2026
+> Paper accepted after successful rebuttal. Shifted focus to presentation
+> preparation and conference logistics. Registration confirmed, travel
+> arrangements in progress.
+>
+> - Completed: rebuttal submission, camera-ready version, conference registration
+> - Progress: 60% → 85%
+> - Next: finalise presentation slides, book flights
+
+**For projects with no activity:**
+Include only if they were mentioned in the previous report's "Looking Ahead".
+Note them briefly: "No significant progress this period — expected given [reason]."
+
+#### 6c. Work Looking Ahead
+
+What carries into next period:
+
+```
+append_to_note(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  content: "[looking ahead items]",
+  subsection: "Looking Ahead"
+)
+```
+
+Include:
+- In-progress tasks that carry over
+- Upcoming deadlines in the next period
+- Planned focus areas
+- Any blockers or dependencies
+
+### 7. Write the Personal Section
+
+More relaxed tone. Celebrate life progress.
+
+#### 7a. Personal Highlights
+
+Brief acknowledgment of personal wins:
+
+```
+append_to_note(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  content: "[highlights]",
+  subsection: "Highlights"
+)
+```
+
+**Format:** Can be bullet points or short narrative. Less formal than work.
+
+**Example:**
+> - Moving apartment: key handover done, most logistics sorted
+> - Honeymoon planning: narrowed down to Sardinia, researching areas
+> - Started weekly review habit — maintained 3/4 weeks
+
+#### 7b. Personal Project Subsections
+
+Same pattern as work but lighter touch. Only include projects with notable activity.
+
+### 8. Write Metrics
+
+Aggregate numbers for the period:
+
+```
+append_to_note(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  content: "[metrics table]",
+  subsection: "Metrics"
+)
+```
+
+**Format:**
 ```markdown
-# Monthly Report - [Month Year]
+| Metric | This Month | Last Month |
+|--------|-----------|------------|
+| Active days | X / Y | A / B |
+| Tasks completed | N | M |
+| Tasks created | P | Q |
+| Notes modified | R | S |
 
-## Summary
-- **Active days:** X / Y (Z%)
-- **Tasks completed:** N
-- **Tasks created:** M
-- **Notes modified:** P
-
-## Accomplishments
-
-### [Project Name]
-- Completed: [task 1], [task 2], [task 3]
-- Key win: [highlight]
-
-### [Project Name]
-- Completed: [task 1]
-- Progress: X% → Y%
-
-## Project Activity
-
-| Project | Tasks Done | Activity |
-|---------|------------|----------|
-| [name]  | N          | High     |
-| [name]  | M          | Medium   |
-
-## Patterns & Notes
-- Primary focus this month: [project/area]
-- [Any notable patterns]
-
-## Looking Ahead
-- Carrying forward: [in-progress items]
-- Upcoming: [any known deadlines]
+**Work projects active:** X
+**Personal projects active:** Y
+**Projects completed:** Z
 ```
 
-### 7. Offer to Save
+Include comparison to previous month if available. Frame trends positively.
+
+### 9. Write Reflections
+
+Ask the user for their input. Keep it optional and light:
 
 ```
-Want me to save this report?
-- As a monthly note in Journal/Monthly/
-- Copy to clipboard
-- Just display (done)
+Any reflections on the month? Things like:
+- What worked well
+- What you'd do differently
+- Patterns you noticed
+- How you're feeling about your projects
+
+A sentence or two is plenty. Or we can skip this.
 ```
 
-If saving, create note at `Journal/Monthly/YYYY-MM.md`
+Write to `## Reflections` subsection.
 
-### 8. Log Generation
+### 10. Finalise
+
+Present a summary of the report:
 
 ```
-log_to_daily_note("Generated monthly report for [Month Year]")
+Monthly Report — [Period] — Done
+
+Work:
+- [X] projects covered
+- Key: [1-2 sentence highlight]
+
+Personal:
+- [Y] projects covered
+- Key: [1-2 sentence highlight]
+
+The report is at Journal/Monthly/YYYY-MM.md
+Status is "draft" — want me to mark it as final?
 ```
 
-## Report Variants
-
-**Quick summary** (if user says "quick" or "brief"):
+If they confirm:
 ```
-Monthly Report - [Month]
-
-✓ [N] tasks completed
-→ Top project: [name] ([X] tasks)
-→ Active [Y] days
-
-Key wins:
-- [accomplishment 1]
-- [accomplishment 2]
+update_metadata(
+  note_path: "Journal/Monthly/YYYY-MM.md",
+  metadata_json: '{"status": "final"}'
+)
 ```
 
-**Work-focused** (if user mentions "work" or "for my manager"):
-- Group by work projects only
-- Emphasise completed deliverables
+**Log:**
+```
+log_to_daily_note("Generated monthly report for [Period]")
+```
+
+## Quick Mode
+
+If user wants a fast report:
+
+```
+Quick monthly report — [Period]:
+
+Work:
+- [Project A]: [one-liner]
+- [Project B]: [one-liner]
+
+Personal:
+- [one-liner highlight]
+
+Stats: [X] tasks completed, [Y] active days
+
+Saved to Journal/Monthly/YYYY-MM.md
+```
+
+Skip reflections, skip detailed narratives, skip comparison to last month.
+
+## Work-Only Mode
+
+If user says "work report" or "for my manager":
+
+- Only generate the `## Work` section content
 - More formal language
-- Include blockers/dependencies if relevant
-- Prefer paragraph long-form writing over a collection of bullet points: Tell a story.
-- If the report of the previous month is available try to connect the stories to show progress.
+- Present it in a format ready to copy-paste
+- Offer to output it separately from the vault note
 
-**Personal** (default):
-- All projects included
-- Celebratory tone
-- Include life projects (wedding, moving, etc.)
+```
+Here's your work report for [Period]:
+
+---
+[Full work section content, clean markdown]
+---
+
+This is also saved in the monthly note.
+Want me to adjust the tone or add anything?
+```
+
+## Connecting Reports (The Story)
+
+When a previous report exists, build continuity:
+
+1. **Reference the previous "Looking Ahead"**: Address each item — did it happen?
+2. **Track project arcs**: "Project X moved from planning to execution this month"
+3. **Note trajectory**: "Third month of sustained progress on Y" or "Returning to Z after a pause"
+4. **Acknowledge shifts**: "Priorities shifted from A to B due to [reason]"
+
+This turns individual monthly reports into chapters of an ongoing narrative.
 
 ## What NOT to Do
 
 - Don't list uncompleted tasks (shame)
-- Don't compare to "better" months (judgment)
-- Don't emphasise low activity weeks (guilt)
-- Don't include tasks from other months
-- Don't make it overwhelming with data
+- Don't compare negatively to "better" months
+- Don't emphasise low activity weeks
+- Don't make the personal section feel like a performance review
+- Don't include tasks from outside the period
+- Don't overwhelm with raw data — tell the story
+- Don't make it longer than needed — respect the reader's time
 
 ## Handling Sparse Months
 
-If month had low activity:
+If the month had low activity:
 
 ```
-This was a quieter month - and that's okay.
-Sometimes life needs space.
+This was a quieter month — and that's okay.
+Sometimes life needs space. Here's what did happen:
 
-What did happen:
-- [whatever did happen, however small]
-- [you maintained X]
-- [you showed up Y days]
+- [Whatever did happen, however small]
+- [Any maintenance or continuation]
+- [You showed up X days]
 ```
 
-Find something. There's always something.
-
-## Week Number Reference
-
-For calculating which weeks belong to a month:
-- Week belongs to month if Thursday falls in that month (ISO standard)
-- Or simpler: include week if majority of days are in month
-- Edge weeks can be mentioned but don't stress precision
-
-## Example Output
-
-```markdown
-# Monthly Report - January 2026
-
-## Summary
-- **Active days:** 22 / 31 (71%)
-- **Tasks completed:** 12
-- **Tasks created:** 18
-- **Notes modified:** 156
-
-## Accomplishments
-
-### NOMS 2026
-- Completed rebuttal submission
-- **Paper accepted!** 🎉
-
-### Moving Apartment
-- Completed: Book truck, notify landlord, book elevator, buy supplies
-- Hired cleaning company (SEM Städ)
-- Progress: 15% → 27%
-
-### MarkdownVault MCP
-- Implemented context commands
-- Added weekly review skill
-
-## Project Activity
-
-| Project | Tasks Done | Notes |
-|---------|------------|-------|
-| Moving Apartment | 4 | Primary focus |
-| NOMS 2026 | 1 | Major milestone |
-| MarkdownVault | 0 | Active development |
-
-## Patterns
-- January dominated by moving prep and NOMS deadline
-- Consistent daily engagement (22/31 days)
-- Research projects on hold (expected, given deadlines)
-
-## Looking Ahead
-- Moving date approaching (Feb)
-- WM Distillation needs attention
-- Wedding planning to resume
-```
+For the work section specifically, frame quieter periods:
+- "Consolidation period after the intense push on X"
+- "Focus was on [non-vault-tracked work like meetings, reading, thinking]"
+- "Laying groundwork for next month's deliverables"
