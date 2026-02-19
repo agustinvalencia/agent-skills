@@ -3,13 +3,13 @@ name: weekly-review
 description: Conduct an ADHD-friendly weekly review of the vault. Celebrates wins first, reviews progress compassionately, and plans next week with focus on ONE main goal. No shame, no overwhelm. Use when the user wants to do their weekly review or reflect on their week.
 metadata:
   author: mdvault
-  version: "2.0"
+  version: "3.0"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
 # Weekly Review
 
-ADHD-friendly weekly review. Goal: reflect without shame, plan without overwhelm.
+ADHD-friendly weekly review. Goal: reflect without shame, plan without overwhelm, leave with clear next steps.
 
 **Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
 
@@ -17,161 +17,285 @@ ADHD-friendly weekly review. Goal: reflect without shame, plan without overwhelm
 
 Weekly reviews can trigger shame spirals for ADHD brains. This skill:
 - Leads with wins (dopamine first)
-- Reframes "failures" as information
+- Builds a narrative (your week as a story, not a report card)
+- Reviews stalled work compassionately, one task at a time
+- Processes inbox so nothing lingers
 - Focuses on ONE goal for next week
-- Keeps it under 15 minutes
+- Keeps it under 20 minutes
+
+## MCP Tools Used
+
+This skill relies on these MCP tools:
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_week` | Week activity breakdown (current + previous) |
+| `get_activity_report` | Activity metrics and heatmap |
+| `get_project_progress` | All projects with completion rates |
+| `list_projects` | Active project list |
+| `list_tasks` | Task queries (stalled, overdue, in-progress) |
+| `get_project_status` | Kanban view per project |
+| `search_notes_with_context` | Find inbox items across daily notes |
+| `create_weekly_note` | Create next week's note from template |
+| `append_to_note` | Write to weekly notes (wins, reflections, plans) |
+| `add_to_inbox` | Quick-capture thoughts during review |
+| `create_task` | Convert inbox items to proper tasks |
+| `complete_task` | Mark tasks done during cleanup |
+| `cancel_task` | Cancel stalled/irrelevant tasks |
+| `update_metadata` | Reschedule tasks (update due_date, planned_for) |
+| `log_to_daily_note` | Log review completion |
+| `log_to_project_note` | Log project decisions |
 
 ## Steps
 
 ### 1. Gather Context (Silent)
 
-Collect state - process it before presenting:
+Collect everything first — process before presenting. Call these in parallel:
 
 **Call these tools:**
-- `get_context_week` - Current week's full activity breakdown
-- `get_context_week` with `week: "last"` - Previous week for comparison
-- `get_project_progress` - All projects with completion rates
-- `list_tasks` with `status_filter: "doing"` - Tasks in progress (potential stalls)
+- `get_context_week` — current week's activity
+- `get_context_week` with `week: "last"` — previous week for comparison
+- `get_activity_report` with current week (e.g., `week: "2026-W08"`) — metrics and heatmap
+- `get_project_progress` — all projects with completion rates
+- `list_tasks` with `status_filter: "doing"` — in-progress tasks (potential stalls)
+- `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
+- `search_notes_with_context` with `query: "## Inbox"`, `folder: "Journal/Daily"` — find unprocessed inbox items from this week's daily notes
 
-**Extract from `get_context_week`:**
-- `week` - Week identifier (e.g., "2026-W04")
-- `summary.tasks_completed` - Total tasks completed (celebrate!)
-- `summary.tasks_created` - Tasks created (planning counts)
-- `summary.notes_modified` - Activity indicator
-- `summary.active_days` - Days with vault activity
-- `days[]` - Daily breakdown with focus per day
-- `tasks.completed[]` - List of completed tasks (wins!)
-- `tasks.created[]` - New tasks added
-- `tasks.in_progress[]` - Tasks still active
-- `projects[]` - Which projects had activity
-
-**Use this data for:**
+**Extract and prepare:**
 - Wins: `tasks.completed` list + `summary.tasks_completed` count
-- Activity: `summary.active_days` + `summary.notes_modified`
-- Focus pattern: Check `days[].focus` to see what dominated
-- Stalled detection: Compare `tasks.in_progress` across weeks
+- Activity trend: compare `summary.active_days` and `summary.tasks_completed` across weeks
+- Focus pattern: check `days[].focus` to see what dominated
+- Stalled detection: tasks in "doing" that appear in both this and last week's context
+- Overdue: tasks with `due_date` in the past and status != done/cancelled
+- Inbox items: unchecked items from `## Inbox` sections in daily notes
 
 ### 2. Celebrate Wins First
 
-ALWAYS start positive. Find wins even in "bad" weeks:
+ALWAYS start here. Find wins even in "bad" weeks:
 
 ```
-Let's look at your week! Here's what went well:
+Let's look at your week!
 
-- [Concrete achievement - task completed, note created, etc.]
-- [Activity metric framed positively: "You showed up 6 out of 7 days"]
-- [Any progress on focus project]
+You completed [X] tasks this week [vs Y last week].
+[Active days] out of 7 days with activity.
+
+Here's what went well:
+- [Concrete achievement 1]
+- [Concrete achievement 2]
+- [Progress framed positively]
 ```
+
+**Trend framing (compare to last week):**
+- More completed → "Up from [Y] last week — nice momentum"
+- Same → "Consistent — steady progress"
+- Fewer → "Different pace this week — some weeks are like that"
 
 **Reframe low activity compassionately:**
-- 0 tasks completed → "You created X tasks - planning is work too"
-- Low note count → "Quality over quantity - some weeks are like that"
+- 0 tasks completed → "You created X tasks — planning is work too"
+- Low note count → "Quality over quantity — some weeks are like that"
 - Missed days → "Life happens. You're here now doing this review."
 
 Never say: "You didn't complete any tasks" or "You failed to..."
 
-### 3. Quick Activity Summary
+### 3. Build the Week's Narrative
 
-Brief, not exhaustive:
-
-```
-This week: [X] active days, [Y] notes touched, [Z] tasks created
-
-Focus was on: [project name]
-```
-
-Don't list every modified note. Don't show full task lists.
-
-### 4. Address Stalled Work (Gently)
-
-If tasks have been "in progress" for 2+ weeks:
+Don't just list metrics — tell the story of the week:
 
 ```
-A few things have been waiting a while:
-- [Task] - started [when]. Still relevant, or should we let it go?
+This week's story:
+You focused mainly on [project/area]. [What happened there — brief].
+[If multiple projects: "You also touched [project 2] with [brief]"].
+[If context switches: "Quite a bit of switching between X and Y this week"].
 ```
 
-Offer escape hatches:
-- "Want to break this into smaller pieces?"
-- "Should we move this to someday/maybe?"
-- "Is this actually important, or can we drop it?"
+This helps the user see patterns:
+- Were they focused or scattered?
+- Did they work on what matters?
+- Is there momentum building on something?
 
-No guilt. Just honest reassessment.
+Keep it to 3-4 sentences. Not a full report.
 
-### 5. Reflect (Keep It Simple)
+### 4. Executive Project Walk-Through
 
-Help fill in the weekly note. Don't require long answers:
+Brief status for each active project. Don't deep-dive — that's what `/project-review` is for.
 
-**Wins** (already covered - just confirm):
+**Call:** `list_projects(status_filter: "active")`
+
+For each active project, present a one-liner:
+
 ```
-I'll note these wins in your weekly review:
+Project check-in:
+- [Project A]: [X]% done, [what moved this week or "quiet this week"]
+- [Project B]: [X]% done, [what moved or "no activity"]
+- [Project C]: [X]% done, [what moved]
+```
+
+Flag projects with no activity in 2+ weeks:
+```
+[Project D] has been quiet for [X] weeks. Worth keeping active, or pause it?
+```
+
+Offer but don't push:
+- "Want to pause any of these?"
+- "Should we close [project] — is it done or no longer relevant?"
+
+If they decide to pause/close, update the project and log it.
+
+### 5. Process Inbox Items
+
+Go through unprocessed items from this week's daily notes.
+
+**Present items in batches of 3-5:**
+
+```
+You have [X] inbox items from this week. Let's quickly process them:
+
+1. "[Item text]" — Task, note, or discard?
+2. "[Item text]" — Task, note, or discard?
+3. "[Item text]" — Task, note, or discard?
+```
+
+**For each item, based on user's answer:**
+- **Task** → `create_task(title: "...", project: "[relevant project]")`
+- **Note** → `append_to_note` to relevant note, or `add_to_inbox` if unsure where
+- **Discard** → Mark checkbox as done in the daily note: `update_task_status(note_path: "...", task_pattern: "...", completed: true)`
+
+**If many items (>10):**
+```
+There are [X] inbox items — quite a few. Want to:
+1. Go through them all (we'll batch them)
+2. Just the important-looking ones
+3. Skip for now — they'll be there next week
+```
+
+Respect their energy. Don't force processing if they're tired.
+
+### 6. Review Stalled and Overdue Tasks
+
+Go through these **one by one** — this is where real decisions happen.
+
+**Overdue tasks first:**
+
+```
+These tasks are past due:
+```
+
+For each overdue task:
+```
+[Task ID]: [Title]
+Due: [date] ([X days/weeks ago])
+Project: [project]
+
+What should we do?
+- Reschedule (when?)
+- Break down into smaller pieces
+- Cancel — no longer relevant
+- Just do it now (if small)
+```
+
+**Then stalled tasks (in "doing" for 2+ weeks):**
+
+```
+These have been in progress for a while:
+```
+
+For each:
+```
+[Task ID]: [Title]
+In progress since: [date]
+Project: [project]
+
+Still working on this? Options:
+- Keep going (update with a note on where you are)
+- Break it down — what's the actual next step?
+- Move back to todo (not actively working)
+- Cancel — it's not going to happen
+```
+
+**Execute decisions immediately:**
+- Reschedule → `update_metadata(note_path: "...", metadata_json: '{"due_date": "YYYY-MM-DD"}')`
+- Cancel → `cancel_task(task_path: "...", reason: "Cancelled during weekly review")`
+- Complete → `complete_task(task_path: "...")`
+- Break down → `create_task` for subtasks
+- Log progress → `log_to_task_note(task_path: "...", content: "...")`
+
+### 7. Update This Week's Note (Reflection)
+
+Write the review into the finishing week's note.
+
+**Call:** `append_to_note` on the current week's note path (e.g., `Journal/Weekly/2026-W08.md`)
+
+**Wins section:**
+```
+I'll add these wins to your weekly note:
 - [Win 1]
 - [Win 2]
+- [Win 3]
 
 Anything else you want to add?
 ```
 
-**Challenges** (reframe as information):
+Write to `## Wins` or `## Reflections` subsection.
+
+**Challenges (reframe as information):**
 ```
 What got in the way this week?
-(Not what you did wrong - what external factors or ADHD moments happened?)
+(Not what you did wrong — what external factors or ADHD moments happened?)
 ```
 
-**One Improvement** (not five):
+One sentence is fine. Write to weekly note.
+
+**One takeaway:**
 ```
-What's ONE thing that could help next week?
-(Just one - small and specific works best)
+What's ONE thing you're taking away from this week?
+(A lesson, a pattern you noticed, or just how you feel about it)
 ```
 
-Update the weekly note using `append_to_note`.
+Optional — skip if they're done reflecting.
 
-### 6. Plan Next Week (ONE Thing)
+### 8. Plan Next Week
 
-Don't set 5 goals. Set ONE:
+Create next week's note and set ONE focus.
+
+**Call:** `create_weekly_note(week: "today + 1w")`
 
 ```
 Looking at next week:
-- [Upcoming deadline if any]
-- [Current project status]
+- [Upcoming deadlines if any]
+- [Carry-over from stalled task review]
+- [Current project momentum]
 
 What's the ONE main focus for next week?
-(Everything else can be secondary)
+(Everything else is secondary)
 ```
 
-If next week's note doesn't exist, offer to create it.
-
-**Action:**
-- Write the single focus item to the weekly note.
-- **Set `planned_for`** dates for any specific tasks the user commits to for early next week.
-- Resist adding too many items.
-
-### 7. Quick Cleanup (Optional, Ask First)
+**After they choose:**
+- Write the focus to next week's note under `## Focus` or `## Goals`
+- If they mention specific tasks, set `planned_for` dates:
+  `update_metadata(note_path: "...", metadata_json: '{"planned_for": "YYYY-MM-DD"}')`
+- Resist adding more than 2-3 planned tasks. Less is more.
 
 ```
-Want to do a quick cleanup? I can help:
-- Mark done tasks as complete
-- Reschedule or drop stalled tasks
-- Close finished projects
-
-Or we can skip this - the review itself is enough.
+Next week's focus is set: [ONE thing]
+[If tasks planned: "Scheduled [X] tasks for early next week"]
 ```
 
-Don't push cleanup if user is tired.
-
-### 8. Close Positively
+### 9. Close Positively
 
 ```
-Weekly Review Done - [Week]
+Weekly Review Done — [Week]
 
-Wins: [count or brief list]
+Wins: [brief list or count]
+Inbox: [X] items processed
+Decisions: [stalled/overdue tasks addressed]
 Next week's focus: [ONE thing]
 
-Nice work reflecting. See you next week!
+Nice work reflecting. See you next week.
 ```
 
-Log to daily note:
+**Log to daily note:**
 ```
-- Completed weekly review. Focus for next week: [X]
+log_to_daily_note("Completed weekly review for [Week]. Focus for next week: [X]")
 ```
 
 ## What NOT to Do
@@ -182,16 +306,56 @@ Log to daily note:
 - Don't set multiple goals for next week (overwhelm)
 - Don't compare negatively to "productive" weeks
 - Don't use words like "failed", "didn't", "should have"
+- Don't rush through inbox processing (each item deserves a moment)
+- Don't skip celebrating wins even if the week was rough
+- Don't force all steps if user is low energy — ask what to skip
 
 ## If the Week Was Hard
 
 Some weeks are survival mode. That's okay.
 
 ```
-Looks like this was a tough week - and that's completely valid.
+Looks like this was a tough week — and that's completely valid.
 You're here doing this review, which means you're still in the game.
 
 What's one small thing you can acknowledge yourself for this week?
 ```
 
 Find the win. There's always something.
+
+For hard weeks, offer a lighter review:
+```
+Want to do the full review, or just:
+1. Note one win and set next week's focus
+2. Process inbox only
+3. Just close the week — no review needed
+
+Any of these count as a weekly review.
+```
+
+## Quick Mode
+
+If user wants a fast review:
+
+```
+Quick review for [Week]:
+- Completed: [X] tasks
+- Active projects: [list with one-liner each]
+- Overdue: [count] tasks
+- Inbox: [count] items unprocessed
+- Focus next week: [ask for ONE thing]
+
+Done. Logged.
+```
+
+Skip reflection, skip inbox processing, skip stalled task review.
+
+## Adapting to Energy
+
+Read the user's energy from their messages:
+- **High energy** → Full review with all steps, process all inbox items
+- **Medium energy** → Standard review, batch inbox items, brief reflection
+- **Low energy** → Quick mode or "just wins + next week focus"
+- **Very low** → "Let's just close the week. You showed up."
+
+Don't ask "how's your energy?" — infer from response length and tone.
