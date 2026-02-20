@@ -3,7 +3,7 @@ name: close-day
 description: Wind down the day with a gentle evening review. Acknowledges what happened (no judgment), captures loose thoughts, and optionally sets up tomorrow. Helps quiet the ADHD mind before rest. Use when the user says good night, wants to close the day, or is done working.
 metadata:
   author: mdvault
-  version: "1.0"
+  version: "2.0"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -26,16 +26,30 @@ This skill:
 - Closes loops gently
 - Makes tomorrow feel manageable
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_day` | Today's full activity |
+| `get_context_focus` | Current focus project context |
+| `get_daily_dashboard` | Quick status (ignore overdue at night) |
+| `read_note` | Read daily note for intention text |
+| `get_metadata` | Check intention and closed status |
+| `append_to_note` | Write closing thoughts |
+| `update_metadata` | Mark day as closed |
+| `log_to_daily_note` | Log day close |
+
 ## Steps
 
 ### 1. Gather Context (Silent)
 
 Collect the day's activity:
 
-**Call these tools:**
+**Call these tools (in parallel where possible):**
 - `get_context_day` with `date: "today"` - Full day activity
 - `get_context_focus` - Current focus project context
 - `get_daily_dashboard` - Quick status (but ignore overdue at night)
+- `get_metadata` on today's daily note - Check `intention` field
 
 **Extract from `get_context_day`:**
 - `date` - Today's date
@@ -89,7 +103,37 @@ Today you:
 
 Never list what wasn't done. Never mention overdue tasks at night.
 
-### 4. Capture Loose Thoughts
+### 4. Reflect on Intention (Gentle)
+
+Check the `intention` metadata from step 1.
+
+**If `intention: true`** — an intention was set this morning:
+
+Read the `## Intention` section from the daily note to get the text. Then reflect gently:
+
+```
+Your intention today was: "[intention text]"
+→ [Brief, honest reflection — "Looks like you stayed on track" or "The day went a different direction, and that's fine"]
+```
+
+Don't judge. Just mirror. If they clearly achieved it, celebrate. If not, normalise — days rarely go to plan.
+
+**If `intention: false`** — no intention was set:
+
+Don't shame. Just note it lightly:
+
+```
+No intention set today — that happens.
+```
+
+Only surface the pattern if it's becoming frequent (e.g., 3+ days in a row). Keep it compassionate:
+
+```
+That's a few days without setting an intention. Want to try one tomorrow morning?
+No pressure — just data.
+```
+
+### 5. Capture Loose Thoughts
 
 ADHD minds race at night. Offer to capture:
 
@@ -104,7 +148,7 @@ Anything floating around in your head you want to capture?
 
 Write anything shared to the Notes or Closing Thoughts section.
 
-### 5. Gentle Tomorrow Prep (Optional)
+### 6. Gentle Tomorrow Prep (Optional)
 
 Don't overwhelm with tomorrow's tasks. Just plant a seed:
 
@@ -123,7 +167,7 @@ If user seems tired, skip this entirely:
 Tomorrow will sort itself out. Rest now.
 ```
 
-### 6. Closing Thoughts
+### 7. Closing Thoughts
 
 If the daily note has a Closing Thoughts section:
 
@@ -134,13 +178,28 @@ One sentence is plenty. Or we can skip it.
 
 Keep it optional. No pressure for profound reflection.
 
-### 7. Close the Day
+### 8. Close the Day
 
-Update daily note metadata if supported (`closed: true`).
-
-Log to daily note:
+**Write closing thought** (if provided in step 7):
 ```
-- Day closed. [Brief summary or "Rest well."]
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[closing thought text]",
+  subsection: "Closing Thoughts"
+)
+```
+
+**Mark the day as closed:**
+```
+update_metadata(
+  note_path: "[today's daily note path]",
+  metadata_json: '{"closed": true}'
+)
+```
+
+**Log it:**
+```
+log_to_daily_note("Day closed")
 ```
 
 End warmly:

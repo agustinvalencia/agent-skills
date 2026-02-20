@@ -22,7 +22,8 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 | `get_daily_dashboard` | Overdue/due today/in-progress tasks |
 | `create_daily_note` | Ensure today's note exists |
 | `list_tasks` | Check for blocked tasks |
-| `append_to_note` | Write standup to daily note |
+| `append_to_note` | Write standup and intention to daily note |
+| `update_metadata` | Mark intention as set |
 | `log_to_daily_note` | Log the day start |
 
 ## Steps
@@ -153,16 +154,33 @@ You have 7 overdue tasks - that's a lot and that's okay.
 Let's not tackle all of them. Which area feels most urgent: [Project A] or [Project B]?
 ```
 
-### 6. Set One Intention (Optional)
+### 6. Set One Intention
 
-If daily note exists but intentions are empty:
+Ask the user for a single intention. This anchors the day and prevents "raw dogging" — drifting without direction.
 
 ```
 What's one thing that would make today feel successful?
-(Just one - we can add more later if needed)
+(Just one sentence — this is your north star for the day)
 ```
 
-Write it to the Morning Intentions section. One is enough.
+**Write the intention to the daily note:**
+```
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[intention text]",
+  subsection: "Intention"
+)
+```
+
+**Mark the intention as set:**
+```
+update_metadata(
+  note_path: "[today's daily note path]",
+  metadata_json: '{"intention": true}'
+)
+```
+
+If the user declines or skips, that's fine — don't push. The `intention: false` metadata stays, which helps spot patterns later (e.g., "you set an intention 3 out of 5 days this week").
 
 ### 7. Ask for Planned Meetings
 
@@ -251,7 +269,7 @@ Hey! It's [Day] afternoon.
 Let's get oriented quickly...
 ```
 
-Skip the intention step and meeting question — just surface the priority and go.
+Still ask for the intention (even a late-day anchor helps), but skip the meeting question — just surface the priority and go.
 Still write the standup to the daily note.
 
 ### No Tasks at All

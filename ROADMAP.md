@@ -8,7 +8,7 @@ Tracking skills for the ADHD-friendly productivity system.
 | Skill | Version | Description |
 |-------|---------|-------------|
 | start-day | 3.0 | Morning briefing with standup - ONE task, ONE intention |
-| close-day | 1.0 | Evening wind-down - acknowledge, capture, rest |
+| close-day | 2.0 | Evening wind-down - intention reflection, acknowledge, capture, rest |
 
 ### Reviews & Reports
 | Skill | Version | Description |
