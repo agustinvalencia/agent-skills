@@ -60,7 +60,7 @@ Collect everything first — process before presenting. Call these in parallel:
 - `get_project_progress` — all projects with completion rates
 - `list_tasks` with `status_filter: "doing"` — in-progress tasks (potential stalls)
 - `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
-- `search_notes_with_context` with `query: "## Inbox"`, `folder: "Journal/Daily"` — find unprocessed inbox items from this week's daily notes
+- `search_notes_with_context` with `query: "## Inbox"`, `folder: "Journal"` — find unprocessed inbox items from this week's daily notes
 - `get_metadata` on each daily note for the week (paths from `get_context_week` days) — check `intention` and `closed` fields
 
 **Extract and prepare:**
@@ -236,7 +236,7 @@ Still working on this? Options:
 
 Write the review into the finishing week's note.
 
-**Call:** `append_to_note` on the current week's note path (e.g., `Journal/Weekly/2026-W08.md`)
+**Call:** `append_to_note` on the current week's note path (e.g., `Journal/2026/Weekly/2026-W08.md`)
 
 **Wins section:**
 ```

@@ -22,7 +22,7 @@ Monthly reports serve different purposes than weekly reviews:
 - Can highlight accomplishments you've forgotten
 
 This skill:
-- Produces a structured note in `Journal/Monthly/`
+- Produces a structured note in `Journal/YYYY/Monthly/`
 - Separates work and personal clearly
 - Builds a narrative per project (not just bullet points)
 - Connects to the previous report to show continuity
@@ -67,12 +67,12 @@ Search for the most recent monthly report to establish continuity.
 
 **Call:**
 ```
-search_notes(query: "type: monthly-report", folder: "Journal/Monthly")
+search_notes(query: "type: monthly-report", folder: "Journal")
 ```
 
 If found, read it:
 ```
-read_note(note_path: "Journal/Monthly/YYYY-MM.md")
+read_note(note_path: "Journal/YYYY/Monthly/YYYY-MM.md")
 ```
 
 **Extract from previous report:**
@@ -118,7 +118,7 @@ create_monthly_report(
 )
 ```
 
-This creates `Journal/Monthly/YYYY-MM.md` with the template structure.
+This creates `Journal/YYYY/Monthly/YYYY-MM.md` with the template structure.
 
 ### 5. Categorise Projects
 
@@ -145,7 +145,7 @@ A 2-3 paragraph high-level narrative of the reporting period. Connect to the pre
 
 ```
 append_to_note(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   content: "[narrative summary]",
   subsection: "Summary"
 )
@@ -171,7 +171,7 @@ For each work project with activity, create a subsection under `### Projects`:
 
 ```
 append_to_note(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   content: "#### [Project Name]\n\n[narrative + key items]",
   subsection: "Projects"
 )
@@ -203,7 +203,7 @@ What carries into next period:
 
 ```
 append_to_note(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   content: "[looking ahead items]",
   subsection: "Looking Ahead"
 )
@@ -225,7 +225,7 @@ Brief acknowledgment of personal wins:
 
 ```
 append_to_note(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   content: "[highlights]",
   subsection: "Highlights"
 )
@@ -248,7 +248,7 @@ Aggregate numbers for the period:
 
 ```
 append_to_note(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   content: "[metrics table]",
   subsection: "Metrics"
 )
@@ -316,14 +316,14 @@ Personal:
 - [Y] projects covered
 - Key: [1-2 sentence highlight]
 
-The report is at Journal/Monthly/YYYY-MM.md
+The report is at Journal/YYYY/Monthly/YYYY-MM.md
 Status is "draft" — want me to mark it as final?
 ```
 
 If they confirm:
 ```
 update_metadata(
-  note_path: "Journal/Monthly/YYYY-MM.md",
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
   metadata_json: '{"status": "final"}'
 )
 ```
@@ -349,7 +349,7 @@ Personal:
 
 Stats: [X] tasks completed, [Y] active days
 
-Saved to Journal/Monthly/YYYY-MM.md
+Saved to Journal/YYYY/Monthly/YYYY-MM.md
 ```
 
 Skip reflections, skip detailed narratives, skip comparison to last month.

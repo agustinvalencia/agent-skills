@@ -45,7 +45,7 @@ This skill:
 ```
 search_notes_with_context(
   query: "## Inbox",
-  folder: "Journal/Daily",
+  folder: "Journal",
   context_lines: 10
 )
 ```

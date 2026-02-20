@@ -81,7 +81,7 @@ Created: MTG-2026-02-03-001 - [Title]
 [Attendees: names - only if set]
 [Date: date - only if not today]
 
-→ Meetings/MTG-2026-02-03-001.md
+→ Meetings/2026/MTG-2026-02-03-001.md
 ```
 
 No follow-up questions. Meeting note is created, done.
@@ -94,7 +94,7 @@ Most meeting creation should be instant:
 User: meeting with bob
 Agent: Created: MTG-2026-02-03-001 - Meeting with Bob
        Attendees: Bob
-       → Meetings/MTG-2026-02-03-001.md
+       → Meetings/2026/MTG-2026-02-03-001.md
 ```
 
 One line in, three lines out.
