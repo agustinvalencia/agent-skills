@@ -14,7 +14,7 @@ Tracking skills for the ADHD-friendly productivity system.
 | Skill | Version | Description |
 |-------|---------|-------------|
 | weekly-review | 3.1 | Weekly reflection - wins first, intention patterns, ONE goal |
-| monthly-report | 3.0 | Generate monthly summary - uses activity reports |
+| monthly-report | 3.1 | Generate monthly summary - activity reports + habit tracking |
 | project-review | 1.0 | Deep dive on single project health |
 
 ### Task Flow

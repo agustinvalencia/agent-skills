@@ -3,7 +3,7 @@ name: monthly-report
 description: Generate a monthly summary report aggregating weekly data, project progress, and accomplishments. Useful for work updates, personal tracking, or reflection. Outputs a formatted report. Use when the user wants a monthly summary, needs to report progress, or says "monthly report".
 metadata:
   author: mdvault
-  version: "3.0"
+  version: "3.1"
 compatibility: Requires mdvault MCP server (v0.3.4+) with vault configured
 ---
 
@@ -43,6 +43,7 @@ This skill:
 | `read_note` | Read previous report for continuity |
 | `append_to_note` | Write sections to the report note |
 | `log_to_daily_note` | Log report generation |
+| `get_metadata` | Check intention/closed flags on daily notes |
 | `update_metadata` | Mark report as final |
 
 ## Steps
@@ -96,6 +97,10 @@ Collect everything before generating. Call in parallel:
 **Task data:**
 - `list_tasks(status_filter: "done")` — completed tasks (filter by period)
 - `list_tasks(status_filter: "doing")` — in-progress tasks (carry-overs)
+
+**Habit data:**
+- `get_metadata` on each daily note in the period — collect `intention`, `closed`, `meds`, `exercise` flags
+- Count totals: days with intention set, days closed, days with daily note created
 
 ### 4. Create the Report Note
 
@@ -262,6 +267,21 @@ append_to_note(
 **Personal projects active:** Y
 **Projects completed:** Z
 ```
+
+**Habits:**
+```markdown
+| Habit | This Month | Last Month |
+|-------|-----------|------------|
+| Intention set | X / Y days | A / B days |
+| Day closed | X / Y days | A / B days |
+| Meds | X / Y days | A / B days |
+| Exercise | X / Y days | A / B days |
+```
+
+Frame habit trends gently — this is self-awareness data, not a scorecard:
+- Improving → "Intention-setting is becoming a habit — nice trend"
+- Steady → "Consistent with closing your days"
+- Declining → "Fewer intentions set this month. Some months are like that — no pressure"
 
 Include comparison to previous month if available. Frame trends positively.
 
