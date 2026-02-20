@@ -27,6 +27,13 @@ This skill:
 - Then helps pick just ONE thing
 - Clears the mental load
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `add_to_daily_note` | Capture items to daily note Inbox |
+| `log_to_daily_note` | Log brain dump session |
+
 ## Steps
 
 ### 1. Open the Floodgates
@@ -208,7 +215,8 @@ User: I need to call the dentist, and there's that report due Friday,
 Agent: Got it. 7 items captured:
        - Call dentist
        - Report due Friday
-       - Mom's birthday gift
+       - Mom's birthday coming up
+       - Get birthday gift for mom
        - Exercise more
        - Car oil change
        - API refactor idea

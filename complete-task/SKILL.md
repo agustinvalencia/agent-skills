@@ -27,6 +27,15 @@ This skill:
 - Optionally captures summary
 - Offers (doesn't push) next action
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project for task search |
+| `list_tasks` | Find matching task |
+| `complete_task` | Mark task as done |
+| `log_to_daily_note` | Log completion |
+
 ## Steps
 
 ### 1. Identify the Task

@@ -13,6 +13,16 @@ Standardized task creation. Minimal friction, maximum consistency.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project (default for new tasks) |
+| `list_projects` | Show active projects if no focus set |
+| `create_task` | Create the task |
+| `update_metadata` | Set planned_for date if needed |
+| `log_to_daily_note` | Log task creation |
+
 ## Required Information
 
 | Field | Required | Source | Default |

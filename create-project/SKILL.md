@@ -13,6 +13,14 @@ Standardized project creation. Consistent structure regardless of which agent is
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `create_project` | Create project note from template |
+| `set_focus` | Optionally focus on new project |
+| `log_to_daily_note` | Log project creation |
+
 ## Required Information
 
 | Field | Required | Source | Default |
@@ -141,7 +149,7 @@ Skip all questions, create directly, confirm.
 User: new project
 Agent: What's the project called?
 User: Wedding Planning
-Agent: What area? (work/personal/family/research)
+Agent: What area? (work/personal/family/uni)
 User: family
 Agent: What does "done" look like?
 User: skip

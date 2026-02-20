@@ -26,6 +26,14 @@ This skill:
 - Requires zero thinking
 - Gets you moving (movement breaks paralysis)
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project |
+| `get_daily_dashboard` | Overdue/due today tasks |
+| `log_to_daily_note` | Log unstuck action |
+
 ## Steps
 
 ### 1. Acknowledge Immediately

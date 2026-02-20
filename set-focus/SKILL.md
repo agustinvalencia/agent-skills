@@ -26,6 +26,17 @@ This skill:
 - Provides quick orientation to new project
 - Logs the transition
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project |
+| `list_projects` | Show active projects if needed |
+| `log_to_project_note` | Log pause on previous project |
+| `set_focus` | Set new project focus |
+| `clear_focus` | Clear focus without setting new one |
+| `log_to_daily_note` | Log focus transition |
+
 ## Steps
 
 ### 1. Get Current Focus

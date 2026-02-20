@@ -27,6 +27,15 @@ This skill:
 - Removes guilt about stopping
 - Makes returning easier
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project |
+| `get_context_day` | Today's activity and logs |
+| `log_to_daily_note` | Log break start/return |
+| `log_to_project_note` | Log pause state on project |
+
 ## Steps
 
 ### 1. Acknowledge the Break

@@ -41,6 +41,17 @@ Use set-focus for:
 - Temporary project hops
 - When you know you'll return soon
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project |
+| `get_context_day` | Today's activity |
+| `add_to_daily_note` | Capture open loops to Inbox |
+| `log_to_project_note` | Log pause state on project |
+| `set_focus` | Set new project focus |
+| `log_to_daily_note` | Log transition |
+
 ## Steps
 
 ### 1. Acknowledge the Transition

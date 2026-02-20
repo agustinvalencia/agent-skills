@@ -13,6 +13,12 @@ Standardized meeting note creation. Minimal friction, auto-generated IDs.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `create_meeting` | Create meeting note with auto-generated ID |
+
 ## Required Information
 
 | Field | Required | Source | Default |
