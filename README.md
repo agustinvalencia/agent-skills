@@ -128,4 +128,4 @@ Works with any agent supporting the [Agent Skills spec](https://agentskills.io/s
 
 ## Requirements
 
-These skills are designed to work with the [mdvault](https://github.com/mdvault/mdvault) MCP server for vault operations.
+These skills are designed to work with the [mdvault](https://github.com/agustinvalencia/mdvault) MCP server for vault operations.
