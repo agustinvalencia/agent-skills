@@ -150,8 +150,8 @@ Most task creation should be instant:
 
 ```
 User: task: call dentist
-Agent: Created: MAPT-019 - Call dentist
-       Project: Moving Apartment
+Agent: Created: PRS-005 - Call dentist
+       Project: Personal
 ```
 
 One line in, two lines out.
@@ -211,35 +211,35 @@ Still want to create this one?
 **Instant (focus set):**
 ```
 User: book flights
-Agent: Created: HPO-003 - Book flights
-       Project: Honeymoon Planning
+Agent: Created: HLD-003 - Book flights
+       Project: Holiday Planning
 ```
 
 **With dates:**
 ```
 User: submit report by friday
 Agent: Created: WRK-012 - Submit report
-       Project: Work
+       Project: Q1 Report
        Due: 2026-01-31
 
-User: plan to call mom on Tuesday
-Agent: Created: PRS-008 - Call mom
+User: plan to call the accountant on Tuesday
+Agent: Created: PRS-008 - Call accountant
        Project: Personal
        Planned: 2026-02-03
 ```
 
 **Different project:**
 ```
-User: task for wedding: order flowers
-Agent: Created: WWS-004 - Order flowers
-       Project: Wedding Website
+User: task for kitchen reno: pick countertop material
+Agent: Created: KRN-005 - Pick countertop material
+       Project: Kitchen Renovation
 ```
 
 **From conversation:**
 ```
-User: oh I should probably call mom this week
-Agent: Want me to add "Call mom" as a task?
+User: oh I should probably renew my passport this week
+Agent: Want me to add "Renew passport" as a task?
 User: yes
-Agent: Created: PRS-008 - Call mom
+Agent: Created: PRS-009 - Renew passport
        Project: Personal
 ```

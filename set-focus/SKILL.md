@@ -52,7 +52,7 @@ This skill:
 
 **If user specified project:**
 ```
-User: focus on wedding website
+User: focus on kitchen renovation
 Agent: [Match to project]
 ```
 
@@ -139,8 +139,8 @@ Ready. Go for it.
 If user just wants fast switch:
 
 ```
-User: focus wedding
-Agent: Focus set: Wedding Website
+User: focus kitchen
+Agent: Focus set: Kitchen Renovation
        [X] tasks open. Go.
 ```
 

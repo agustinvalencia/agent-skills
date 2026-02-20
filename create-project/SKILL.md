@@ -148,13 +148,13 @@ Skip all questions, create directly, confirm.
 ```
 User: new project
 Agent: What's the project called?
-User: Wedding Planning
+User: Kitchen Renovation
 Agent: What area? (work/personal/family/uni)
-User: family
+User: personal
 Agent: What does "done" look like?
 User: skip
 Agent: [creates project]
-       Done! HPO - Wedding Planning is ready.
+       Done! KRN - Kitchen Renovation is ready.
 ```
 
 **Complete:**

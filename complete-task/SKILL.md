@@ -42,13 +42,13 @@ This skill:
 
 **If user specifies task:**
 ```
-User: done with MAPT-016
+User: done with KRN-003
 Agent: [Use that task ID]
 ```
 
 **If user describes task:**
 ```
-User: finished defrosting the fridge
+User: finished the wireframes
 Agent: [Search for matching task]
 ```
 
@@ -57,8 +57,8 @@ Agent: [Search for matching task]
 **If ambiguous:**
 ```
 Which task? I see:
-- MAPT-016: Defrost fridge and freezer
-- MAPT-017: Pull out heavy appliances
+- KRN-003: Design kitchen layout
+- KRN-004: Get contractor quotes
 
 (Just the number is fine)
 ```
@@ -70,7 +70,7 @@ Keep it short. Max 3-4 options.
 Once task is identified:
 
 ```
-Completing: [Task ID] - [Task Title]
+Completing: KRN-003 - Design kitchen layout
 ```
 
 **Call:**
@@ -140,8 +140,8 @@ Taking a break? Good. You've earned it.
 If user just wants fast completion:
 
 ```
-User: done MAPT-016
-Agent: Done! MAPT-016 - Defrost fridge ✓
+User: done KRN-003
+Agent: Done! KRN-003 - Design kitchen layout ✓
        Logged.
 ```
 
@@ -152,7 +152,7 @@ No questions. No follow-up unless asked.
 If task isn't fully done:
 
 ```
-User: made progress on MAPT-016 but not finished
+User: made progress on KRN-003 but not finished
 Agent: Got it. Want me to:
 - Log progress to the task note
 - Keep it open and note where you left off
@@ -165,10 +165,10 @@ Add progress note to task, keep status as-is.
 ## Completing Multiple Tasks
 
 ```
-User: finished the fridge and the appliances
+User: finished the layout and the quotes
 Agent: Completing both:
-- MAPT-016: Defrost fridge ✓
-- MAPT-017: Pull out appliances ✓
+- KRN-003: Design kitchen layout ✓
+- KRN-004: Get contractor quotes ✓
 
 Nice! Two down. Logged.
 ```

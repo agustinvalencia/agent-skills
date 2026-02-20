@@ -159,11 +159,11 @@ append_to_note(
 - Professional but not dry
 
 **Example:**
-> This period saw significant progress on the NOMS conference preparation,
-> culminating in the paper acceptance. The focus shifted mid-month from
-> paper revisions to presentation preparation and travel logistics.
-> On the tooling side, the mdvault MCP server received several quality-of-life
-> improvements including task cancellation support and automated logging.
+> This period saw significant progress on the Q1 product launch,
+> culminating in the feature freeze milestone. The focus shifted mid-month from
+> implementation to testing and documentation.
+> On the tooling side, the internal CLI received several quality-of-life
+> improvements including better error handling and automated logging.
 
 #### 6b. Work Project Subsections
 
@@ -184,14 +184,14 @@ append_to_note(
 - Current status
 
 **Example:**
-> #### NOMS 2026
-> Paper accepted after successful rebuttal. Shifted focus to presentation
-> preparation and conference logistics. Registration confirmed, travel
-> arrangements in progress.
+> #### Q1 Product Launch
+> Feature freeze reached after final round of reviews. Shifted focus to
+> integration testing and release preparation. Staging environment
+> deployed successfully.
 >
-> - Completed: rebuttal submission, camera-ready version, conference registration
+> - Completed: feature freeze, staging deploy, documentation update
 > - Progress: 60% → 85%
-> - Next: finalise presentation slides, book flights
+> - Next: load testing, release notes, stakeholder demo
 
 **For projects with no activity:**
 Include only if they were mentioned in the previous report's "Looking Ahead".
@@ -234,8 +234,8 @@ append_to_note(
 **Format:** Can be bullet points or short narrative. Less formal than work.
 
 **Example:**
-> - Moving apartment: key handover done, most logistics sorted
-> - Honeymoon planning: narrowed down to Sardinia, researching areas
+> - Home renovation: kitchen counters installed, painting scheduled
+> - Holiday planning: narrowed down destinations, researching options
 > - Started weekly review habit — maintained 3/4 weeks
 
 #### 7b. Personal Project Subsections

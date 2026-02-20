@@ -45,7 +45,7 @@ This skill:
 
 **If specified:**
 ```
-User: review wedding website
+User: review kitchen renovation
 Agent: [Match to project]
 ```
 
@@ -217,11 +217,11 @@ log_to_daily_note("Reviewed project: [name] - [brief outcome]")
 If user wants brief status:
 
 ```
-User: quick status on wedding
-Agent: Wedding Website: 45% (9/20 tasks)
-       Active: Build RSVP form
+User: quick status on kitchen
+Agent: Kitchen Renovation: 45% (9/20 tasks)
+       Active: Pick countertop material
        Stalled: Nothing
-       Next suggested: Deploy staging site
+       Next suggested: Schedule contractor visit
 ```
 
 No deep dive. Just status.

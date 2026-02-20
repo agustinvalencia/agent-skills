@@ -1,6 +1,6 @@
 # ADHD-Friendly Skill Design Principles
 
-These principles guide all skills in this repository. The user is a researcher with ADHD balancing academic work, personal projects, and life as a husband-to-be.
+These principles guide all skills in this repository. Designed for knowledge workers with ADHD balancing multiple projects across work and personal life.
 
 ## Core Philosophy
 
