@@ -199,7 +199,7 @@ If they pick an action, help execute:
 - Continue → Set as focus, identify first step
 - Unblock → Break down the stuck task
 - Pause → Update status, note why
-- Close → Mark project closed, celebrate completion
+- Close/Archive → If project status is 'done', call `archive_project(project_name)` to move it to `Projects/_archive/`, cancel remaining tasks, and clear focus automatically. If not yet 'done', help mark it done first, then archive. The tool handles task cancellation, file moves, and logging.
 
 ### 9. Log Review
 
@@ -264,7 +264,7 @@ Closing [Project Name].
 Final status: [X]% complete, [Y] tasks done
 
 This project is:
-[ ] Completed - goal achieved
+[ ] Completed - goal achieved → mark done, then archive
 [ ] Cancelled - no longer relevant
 [ ] Merged - absorbed into another project
 
@@ -272,6 +272,12 @@ Any final notes?
 ```
 
 Then celebrate or acknowledge appropriately:
-- Completed: "Well done! [Project] is finished."
+- Completed: Mark as done, then call `archive_project(project_name)` to archive. "Well done! [Project] is finished and archived."
 - Cancelled: "That's okay. Knowing what NOT to do is valuable."
 - Merged: "Good consolidation. Less to track."
+
+**Archiving** uses the `archive_project` MCP tool which handles everything:
+- Moves files to `Projects/_archive/`
+- Cancels any remaining open tasks
+- Clears focus if set to this project
+- Logs to daily and project notes
