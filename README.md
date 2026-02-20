@@ -44,6 +44,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [weekly-review](./weekly-review/) | Shame-free weekly reflection - wins first, ONE goal |
 | [monthly-report](./monthly-report/) | Generate monthly summary - accomplishments, patterns, shareable |
 | [project-review](./project-review/) | Deep dive on single project health |
+| [archive-project](./archive-project/) | Archive a completed project - celebrate closure |
 
 ### Task Flow
 
@@ -101,6 +102,7 @@ agent-skills/
 ├── weekly-review/
 ├── monthly-report/
 ├── project-review/
+├── archive-project/
 ├── create-project/
 ├── create-meeting/
 ├── create-task/
