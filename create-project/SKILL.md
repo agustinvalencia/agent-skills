@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Standardized project creation. Consistent structure regardless of which agent is used.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Required Information
 
@@ -44,16 +44,16 @@ Context determines where in life this project lives:
 ```
 What area is this for?
 - work
-- side-project
+- personal
 - family
-- university
+- uni
 ```
 
 If user gives something else, map it:
 - "job", "office", "company" → work
-- "home", "me", "self" → personal
+- "home", "me", "self", "side project" → personal
 - "wedding", "partner", "kids" → family
-- "study", "thesis", "paper" → research
+- "study", "thesis", "paper", "research", "university" → uni
 
 ### 3. Get Expected Outcome (Recommended)
 

@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server (v0.3.4+) with vault configured
 
 Generate a comprehensive monthly summary with separate work and personal sections. The work section is designed to be copy-pasteable for work reports.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -120,7 +120,7 @@ This creates `Journal/Monthly/YYYY-MM.md` with the template structure.
 Split projects by context for the work/personal sections:
 
 **Work projects:** context = "work" or "uni"
-**Personal projects:** context = "personal", "family", "side-project"
+**Personal projects:** context = "personal" or "family"
 
 For each project, prepare:
 - Progress change (compare to previous report if available)

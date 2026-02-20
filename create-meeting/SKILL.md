@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 
 Standardized meeting note creation. Minimal friction, auto-generated IDs.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Required Information
 

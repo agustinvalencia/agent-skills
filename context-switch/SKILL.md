@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Full context transition with proper closure. More thorough than quick focus switch.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -273,17 +273,11 @@ Don't block urgent switches with process.
 
 ## End of Day Context Switch
 
-Special case - switching from "work mode" to "done for the day":
+If the user is ending their day, **defer to `/close-day`** instead of handling it here. That skill is purpose-built for evening wind-down with the right tone and steps.
 
 ```
-Closing out for the day.
-
-Quick capture of anything lingering:
-[capture]
-
-Day closed. Tomorrow is a fresh start.
-
-(Consider running /close-day for full wind-down)
+Sounds like you're wrapping up for the day.
+Let's do a proper close-day instead of a context switch.
 ```
 
-Suggest close-day skill for more thorough evening routine.
+Then invoke the close-day skill. Don't duplicate its logic here.

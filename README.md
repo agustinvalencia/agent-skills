@@ -53,6 +53,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [create-task](./create-task/) | Create task with minimal friction - uses focus project |
 | [complete-task](./complete-task/) | Mark done with celebration - proper closure + dopamine |
 | [quick-capture](./quick-capture/) | Instant thought dump - zero friction, process later |
+| [process-inbox](./process-inbox/) | Standalone inbox triage - sort, decide, clear |
 
 ### Focus & Context
 
@@ -61,6 +62,7 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 | [set-focus](./set-focus/) | Switch project focus with proper context handoff |
 | [context-switch](./context-switch/) | Full context transition - close old, open new properly |
 | [take-break](./take-break/) | Proper pause with clean handoff and gentle return |
+| [status](./status/) | Quick snapshot - focus, due tasks, in-progress |
 
 ### When Stuck
 
@@ -106,9 +108,11 @@ agent-skills/
 ├── create-task/
 ├── complete-task/
 ├── quick-capture/
+├── process-inbox/
 ├── set-focus/
 ├── context-switch/
 ├── take-break/
+├── status/
 ├── unstuck/
 ├── brain-dump/
 ├── read-paper/

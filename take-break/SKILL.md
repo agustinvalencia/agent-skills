@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Proper pause with clean handoff. Rest without anxiety about losing context.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -96,22 +96,22 @@ Your brain can let go now. Rest fully.
 [If done]: Good stopping point. See you next time.
 ```
 
-### 6. Return Prompt (If Requested)
+### 6. Return Prompt
 
-If they want a reminder:
+When the user returns (possibly in a new session), rebuild context from the vault:
+
+**Call:** `get_context_focus()` and `get_context_day(date: "today")`
+
+Check today's daily note logs for the most recent "Break started" entry to find where they left off.
 
 ```
-Want me to check in when you're back?
-I can remind you where you were.
-```
-
-If yes, note it. When they return:
-```
-Welcome back! You were working on [project].
-Left off at: [note]
+Welcome back! You were working on [project from focus context].
+Left off at: [note from daily log]
 
 Ready to continue, or need a moment?
 ```
+
+Don't rely on conversation memory — the vault has the state.
 
 ## Quick Mode
 
@@ -181,14 +181,19 @@ Rest well. See you next time.
 
 ## Returning from Break
 
-When user comes back:
+When user comes back (possibly a new session):
+
+**First, rebuild context from vault:**
+1. `get_context_focus()` — current project
+2. `get_context_day(date: "today")` — today's logs
+3. Check daily note for "Break started" or "Paused" log entries
 
 ```
 User: I'm back / back from break
 Agent: Welcome back!
 
-You were on: [Project]
-Left off at: [Note if captured]
+You were on: [Project from focus context]
+Left off at: [Note from daily/project logs]
 
 [If quick break]: Ready to jump back in?
 [If longer break]: Need a moment to reorient, or dive in?

@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Empty your head into the vault. Then pick ONE thing.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -213,7 +213,7 @@ Agent: Got it. 7 items captured:
        - Car oil change
        - API refactor idea
 
-       They're in your Inbox now. Your brain can let go.
+       They're all in your Inbox now. Your brain can let go.
 
        What's the ONE thing? I'd suggest "Report due Friday"
        since it has a deadline.

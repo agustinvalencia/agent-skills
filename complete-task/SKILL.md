@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Close the loop properly. Celebrate the win. ADHD brains need completion dopamine.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 

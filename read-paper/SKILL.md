@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Guided academic paper reading. Beats initiation friction and enforces multi-pass technique.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -372,21 +372,15 @@ Suggested connections:
 Add these links? (yes/no/select)
 ```
 
-**Create zettel:**
+**Create zettel using MCP tool:**
 ```
-# [Atomic insight title]
-**Origin**: [[literature-note-title]]
-
-## Core Idea
-[The insight in their words]
-
-## Context & Connections
-- Related to [[connection-1]]
-- Related to [[connection-2]]
-- Relevant for [[project]]
-
-## References
-- Source: [[literature-note-title]]
+create_zettel(
+  title: "[Atomic insight title]",
+  short_title: "[slug-for-filename]",
+  source: "[[literature-note-title]]",
+  body: "[The insight in their own words]",
+  connections: ["[[connection-1]]", "[[connection-2]]"]
+)
 ```
 
 **Update literature note:**
@@ -424,13 +418,20 @@ log_to_daily_note("Completed reading: [Paper Title]. [N] zettels extracted.")
 
 ## Resuming Interrupted Reading
 
-If user returns to a paper they started:
+If user returns to a paper they started (possibly a new session):
+
+**First, rebuild context from the vault:**
+1. Search for the literature note: `search_notes(query: "[paper title or keyword]", folder: "Zettel/Literature")`
+2. Read the note: `read_note(note_path: "...")`
+3. Check `status`, `pass_1_date`, `pass_2_date`, `pass_3_date` in frontmatter to determine progress
+
+Don't rely on conversation memory — the literature note has the full state.
 
 ```
 Welcome back to: [Paper Title]
 
-You left off at: Pass [N]
-Research question: "[their question]"
+You left off at: Pass [N] (based on [pass dates])
+Research question: "[from frontmatter]"
 
 Ready to continue?
 ```

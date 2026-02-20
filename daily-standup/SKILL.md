@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 
 Generate a quick standup status. Perfect for async team updates or personal accountability.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -92,7 +92,7 @@ Present in classic standup format:
 ```
 Want me to:
 1. Create a standup meeting note
-2. Copy to clipboard (for Slack/Teams)
+2. Output in a format you can copy (for Slack/Teams)
 3. Just display (done)
 ```
 

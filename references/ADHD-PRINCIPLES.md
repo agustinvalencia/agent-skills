@@ -101,3 +101,27 @@ The vault is an **external brain**. The agent is a **supportive accountability p
 3. **Highlight** - ONE thing that needs attention
 4. **Offer** - Concrete next action with low friction
 5. **Log** - Record the interaction for external memory
+
+## Graceful Degradation
+
+When MCP tools fail or return errors:
+- **Don't block the skill** — continue with what you have
+- **Tell the user simply** — "I couldn't fetch [X], but let's continue"
+- **Fall back to conversation** — if you can't log, at least tell them what you would have logged
+- **Never lose their input** — if capture fails, repeat what they said so they can capture it themselves
+
+## Symbols and Formatting
+
+These symbols are encouraged for structure and scannability:
+- `→` for next actions or suggestions
+- checkmark character for completed items
+- `|` for progress bars
+
+Keep formatting consistent within each skill. Don't use decorative emoji unless the user explicitly requests it.
+
+## Session Awareness
+
+Skills should never assume conversational continuity. The user may return in a new session.
+- **Always rebuild context from the vault** (focus, daily note, project logs)
+- **Don't reference "earlier in our conversation"** — check the vault instead
+- **The vault is the source of truth**, not conversation memory

@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 ADHD-friendly weekly review. Goal: reflect without shame, plan without overwhelm, leave with clear next steps.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -271,8 +271,13 @@ What's the ONE main focus for next week?
 
 **After they choose:**
 - Write the focus to next week's note under `## Focus` or `## Goals`
-- If they mention specific tasks, set `planned_for` dates:
-  `update_metadata(note_path: "...", metadata_json: '{"planned_for": "YYYY-MM-DD"}')`
+- If they mention specific tasks, schedule them by setting `planned_for`:
+  ```
+  update_metadata(
+    note_path: "[task note path]",
+    metadata_json: '{"planned_for": "YYYY-MM-DD"}'
+  )
+  ```
 - Resist adding more than 2-3 planned tasks. Less is more.
 
 ```

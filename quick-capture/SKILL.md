@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Instant thought capture. ADHD brains lose thoughts fast - this catches them.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 
@@ -119,7 +119,7 @@ Capture all at once:
 ```
 add_to_daily_note(
   content: "- [ ] Buy milk\n- Dentist appointment Friday\n- [ ] Follow up on proposal",
-  subsection: "Notes"
+  subsection: "Inbox"
 )
 ```
 

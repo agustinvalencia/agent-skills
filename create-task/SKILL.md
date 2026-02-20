@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Standardized task creation. Minimal friction, maximum consistency.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Required Information
 
@@ -104,12 +104,19 @@ Use MCP tool:
 create_task(
   title: "[title]",
   project: "[project or omit for focus]",
-  due_date: "[YYYY-MM-DD or omit]",
-  planned_for: "[YYYY-MM-DD or omit]"
+  due_date: "[YYYY-MM-DD or omit]"
 )
 ```
 
 Never set priority explicitly - let it default to medium.
+
+**If `planned_for` is needed**, set it after creation:
+```
+update_metadata(
+  note_path: "[task path from create_task result]",
+  metadata_json: '{"planned_for": "YYYY-MM-DD"}'
+)
+```
 
 ### 7. Confirm Simply
 

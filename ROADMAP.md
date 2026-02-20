@@ -2,7 +2,7 @@
 
 Tracking skills for the ADHD-friendly productivity system.
 
-## Implemented (17 skills)
+## Implemented (19 skills)
 
 ### Daily Routines
 | Skill | Version | Description |
@@ -14,8 +14,8 @@ Tracking skills for the ADHD-friendly productivity system.
 ### Reviews & Reports
 | Skill | Version | Description |
 |-------|---------|-------------|
-| weekly-review | 2.0 | Weekly reflection - wins first, ONE goal |
-| monthly-report | 2.0 | Generate monthly summary - uses activity reports |
+| weekly-review | 3.0 | Weekly reflection - wins first, ONE goal |
+| monthly-report | 3.0 | Generate monthly summary - uses activity reports |
 | project-review | 1.0 | Deep dive on single project health |
 
 ### Task Flow
@@ -24,6 +24,7 @@ Tracking skills for the ADHD-friendly productivity system.
 | create-task | 1.0 | Low-friction task creation |
 | complete-task | 1.0 | Mark done with celebration - closure + dopamine |
 | quick-capture | 1.0 | Instant thought dump - zero friction |
+| process-inbox | 1.0 | Standalone inbox triage - sort, decide, clear |
 
 ### Focus & Context
 | Skill | Version | Description |
@@ -31,6 +32,7 @@ Tracking skills for the ADHD-friendly productivity system.
 | set-focus | 1.0 | Switch project focus with context handoff |
 | context-switch | 1.0 | Full context transition - close old, open new |
 | take-break | 1.0 | Proper pause with clean handoff |
+| status | 1.0 | Quick snapshot - focus, due tasks, in-progress |
 
 ### When Stuck
 | Skill | Version | Description |

@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 Deep dive on a single project. Understand where it stands and what's next.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Mindset
 

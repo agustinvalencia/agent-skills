@@ -11,7 +11,7 @@ compatibility: Requires mdvault MCP server with vault configured
 
 ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 
-**Read first**: [ADHD Principles](../references/ADHD-PRINCIPLES.md)
+**Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
 ## Steps
 
@@ -79,7 +79,7 @@ Don't list all tasks. Pick ONE based on:
 2. Overdue with nearest deadline
 3. Due today
 4. Blocking other work
-4. User's stated focus area
+5. User's stated focus area
 
 Present it simply:
 
@@ -107,7 +107,23 @@ What's one thing that would make today feel successful?
 
 Write it to the Morning Intentions section. One is enough.
 
-### 6. Identify Smallest First Step
+### 6. Ask for Planned Meetings
+
+Ask the user if there are meetings that should be considered in today's agenda.
+If the daily note has an agenda section, add them:
+
+```
+Any meetings today?
+(I'll add them to your agenda)
+```
+
+```
+- [time start] - [meeting]
+```
+
+If none, move on quickly. Don't dwell.
+
+### 7. Identify Smallest First Step
 
 Once task is chosen, reduce initiation friction:
 
@@ -118,7 +134,7 @@ To get started on [task]:
 Ready? I can log that you're starting.
 ```
 
-### 7. Log and Launch
+### 8. Log and Launch
 
 Log to daily note:
 ```
@@ -133,20 +149,6 @@ You're set! Focus: [project], First task: [task]
 Go get it - I'll be here if you need me.
 ```
 
-### 8. Ask for planned meetings
-
-Ask the user if there are meetings that should be considered in today's agenda, 
-If the daily note has an agenda section add them: 
-
-```
-- [time start] - [meeting]
-```
-
-### 9. In case of late starts
-
-If the user is starting the day, but the current time is no longer "morning",
-keep it as a quick start.
-
 ## What NOT to Do
 
 - Don't list all overdue tasks (overwhelm)
@@ -154,6 +156,30 @@ keep it as a quick start.
 - Don't mention tasks that aren't urgent today (distraction)
 - Don't shame for yesterday's incomplete work (shame spiral)
 - Don't require filling out the full daily note template (friction)
+
+## Edge Cases
+
+### Late Starts
+
+If the user is starting the day but the current time is no longer "morning",
+adapt the greeting and keep it as a quick start:
+
+```
+Hey! It's [Day] afternoon.
+Let's get oriented quickly...
+```
+
+Skip the intention step and meeting question — just surface the priority and go.
+
+### No Tasks at All
+
+If there are no tasks anywhere:
+
+```
+Clean slate today. What's one thing you'd like to work on?
+```
+
+Or suggest creating a task with `/create-task`.
 
 ## Quick Mode
 
@@ -168,3 +194,13 @@ Go for it?
 ```
 
 Skip everything else. Movement over process.
+
+## Greeting Variations
+
+Mix up the opening to avoid repetitiveness:
+- "Good morning! It's [Day], [Date]."
+- "Morning! Happy [Day]."
+- "Hey, good morning. It's [Date]."
+- "Rise and shine — it's [Day]."
+
+Keep it warm but brief.
