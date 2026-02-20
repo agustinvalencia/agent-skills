@@ -2,14 +2,13 @@
 
 Tracking skills for the ADHD-friendly productivity system.
 
-## Implemented (19 skills)
+## Implemented (18 skills)
 
 ### Daily Routines
 | Skill | Version | Description |
 |-------|---------|-------------|
-| start-day | 2.0 | Morning briefing - ONE task, ONE intention |
+| start-day | 3.0 | Morning briefing with standup - ONE task, ONE intention |
 | close-day | 1.0 | Evening wind-down - acknowledge, capture, rest |
-| daily-standup | 1.0 | Quick async standup - yesterday, today, blockers |
 
 ### Reviews & Reports
 | Skill | Version | Description |

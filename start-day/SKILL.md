@@ -1,9 +1,9 @@
 ---
 name: start-day
-description: Start the day with a low-friction morning briefing. Shows ONE priority task, current focus, and helps set a single intention. ADHD-friendly - minimal overwhelm, maximum momentum. Use when the user says good morning, wants to start their day, or asks what's on the agenda.
+description: Start the day with a low-friction morning briefing. Shows ONE priority task, current focus, writes a standup to the daily note, and helps set a single intention. ADHD-friendly - minimal overwhelm, maximum momentum. Use when the user says good morning, wants to start their day, asks what's on the agenda, or says "standup" or "daily standup".
 metadata:
   author: mdvault
-  version: "2.0"
+  version: "3.0"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -13,16 +13,30 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Current focus project with task counts |
+| `get_context_day` | Today's and yesterday's activity |
+| `get_daily_dashboard` | Overdue/due today/in-progress tasks |
+| `create_daily_note` | Ensure today's note exists |
+| `list_tasks` | Check for blocked tasks |
+| `append_to_note` | Write standup to daily note |
+| `log_to_daily_note` | Log the day start |
+
 ## Steps
 
 ### 1. Gather Context (Silent)
 
 Collect state using MCP tools - don't dump this on the user:
 
-**Call these tools:**
+**Call these tools (in parallel where possible):**
 - `get_context_focus` - Returns focus project with task counts and recent activity
 - `get_context_day` with `date: "today"` - Returns daily note status and today's activity
+- `get_context_day` with `date: "yesterday"` - Returns yesterday's completions and activity
 - `get_daily_dashboard` - Returns overdue/due today/in-progress tasks
+- `list_tasks` with `status_filter: "blocked"` - Any blocked work
 
 **Extract from `get_context_focus`:**
 - `project` - Current focus project name
@@ -32,11 +46,16 @@ Collect state using MCP tools - don't dump this on the user:
 - `context.recent_tasks.completed` - Recent wins to celebrate
 - `context.recent_tasks.active` - Tasks currently in progress
 
-**Extract from `get_context_day`:**
+**Extract from `get_context_day` (today):**
 - `daily_note.exists` - Whether daily note exists
 - `summary.tasks_completed` - Tasks done today
 - `summary.tasks_created` - Tasks created today
 - `tasks.in_progress` - Active tasks to suggest
+
+**Extract from `get_context_day` (yesterday):**
+- `summary.tasks_completed` - Number completed yesterday
+- `tasks.completed[]` - What got done (for standup)
+- `summary.notes_modified` - Activity level
 
 **Extract from `get_daily_dashboard`:**
 - Tasks `planned_for` today (Top Priority)
@@ -66,13 +85,51 @@ Keep it brief. Don't list everything yet.
 
 If there's any recent progress, mention it FIRST:
 
-- "Yesterday you created 3 tasks for the move - nice momentum!"
+- "Yesterday you completed 5 tasks — solid day!"
 - "Your weekly note is filled in - good reflection work."
 - "You've been consistent with daily notes this week."
 
 Find something. Even "You showed up today" counts.
 
-### 4. Surface ONE Priority
+### 4. Write Standup to Daily Note (Silent)
+
+Compose a standup summary from the gathered context and write it to the daily note. This happens automatically — don't ask the user.
+
+**Compose the standup:**
+
+```markdown
+### Yesterday
+- Completed [N] tasks
+  - [Task 1]
+  - [Task 2]
+- [Any notable activity — meetings, notes modified, etc.]
+
+### Today
+- Focus: [Current focus project]
+- In progress:
+  - [Task in progress]
+- Planned:
+  - [Next task from priority list]
+
+### Blockers
+- [Any blocked tasks, or "None"]
+```
+
+**Write to daily note:**
+```
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[standup content]",
+  subsection: "Standup"
+)
+```
+
+**Adapt for sparse days:**
+- No tasks completed yesterday → "Light day — no tracked task completions"
+- Low activity → mention notes modified or "Took a break"
+- No judgment. Just facts.
+
+### 5. Surface ONE Priority
 
 Don't list all tasks. Pick ONE based on:
 1. **Planned for today** (User's specific intention)
@@ -96,7 +153,7 @@ You have 7 overdue tasks - that's a lot and that's okay.
 Let's not tackle all of them. Which area feels most urgent: [Project A] or [Project B]?
 ```
 
-### 5. Set One Intention (Optional)
+### 6. Set One Intention (Optional)
 
 If daily note exists but intentions are empty:
 
@@ -107,7 +164,7 @@ What's one thing that would make today feel successful?
 
 Write it to the Morning Intentions section. One is enough.
 
-### 6. Ask for Planned Meetings
+### 7. Ask for Planned Meetings
 
 Ask the user if there are meetings that should be considered in today's agenda.
 If the daily note has an agenda section, add them:
@@ -123,7 +180,7 @@ Any meetings today?
 
 If none, move on quickly. Don't dwell.
 
-### 7. Identify Smallest First Step
+### 8. Identify Smallest First Step
 
 Once task is chosen, reduce initiation friction:
 
@@ -134,7 +191,7 @@ To get started on [task]:
 Ready? I can log that you're starting.
 ```
 
-### 8. Log and Launch
+### 9. Log and Launch
 
 Log to daily note:
 ```
@@ -149,6 +206,30 @@ You're set! Focus: [project], First task: [task]
 Go get it - I'll be here if you need me.
 ```
 
+## Shareable Standup
+
+If the user mentions needing the standup for a team, Slack, or Teams, output a copy-pasteable version after writing to the daily note:
+
+**Slack format:**
+```
+*Yesterday:* Completed API migration, wrote tests
+*Today:* Working on MCP context tools
+*Blockers:* None
+```
+
+**Brief format:**
+```
+Yesterday: 3 tasks done
+Today: MCP context tools
+Blockers: None
+```
+
+For team context:
+- Focus on work-related projects only
+- Use more formal language
+- Include project names explicitly
+- Skip personal projects
+
 ## What NOT to Do
 
 - Don't list all overdue tasks (overwhelm)
@@ -156,6 +237,7 @@ Go get it - I'll be here if you need me.
 - Don't mention tasks that aren't urgent today (distraction)
 - Don't shame for yesterday's incomplete work (shame spiral)
 - Don't require filling out the full daily note template (friction)
+- Don't ask about the standup — just write it silently
 
 ## Edge Cases
 
@@ -170,6 +252,7 @@ Let's get oriented quickly...
 ```
 
 Skip the intention step and meeting question — just surface the priority and go.
+Still write the standup to the daily note.
 
 ### No Tasks at All
 
@@ -193,7 +276,7 @@ One thing: [Most urgent task]
 Go for it?
 ```
 
-Skip everything else. Movement over process.
+Still write the standup silently. Skip everything else. Movement over process.
 
 ## Greeting Variations
 

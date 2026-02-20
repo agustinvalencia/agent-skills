@@ -34,9 +34,8 @@ ln -s /path/to/agent-skills/start-day ~/.claude/skills/start-day
 
 | Skill | Description |
 |-------|-------------|
-| [start-day](./start-day/) | Low-friction morning briefing - ONE task, ONE intention |
+| [start-day](./start-day/) | Morning briefing with standup - ONE task, ONE intention |
 | [close-day](./close-day/) | Gentle evening wind-down - acknowledge, capture, rest |
-| [daily-standup](./daily-standup/) | Quick async standup - yesterday, today, blockers |
 
 ### Reviews & Reports
 
@@ -99,7 +98,6 @@ agent-skills/
 │   └── ADHD-PRINCIPLES.md
 ├── start-day/
 ├── close-day/
-├── daily-standup/
 ├── weekly-review/
 ├── monthly-report/
 ├── project-review/
