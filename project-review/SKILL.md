@@ -27,6 +27,18 @@ This skill:
 - Identifies what's stuck
 - Helps decide next action
 
+## MCP Tools Used
+
+| Tool | Purpose |
+|------|---------|
+| `get_context_focus` | Check current focus project |
+| `list_projects` | List active projects if none specified |
+| `get_project_info` | Project metadata, backlinks, activity |
+| `get_project_status` | Kanban view with task breakdown |
+| `get_context_note` | Rich context for the project note |
+| `log_to_project_note` | Log review completion |
+| `log_to_daily_note` | Log review to daily note |
+
 ## Steps
 
 ### 1. Identify Project
