@@ -3,7 +3,7 @@ name: weekly-review
 description: Conduct an ADHD-friendly weekly review of the vault. Celebrates wins first, reviews progress compassionately, and plans next week with focus on ONE main goal. No shame, no overwhelm. Use when the user wants to do their weekly review or reflect on their week.
 metadata:
   author: mdvault
-  version: "3.0"
+  version: "3.1"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -35,6 +35,7 @@ This skill relies on these MCP tools:
 | `list_projects` | Active project list |
 | `list_tasks` | Task queries (stalled, overdue, in-progress) |
 | `get_project_status` | Kanban view per project |
+| `get_metadata` | Check intention/closed flags on daily notes |
 | `search_notes_with_context` | Find inbox items across daily notes |
 | `create_weekly_note` | Create next week's note from template |
 | `append_to_note` | Write to weekly notes (wins, reflections, plans) |
@@ -60,6 +61,7 @@ Collect everything first — process before presenting. Call these in parallel:
 - `list_tasks` with `status_filter: "doing"` — in-progress tasks (potential stalls)
 - `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
 - `search_notes_with_context` with `query: "## Inbox"`, `folder: "Journal/Daily"` — find unprocessed inbox items from this week's daily notes
+- `get_metadata` on each daily note for the week (paths from `get_context_week` days) — check `intention` and `closed` fields
 
 **Extract and prepare:**
 - Wins: `tasks.completed` list + `summary.tasks_completed` count
@@ -68,6 +70,8 @@ Collect everything first — process before presenting. Call these in parallel:
 - Stalled detection: tasks in "doing" that appear in both this and last week's context
 - Overdue: tasks with `due_date` in the past and status != done/cancelled
 - Inbox items: unchecked items from `## Inbox` sections in daily notes
+- Intention pattern: count days with `intention: true` vs `false` from daily note metadata
+- Closure pattern: count days with `closed: true` vs `false`
 
 ### 2. Celebrate Wins First
 
@@ -108,12 +112,21 @@ You focused mainly on [project/area]. [What happened there — brief].
 [If context switches: "Quite a bit of switching between X and Y this week"].
 ```
 
+**Intention pattern** — weave in naturally:
+
+- All/most days with intention → "You set an intention [X] out of [Y] days — strong anchoring."
+- Mixed → "Intention set [X] of [Y] days. The days with one tended to be more focused." (only if true from the data)
+- Few/none → "Most days went without a set intention this week. Worth trying next week — even a one-liner helps anchor the day."
+
+Don't lecture. State the data, offer a gentle nudge if the pattern is low, and move on.
+
 This helps the user see patterns:
 - Were they focused or scattered?
 - Did they work on what matters?
 - Is there momentum building on something?
+- Are they setting intentions or raw-dogging their days?
 
-Keep it to 3-4 sentences. Not a full report.
+Keep it to 4-5 sentences. Not a full report.
 
 ### 4. Executive Project Walk-Through
 
