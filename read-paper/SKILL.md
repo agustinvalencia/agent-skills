@@ -360,7 +360,7 @@ Creating zettel: "[insight title]"
 Checking for connections...
 ```
 
-**Call:** `suggest_related_notes(note_path: "[literature note]")`
+**Call:** `find_backlinks(note_path: "[literature note]")` and `search_notes(query: "[key concept from zettel]", context_lines: 2)`
 
 **Present connections:**
 ```
