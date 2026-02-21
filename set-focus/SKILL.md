@@ -32,7 +32,7 @@ This skill:
 |------|---------|
 | `get_context_focus` | Current focus project |
 | `list_projects` | Show active projects if needed |
-| `log_to_project_note` | Log pause on previous project |
+| `log_to_note` | Log pause on previous project |
 | `set_focus` | Set new project focus |
 | `clear_focus` | Clear focus without setting new one |
 | `log_to_daily_note` | Log focus transition |
@@ -77,8 +77,8 @@ Any quick note about where you left off?
 
 If they provide a note, log it:
 ```
-log_to_project_note(
-  project_path: "[previous project path]",
+log_to_note(
+  note_path: "[previous project path]",
   content: "Paused: [their note]"
 )
 ```

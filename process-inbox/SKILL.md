@@ -30,7 +30,7 @@ This skill:
 
 | Tool | Purpose |
 |------|---------|
-| `search_notes_with_context` | Find inbox items across daily notes |
+| `search_notes` | Find inbox items across daily notes |
 | `get_context_focus` | Current project for task assignment |
 | `create_task` | Convert items to proper tasks |
 | `update_task_status` | Mark processed items as done |
@@ -43,7 +43,7 @@ This skill:
 
 **Call:**
 ```
-search_notes_with_context(
+search_notes(
   query: "## Inbox",
   folder: "Journal",
   context_lines: 10

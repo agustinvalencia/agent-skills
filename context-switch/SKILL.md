@@ -48,7 +48,7 @@ Use set-focus for:
 | `get_context_focus` | Current focus project |
 | `get_context_day` | Today's activity |
 | `add_to_daily_note` | Capture open loops to Inbox |
-| `log_to_project_note` | Log pause state on project |
+| `log_to_note` | Log pause state on project |
 | `set_focus` | Set new project focus |
 | `log_to_daily_note` | Log transition |
 
@@ -98,8 +98,8 @@ Where are you leaving [Current Project]?
 
 Log to project:
 ```
-log_to_project_note(
-  project_path: "[path]",
+log_to_note(
+  note_path: "[path]",
   content: "Paused: [their note]. Context switch to [new context]."
 )
 ```

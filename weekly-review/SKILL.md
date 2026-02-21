@@ -36,7 +36,7 @@ This skill relies on these MCP tools:
 | `list_tasks` | Task queries (stalled, overdue, in-progress) |
 | `get_project_status` | Kanban view per project |
 | `get_metadata` | Check intention/closed flags on daily notes |
-| `search_notes_with_context` | Find inbox items across daily notes |
+| `search_notes` | Find inbox items across daily notes |
 | `create_weekly_note` | Create next week's note from template |
 | `append_to_note` | Write to weekly notes (wins, reflections, plans) |
 | `add_to_inbox` | Quick-capture thoughts during review |
@@ -45,7 +45,7 @@ This skill relies on these MCP tools:
 | `cancel_task` | Cancel stalled/irrelevant tasks |
 | `update_metadata` | Reschedule tasks (update due_date, planned_for) |
 | `log_to_daily_note` | Log review completion |
-| `log_to_project_note` | Log project decisions |
+| `log_to_note` | Log project decisions |
 
 ## Steps
 
@@ -60,7 +60,7 @@ Collect everything first — process before presenting. Call these in parallel:
 - `get_project_progress` — all projects with completion rates
 - `list_tasks` with `status_filter: "doing"` — in-progress tasks (potential stalls)
 - `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
-- `search_notes_with_context` with `query: "## Inbox"`, `folder: "Journal"` — find unprocessed inbox items from this week's daily notes
+- `search_notes` with `query: "## Inbox"`, `folder: "Journal"`, `context_lines: 10` — find unprocessed inbox items from this week's daily notes
 - `get_metadata` on each daily note for the week (paths from `get_context_week` days) — check `intention` and `closed` fields
 
 **Extract and prepare:**
@@ -230,7 +230,7 @@ Still working on this? Options:
 - Cancel → `cancel_task(task_path: "...", reason: "Cancelled during weekly review")`
 - Complete → `complete_task(task_path: "...")`
 - Break down → `create_task` for subtasks
-- Log progress → `log_to_task_note(task_path: "...", content: "...")`
+- Log progress → `log_to_note(note_path: "...", content: "...")`
 
 ### 7. Update This Week's Note (Reflection)
 
@@ -291,11 +291,16 @@ What's the ONE main focus for next week?
     metadata_json: '{"planned_for": "YYYY-MM-DD"}'
   )
   ```
-- Resist adding more than 2-3 planned tasks. Less is more.
+- **Check effort capacity:** Sum `effort` values of tasks planned per day. Flag if a single day exceeds ~1d:
+  ```
+  Monday has ~2d of work planned — that's tight.
+  Want to spread [task] to Tuesday instead?
+  ```
+- Resist adding more than 2-3 planned tasks per day. Less is more.
 
 ```
 Next week's focus is set: [ONE thing]
-[If tasks planned: "Scheduled [X] tasks for early next week"]
+[If tasks planned: "Scheduled [X] tasks (~[total effort]) across next week"]
 ```
 
 ### 9. Close Positively

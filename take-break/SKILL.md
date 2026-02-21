@@ -34,7 +34,7 @@ This skill:
 | `get_context_focus` | Current focus project |
 | `get_context_day` | Today's activity and logs |
 | `log_to_daily_note` | Log break start/return |
-| `log_to_project_note` | Log pause state on project |
+| `log_to_note` | Log pause state on project |
 
 ## Steps
 
@@ -71,8 +71,8 @@ log_to_daily_note("Break started. Was working on: [task/project]. Left off at: [
 
 If they provided a note about where they left off:
 ```
-log_to_project_note(
-  project_path: "[focus project path]",
+log_to_note(
+  note_path: "[focus project path]",
   content: "Paused: [their note]"
 )
 ```

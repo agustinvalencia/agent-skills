@@ -36,7 +36,7 @@ This skill:
 | `get_project_info` | Project metadata, backlinks, activity |
 | `get_project_status` | Kanban view with task breakdown |
 | `get_context_note` | Rich context for the project note |
-| `log_to_project_note` | Log review completion |
+| `log_to_note` | Log review completion |
 | `log_to_daily_note` | Log review to daily note |
 
 ## Steps
@@ -204,8 +204,8 @@ If they pick an action, help execute:
 ### 9. Log Review
 
 ```
-log_to_project_note(
-  project_path: "[path]",
+log_to_note(
+  note_path: "[path]",
   content: "Project review completed. Next: [chosen action]"
 )
 
