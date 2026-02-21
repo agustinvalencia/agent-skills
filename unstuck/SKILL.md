@@ -54,11 +54,14 @@ Quick data collection - don't take long:
 - `get_daily_dashboard` - Overdue/due today
 
 **Extract priority order:**
-1. Overdue task with earliest due date
-2. Task due today
-3. Any "doing" status task (already started = easier)
-4. First todo task in focus project
-5. Any todo task anywhere
+1. Task `planned_for` today (user already decided — honour that)
+2. Any "doing" status task (already started = easier)
+3. Overdue task with earliest due date
+4. Task due today
+5. First todo task in focus project
+6. Any todo task anywhere
+
+**Tiebreaker:** When multiple tasks match the same priority level, prefer the one with the lowest `effort` (e.g. `0.5d` over `2d`). Smaller tasks break paralysis faster.
 
 ### 3. Pick ONE Task (No Options)
 

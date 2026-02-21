@@ -109,8 +109,10 @@ Compose a standup summary from the gathered context and write it to the daily no
 - Focus: [Current focus project]
 - In progress:
   - [Task in progress]
-- Planned:
-  - [Next task from priority list]
+- Planned for today:
+  - [Tasks with planned_for = today, with effort if set]
+- Next up:
+  - [Next task from priority list if no planned tasks]
 
 ### Blockers
 - [Any blocked tasks, or "None"]
@@ -133,17 +135,24 @@ append_to_note(
 ### 5. Surface ONE Priority
 
 Don't list all tasks. Pick ONE based on:
-1. **Planned for today** (User's specific intention)
+1. **Planned for today** (`planned_for` = today — user's specific intention)
 2. Overdue with nearest deadline
 3. Due today
 4. Blocking other work
 5. User's stated focus area
 
-Present it simply:
+**Check effort load:** If multiple tasks are `planned_for` today, sum their `effort` values. If the total exceeds 1d, flag it gently:
+```
+You've got ~[total] of work planned today — that's ambitious.
+Let's pick ONE to start with:
+→ [Task title] ([effort] · Planned for today)
+```
+
+If only one task is planned, present it simply:
 
 ```
 One thing that needs you today:
-→ [Task title] (Planned for today / due [when] / overdue [X days])
+→ [Task title] ([effort] · Planned for today / due [when] / overdue [X days])
 
 Want to start with this, or pick something else?
 ```

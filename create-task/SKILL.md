@@ -30,6 +30,7 @@ Standardized task creation. Minimal friction, maximum consistency.
 | title | Yes | Ask user or extract from request | - |
 | project | No | Current focus | Active focus project |
 | planned_for | No | Ask if mentioned or infer | None |
+| effort | No | Set if mentioned (e.g. "quick", "half day", "2 hours") | None |
 | due_date | No | Ask only if mentioned | None |
 | priority | No | Never ask | medium |
 | description | No | Ask only if complex | (empty) |
@@ -106,6 +107,17 @@ Ask or infer when the user *intends* to work on this:
 
 If a task is created *from* a Daily Note or during a planning session, set `planned_for` to that day.
 
+### 5b. Handle Effort (If Mentioned)
+
+Set `effort` if the user mentions time/size. Don't ask for it — only capture if offered:
+- "quick task" / "5 minutes" → `effort: 0.5h`
+- "a couple of hours" → `effort: 2h`
+- "half a day" → `effort: 0.5d`
+- "should take a day" → `effort: 1d`
+- "big one, probably two days" → `effort: 2d`
+
+Use duration strings: `0.5h`, `1h`, `2h`, `0.5d`, `1d`, `2d`, etc.
+
 ### 6. Create the Task
 
 Use MCP tool:
@@ -120,11 +132,11 @@ create_task(
 
 Never set priority explicitly - let it default to medium.
 
-**If `planned_for` is needed**, set it after creation:
+**If `planned_for` or `effort` is needed**, set them after creation:
 ```
 update_metadata(
   note_path: "[task path from create_task result]",
-  metadata_json: '{"planned_for": "YYYY-MM-DD"}'
+  metadata_json: '{"planned_for": "YYYY-MM-DD", "effort": "1d"}'
 )
 ```
 
@@ -134,6 +146,8 @@ update_metadata(
 Created: [TASK-ID] - [Title]
 Project: [Project Name]
 [Due: date - only if set]
+[Planned: date - only if set]
+[Effort: duration - only if set]
 ```
 
 No follow-up questions. Task is created, done.

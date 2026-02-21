@@ -133,7 +133,33 @@ That's a few days without setting an intention. Want to try one tomorrow morning
 No pressure — just data.
 ```
 
-### 5. Capture Loose Thoughts
+### 5. Review Planned Tasks
+
+Check if any tasks with `planned_for` = today didn't get attention. This is the replanning loop — the whole point of `planned_for`.
+
+**From the dashboard or task list, find tasks where `planned_for` = today and status is still `todo`.**
+
+If there are unattended planned tasks, surface them gently (one at a time, not a list):
+
+```
+You had [task title] ([effort]) planned for today.
+→ Replan for another day, or leave it?
+```
+
+**For each, based on user's answer:**
+- **Replan** → `update_metadata(note_path: "...", metadata_json: '{"planned_for": "YYYY-MM-DD"}')`
+- **Leave** → No action (it stays, will surface again)
+- **Done actually** → `complete_task(task_path: "...")`
+
+Don't shame. Days rarely go to plan. If there are many, batch them:
+```
+[X] planned tasks didn't get touched today — that's normal.
+Want to quickly replan them, or leave them for tomorrow?
+```
+
+If user says "leave them" or seems tired, move on immediately.
+
+### 6. Capture Loose Thoughts
 
 ADHD minds race at night. Offer to capture:
 
@@ -148,7 +174,7 @@ Anything floating around in your head you want to capture?
 
 Write anything shared to the Notes or Closing Thoughts section.
 
-### 6. Gentle Tomorrow Prep (Optional)
+### 7. Gentle Tomorrow Prep (Optional)
 
 Don't overwhelm with tomorrow's tasks. Just plant a seed:
 
@@ -167,7 +193,7 @@ If user seems tired, skip this entirely:
 Tomorrow will sort itself out. Rest now.
 ```
 
-### 7. Closing Thoughts
+### 8. Closing Thoughts
 
 If the daily note has a Closing Thoughts section:
 
@@ -178,7 +204,7 @@ One sentence is plenty. Or we can skip it.
 
 Keep it optional. No pressure for profound reflection.
 
-### 8. Close the Day
+### 9. Close the Day
 
 **Write closing thought** (if provided in step 7):
 ```
