@@ -33,7 +33,7 @@ This skill:
 | Tool | Purpose |
 |------|---------|
 | `list_projects` | Find project if not specified |
-| `get_project_info` | Check project status and metadata |
+| `get_project_context` | Check project status and metadata |
 | `get_project_status` | Show open tasks that will be cancelled |
 | `archive_project` | Execute the archive operation |
 | `get_context_focus` | Check if focus needs clearing |
@@ -58,7 +58,7 @@ Show completed projects with `list_projects(status_filter: "done")`
 
 ### 2. Validate Status
 
-**Call:** `get_project_info(project_name: "[project]")`
+**Call:** `get_project_context(project_name: "[project]")`
 
 Check that `status == "done"`.
 

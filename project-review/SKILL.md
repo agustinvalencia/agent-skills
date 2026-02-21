@@ -33,7 +33,7 @@ This skill:
 |------|---------|
 | `get_context_focus` | Check current focus project |
 | `list_projects` | List active projects if none specified |
-| `get_project_info` | Project metadata, backlinks, activity |
+| `get_project_context` | Project metadata, backlinks, activity |
 | `get_project_status` | Kanban view with task breakdown |
 | `get_context_note` | Rich context for the project note |
 | `log_to_note` | Log review completion |
@@ -70,7 +70,7 @@ Show active projects with `list_projects(status_filter: "active")`
 
 **Call:**
 ```
-get_project_info(project_name: "[project]")
+get_project_context(project_name: "[project]")
 get_project_status(project_name: "[project]")
 get_context_note(note_path: "[project path]")
 ```
