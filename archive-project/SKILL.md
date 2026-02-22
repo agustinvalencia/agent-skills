@@ -54,7 +54,9 @@ Agent: [Match to project]
 Which project do you want to archive?
 ```
 
-Show completed projects with `list_projects(status_filter: "done")`
+Show completed projects with `list_projects(status_filter: "done")`.
+
+**Filter out areas** — only projects (kind: project) can be archived. If the list includes areas, exclude them from the archivable options.
 
 ### 2. Validate Status
 
@@ -171,4 +173,10 @@ That project isn't marked as done yet. Want to review it first?
 **Already archived:**
 ```
 That project is already archived. Nothing to do.
+```
+
+**That's an area, not a project:**
+```
+[Name] is an area, not a project — areas are ongoing and can't be archived.
+If it's no longer relevant, you can pause it or remove it instead.
 ```

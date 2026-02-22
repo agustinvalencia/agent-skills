@@ -84,8 +84,9 @@ get_context_note(note_path: "[project path]")
 
 ### 3. Present Status Overview
 
-Start with the big picture:
+Start with the big picture. The framing depends on whether this is a project or an area (check the `kind` field from project context — defaults to "project" if absent):
 
+**For projects:**
 ```
 # [Project Name] Review
 
@@ -94,6 +95,14 @@ Status: [open/on-hold/etc]
 
 [Progress bar visualization]
 █████████░░░░░░░░░░░ 45%
+```
+
+**For areas** (no completion percentage — areas are ongoing):
+```
+# [Area Name] Review
+
+Active tasks: [N] ([in-progress] in progress, [todo] todo)
+Status: [open/on-hold/etc]
 ```
 
 ### 4. Celebrate Completed Work
@@ -162,10 +171,11 @@ Note: [X] tasks added recently. Is the scope still clear?
 
 Frame as observations, not failures.
 
-### 7. Review Expected Outcome
+### 7. Review Expected Outcome / Health Criteria
 
-Check if the goal is still clear:
+Check if the goal is still clear. Framing depends on kind:
 
+**For projects:**
 ```
 ## Expected Outcome
 "[Original expected outcome from project note]"
@@ -179,10 +189,25 @@ No expected outcome defined. Want to add one?
 What does "done" look like for this project?
 ```
 
+**For areas:**
+```
+## Health Criteria
+"[Original health criteria from area note]"
+
+Still the right measure? Or has your focus shifted?
+```
+
+If no health criteria defined:
+```
+No health criteria defined. Want to add some?
+How do you know this area is going well?
+```
+
 ### 8. Decide Next Action
 
-End with a clear decision:
+End with a clear decision. Options depend on kind:
 
+**For projects:**
 ```
 ## What's Next?
 
@@ -200,6 +225,24 @@ If they pick an action, help execute:
 - Unblock → Break down the stuck task
 - Pause → Update status, note why
 - Close/Archive → If project status is 'done', call `archive_project(project_name)` to move it to `Projects/_archive/`, cancel remaining tasks, and clear focus automatically. If not yet 'done', help mark it done first, then archive. The tool handles task cancellation, file moves, and logging.
+
+**For areas** (no close/archive — areas are ongoing):
+```
+## What's Next?
+
+Options:
+1. Continue with: [suggested next task]
+2. Unblock: [stalled task]
+3. Pause this area for now
+
+What feels right?
+```
+
+Areas cannot be archived. If user suggests closing an area, gently clarify:
+```
+Areas are ongoing by nature — they don't get "done".
+If this area is no longer relevant, we can pause it or remove it, but archiving is for projects with a finish line.
+```
 
 ### 9. Log Review
 

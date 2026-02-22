@@ -130,17 +130,20 @@ Keep it to 4-5 sentences. Not a full report.
 
 ### 4. Executive Project Walk-Through
 
-Brief status for each active project. Don't deep-dive — that's what `/project-review` is for.
+Brief status for each active project and area. Don't deep-dive — that's what `/project-review` is for.
 
 **Call:** `list_projects(status_filter: "active")`
 
-For each active project, present a one-liner:
+Split into two sections based on `kind` (default "project" when absent):
 
 ```
 Project check-in:
 - [Project A]: [X]% done, [what moved this week or "quiet this week"]
 - [Project B]: [X]% done, [what moved or "no activity"]
-- [Project C]: [X]% done, [what moved]
+
+Areas of focus:
+- [Area A]: [N] active tasks, [what moved or "steady"]
+- [Area B]: [N] active tasks, [what moved or "quiet this week"]
 ```
 
 Flag projects with no activity in 2+ weeks:
@@ -149,8 +152,8 @@ Flag projects with no activity in 2+ weeks:
 ```
 
 Offer but don't push:
-- "Want to pause any of these?"
-- "Should we close [project] — is it done or no longer relevant?"
+- For projects: "Want to pause any of these?" / "Should we close [project] — is it done or no longer relevant?"
+- For areas: "Want to pause any of these?" (don't offer to close/archive areas — they're ongoing)
 
 If they decide to pause/close, update the project and log it.
 
