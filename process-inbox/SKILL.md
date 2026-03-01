@@ -12,6 +12,7 @@ compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 Standalone inbox triage. Sort captured items without doing a full weekly review.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
+**Linking**: Always use `[[wikilinks]]` when writing content that references tasks, projects, or other notes ([rules](../references/LINKING-RULES.md))
 
 ## Mindset
 

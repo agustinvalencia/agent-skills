@@ -12,6 +12,7 @@ compatibility: Requires mdvault MCP server with vault configured
 Standardized project/area creation. Consistent structure regardless of which agent is used.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
+**Linking**: Always use `[[wikilinks]]` when writing content that references tasks, projects, or other notes ([rules](../references/LINKING-RULES.md))
 
 ## MCP Tools Used
 

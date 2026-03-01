@@ -12,6 +12,7 @@ compatibility: Requires mdvault MCP server with vault configured
 Switch project focus with proper context handoff. ADHD brains need explicit transitions.
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
+**Linking**: Always use `[[wikilinks]]` when writing content that references tasks, projects, or other notes ([rules](../references/LINKING-RULES.md))
 
 ## Mindset
 
