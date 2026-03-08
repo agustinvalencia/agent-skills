@@ -3,7 +3,7 @@ name: create-task
 description: Create a new task in the vault with standardised structure. Uses current focus project by default. Minimal friction - just needs a title. Use when the user wants to add a task, says "new task", or describes something to do.
 metadata:
   author: mdvault
-  version: "1.0"
+  version: "1.1"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -22,7 +22,8 @@ Standardized task creation. Minimal friction, maximum consistency.
 | `list_projects` | Show active projects if no focus set |
 | `create_task` | Create the task |
 | `update_metadata` | Set planned_for date if needed |
-| `log_to_daily_note` | Log task creation |
+| `log_to_note` | Log task creation to project note |
+| `log_to_daily_note` | Log task creation to daily note |
 
 ## Required Information
 
@@ -34,7 +35,8 @@ Standardized task creation. Minimal friction, maximum consistency.
 | effort | No | Set if mentioned (e.g. "quick", "half day", "2 hours") | None |
 | due_date | No | Ask only if mentioned | None |
 | priority | No | Never ask | medium |
-| description | No | Ask only if complex | (empty) |
+| description | Auto | Infer from title/context, ask only if complex | Derived from title |
+| criteria | Auto | Generate from description silently | Single criterion from title |
 
 ## Procedure
 
@@ -127,11 +129,30 @@ Use MCP tool:
 create_task(
   title: "[title]",
   project: "[project or omit for focus]",
-  due_date: "[YYYY-MM-DD or omit]"
+  description: "[description if provided]",
+  due_date: "[YYYY-MM-DD or omit]",
+  extra_vars: {"criteria": "[acceptance criteria]"}
 )
 ```
 
-Never set priority explicitly - let it default to medium.
+Never set priority explicitly — let it default to medium.
+
+**Description**: Always pass the `description` parameter when the user provides context beyond just a title. This populates both the frontmatter and the body `## Description` section. If the user only gives a title, pass a one-line description derived from the title and context (e.g., project name, conversation topic).
+
+**Acceptance criteria**: Generate concise, checkable criteria from the task description and pass them via `extra_vars`. Format as a markdown checklist string:
+
+```
+extra_vars: {"criteria": "First criterion\n- [ ] Second criterion\n- [ ] Third criterion"}
+```
+
+Note: the template already includes `- [ ]` before `{{criteria}}`, so the first criterion needs no prefix — only subsequent items need `\n- [ ]`.
+
+Guidelines for generating criteria:
+- **Simple tasks** (call dentist, buy groceries): 1 criterion is enough, e.g. `"Appointment booked"` or `"Groceries purchased"`
+- **Medium tasks** (submit report, review proposal): 2-3 criteria covering the key deliverables
+- **Complex tasks** (with a multi-part description): 3-5 criteria covering each part
+- Keep each criterion short and verifiable — "X is done", not "X is done well"
+- Don't ask the user for criteria — infer them from context
 
 **If `planned_for` or `effort` is needed**, set them after creation:
 ```
@@ -153,10 +174,21 @@ Project: [Project Name]
 
 No follow-up questions. Task is created, done.
 
-### 8. Log to Daily Note
+### 8. Log to Project and Daily Note
 
+Log to the project note so the project's history reflects the new task:
 ```
-log_to_daily_note("Created task [ID]: [Title]")
+log_to_note(
+  note_path: "[project note path]",
+  content: "Created task [[TASK-ID]]: [Title]"
+)
+```
+
+The project note path can be derived from the focus context (`project_path` from step 1) or from the `create_task` result (the task path contains the project folder).
+
+Then log to the daily note:
+```
+log_to_daily_note("Created task [ID]: [Title] in [[Project Name]]")
 ```
 
 ## Quick Mode (Default)
@@ -196,7 +228,7 @@ Don't ask for confirmation between each.
 - Don't ask for description unless complex
 - Don't ask for due date unless mentioned
 - Don't ask for project if focus is set
-- Don't require acceptance criteria (overhead)
+- Don't ask the user for acceptance criteria — generate them silently from context
 - Don't create subtasks automatically
 - Don't suggest related tasks
 

@@ -3,7 +3,7 @@ name: weekly-review
 description: Conduct an ADHD-friendly weekly review of the vault. Celebrates wins first, reviews progress compassionately, and plans next week with focus on ONE main goal. No shame, no overwhelm. Use when the user wants to do their weekly review or reflect on their week.
 metadata:
   author: mdvault
-  version: "3.1"
+  version: "3.2"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -40,6 +40,7 @@ This skill relies on these MCP tools:
 | `get_project_status` | Kanban view per project |
 | `get_metadata` | Check intention/closed flags on daily notes |
 | `search_notes` | Find inbox items across daily notes |
+| `create_daily_note` | Create daily notes for next week's planned days |
 | `create_weekly_note` | Create next week's note from template |
 | `append_to_note` | Write to weekly notes (wins, reflections, plans) |
 | `add_to_inbox` | Quick-capture thoughts during review |
@@ -66,6 +67,7 @@ Collect everything first — process before presenting. Call these in parallel:
 - `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
 - `search_notes` with `query: "## Inbox"`, `folder: "Journal"`, `context_lines: 10` — find unprocessed inbox items from this week's daily notes
 - `get_metadata` on each daily note for the week (paths from `get_context_week` days) — check `intention` and `closed` fields
+- `generate_visual_report` — start generating the dashboard PNG early so it's ready if wanted at close
 
 **Extract and prepare:**
 - Wins: `tasks.completed` list + `summary.tasks_completed` count
@@ -167,7 +169,20 @@ Offer but don't push:
 - For projects: "Want to pause any of these?" / "Should we close [project] — is it done or no longer relevant?"
 - For areas: "Want to pause any of these?" (don't offer to close/archive areas — they're ongoing)
 
-If they decide to pause/close, update the project and log it.
+If they decide to pause/close, update the project and log to the project note:
+```
+log_to_note(
+  note_path: "[project note path]",
+  content: "Project [paused/closed] during weekly review ([week]). Reason: [brief reason from user]"
+)
+```
+
+**Energy checkpoint:**
+```
+That's the big picture. Ready to dig into inbox and stalled tasks, or want to skip ahead to planning next week?
+```
+
+Only ask if you sense energy dropping (short replies, "sure", "ok"). If they're engaged, flow straight into step 5.
 
 ### 5. Process Inbox Items
 
@@ -200,9 +215,19 @@ Respect their energy. Don't force processing if they're tired.
 
 ### 6. Review Stalled and Overdue Tasks
 
-Go through these **one by one** — this is where real decisions happen.
+This is the most emotionally loaded step. Present counts first and let the user choose depth.
 
-**Overdue tasks first:**
+**Show the summary first:**
+```
+You have [X] overdue tasks and [Y] stalled tasks (in progress for 2+ weeks).
+Want to:
+1. Go through them all one by one
+2. Just the overdue ones
+3. Quick sweep — I'll list them and you say keep/cancel/reschedule
+4. Skip — deal with them during the week
+```
+
+**If they choose to review, overdue tasks first:**
 
 ```
 These tasks are past due:
@@ -247,11 +272,30 @@ Still working on this? Options:
 - Break down → `create_task` for subtasks
 - Log progress → `log_to_note(note_path: "...", content: "...")`
 
+**Log decisions to affected project notes:**
+After processing tasks for a project, log a summary to its project note:
+```
+log_to_note(
+  note_path: "[project note path]",
+  content: "Weekly review ([week]): [Rescheduled [[TASK-ID]] to MM-DD / Cancelled [[TASK-ID]] / Broke down [[TASK-ID]] into subtasks]"
+)
+```
+Batch per project — one log entry per project covering all decisions, not one per task.
+
+**Energy checkpoint:**
+If the user has been making lots of decisions, check in:
+```
+Good progress. Want to do the reflection step, or jump straight to planning next week?
+```
+
 ### 7. Update This Week's Note (Reflection)
 
 Write the review into the finishing week's note.
 
-**Call:** `append_to_note` on the current week's note path (e.g., `Journal/2026/Weekly/2026-W08.md`)
+**Ensure the note exists first:**
+**Call:** `create_weekly_note(week: "today")` — idempotent; creates the current week's note if it doesn't exist yet.
+
+**Then call:** `append_to_note` on the current week's note path (e.g., `Journal/2026/Weekly/2026-W08.md`)
 
 **Wins section:**
 ```
@@ -287,15 +331,21 @@ Create next week's note and set ONE focus.
 
 **Call:** `create_weekly_note(week: "today + 1w")`
 
+**Suggest a focus based on data — don't just ask cold:**
+
+If last week's focus is still in progress or a project has strong momentum, lead with that:
 ```
 Looking at next week:
 - [Upcoming deadlines if any]
 - [Carry-over from stalled task review]
 - [Current project momentum]
 
-What's the ONE main focus for next week?
-(Everything else is secondary)
+[If last week's focus is unfinished: "Last week's focus was [X] — still relevant, or time to shift?"]
+[If clear momentum: "You've got momentum on [project] — continue with that as the focus?"]
+[If no obvious candidate: "What's the ONE main focus for next week? (Everything else is secondary)"]
 ```
+
+Offer the suggestion but accept whatever they choose. One focus only.
 
 **After they choose:**
 - Write the focus to next week's note under `## Focus` or `## Goals`
@@ -306,16 +356,47 @@ What's the ONE main focus for next week?
     metadata_json: '{"planned_for": "YYYY-MM-DD"}'
   )
   ```
+- **Distribute across workdays only** — default to Monday–Friday. Don't schedule tasks on Saturday/Sunday unless the user explicitly asks. If a deadline falls on a weekend, schedule the task for the Friday before.
 - **Check effort capacity:** Sum `effort` values of tasks planned per day. Flag if a single day exceeds ~1d:
   ```
   Monday has ~2d of work planned — that's tight.
   Want to spread [task] to Tuesday instead?
   ```
+  If tasks don't have `effort` metadata, skip the capacity check — don't prompt the user to estimate effort for every task, as that adds friction. Only flag obvious overloads (e.g., 4+ tasks planned on a single day).
 - Resist adding more than 2-3 planned tasks per day. Less is more.
+
+**Create daily notes and pre-fill the week:**
+
+After scheduling is confirmed, create daily notes for each workday that has planned tasks or relevant context:
+
+```
+create_daily_note(date: "YYYY-MM-DD")  // for each workday with planned tasks
+```
+
+Pre-fill each daily note with a lightweight agenda via `log_to_daily_note`:
+```
+log_to_daily_note(
+  date: "YYYY-MM-DD",
+  content: "## Plan\n- Focus: [weekly focus]\n- [[task-1-title]]\n- [[task-2-title]]\n- [deadline] is due [today/in X days]"
+)
+```
+
+Keep it minimal — just the focus reminder, planned tasks as wikilinks, and any deadlines for that day or upcoming. Don't over-plan; the `start-day` skill will flesh things out on the morning of.
+
+Only create notes for days with something specific to show. Empty days don't need a note yet.
+
+**Log to the focus project note:**
+```
+log_to_note(
+  note_path: "[focus project note path]",
+  content: "Set as next week's focus ([week]). Scheduled tasks: [[TASK-ID-1]], [[TASK-ID-2]]"
+)
+```
 
 ```
 Next week's focus is set: [ONE thing]
-[If tasks planned: "Scheduled [X] tasks (~[total effort]) across next week"]
+[If tasks planned: "Scheduled [X] tasks across [Y] days"]
+[If daily notes created: "Pre-filled [Y] daily notes with your plan"]
 ```
 
 ### 9. Close Positively
@@ -331,15 +412,14 @@ Next week's focus: [ONE thing]
 Nice work reflecting. See you next week.
 ```
 
-**Offer visual dashboard:**
+**Offer visual dashboard** (already generated during step 1):
 ```
-Want me to generate a visual dashboard for the week?
-(PNG chart with activity timeline, project progress, and task breakdown)
+Want me to embed the visual dashboard in your weekly note?
+(PNG chart with activity timeline, project progress, and task breakdown — already generated)
 ```
 
 If yes:
 ```
-generate_visual_report()
 append_to_note(
   note_path: "[weekly note path]",
   content: "![[assets/dashboards/dashboard-vault.png]]"
