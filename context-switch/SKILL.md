@@ -13,6 +13,7 @@ Full context transition with proper closure. More thorough than quick focus swit
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
 **Linking**: Always use `[[wikilinks]]` when writing content that references tasks, projects, or other notes ([rules](../references/LINKING-RULES.md))
+**Calendars**: Three main calendars — Work, Personal, Hemma (family). Hemma uses prefix conventions: `A:` = Agustín only, `S:` = Sofia only, no prefix = both ([details](../references/CALENDAR-CONVENTIONS.md))
 
 ## Mindset
 

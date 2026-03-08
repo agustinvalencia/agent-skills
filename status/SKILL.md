@@ -12,6 +12,7 @@ compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 Quick snapshot. No review, no planning, no decisions. Just: where am I?
 
 **Principles**: One thing at a time · Wins first · No shame · Low friction · The vault remembers ([full guide](../references/ADHD-PRINCIPLES.md))
+**Calendars**: Three main calendars — Work, Personal, Hemma (family). Hemma uses prefix conventions: `A:` = Agustín only, `S:` = Sofia only, no prefix = both ([details](../references/CALENDAR-CONVENTIONS.md))
 
 ## Mindset
 
