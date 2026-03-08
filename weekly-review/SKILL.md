@@ -32,6 +32,8 @@ This skill relies on these MCP tools:
 |------|---------|
 | `get_context_week` | Week activity breakdown (current + previous) |
 | `get_activity_report` | Activity metrics and heatmap |
+| `get_dashboard_report` | Structured vault-wide metrics: velocity, project progress, stale notes |
+| `generate_visual_report` | Generate PNG dashboard for embedding in weekly note |
 | `get_project_progress` | All projects with completion rates |
 | `list_projects` | Active project list |
 | `list_tasks` | Task queries (stalled, overdue, in-progress) |
@@ -58,6 +60,7 @@ Collect everything first — process before presenting. Call these in parallel:
 - `get_context_week` — current week's activity
 - `get_context_week` with `week: "last"` — previous week for comparison
 - `get_activity_report` with current week (e.g., `week: "2026-W08"`) — metrics and heatmap
+- `get_dashboard_report(activity_days: 14)` — vault-wide metrics with velocity and stale notes
 - `get_project_progress` — all projects with completion rates
 - `list_tasks` with `status_filter: "doing"` — in-progress tasks (potential stalls)
 - `list_tasks` with `status_filter: "todo"` — pending tasks (check for overdue)
@@ -67,8 +70,9 @@ Collect everything first — process before presenting. Call these in parallel:
 **Extract and prepare:**
 - Wins: `tasks.completed` list + `summary.tasks_completed` count
 - Activity trend: compare `summary.active_days` and `summary.tasks_completed` across weeks
+- Velocity: from dashboard report — `velocity.tasks_per_week_2w` vs `tasks_per_week_4w` (accelerating or slowing?)
 - Focus pattern: check `days[].focus` to see what dominated
-- Stalled detection: tasks in "doing" that appear in both this and last week's context
+- Stalled detection: tasks in "doing" that appear in both this and last week's context + `activity.stale_notes` from dashboard
 - Overdue: tasks with `due_date` in the past and status != done/cancelled
 - Inbox items: unchecked items from `## Inbox` sections in daily notes
 - Intention pattern: count days with `intention: true` vs `false` from daily note metadata
@@ -94,6 +98,11 @@ Here's what went well:
 - More completed → "Up from [Y] last week — nice momentum"
 - Same → "Consistent — steady progress"
 - Fewer → "Different pace this week — some weeks are like that"
+
+**Velocity framing** (from dashboard report):
+- 2w > 4w average → "Picking up speed — [X] tasks/week recently vs [Y] over the month"
+- 2w ≈ 4w → "Steady pace at ~[X] tasks/week"
+- 2w < 4w → "Lighter pace recently — some weeks need that"
 
 **Reframe low activity compassionately:**
 - 0 tasks completed → "You created X tasks — planning is work too"
@@ -318,6 +327,21 @@ Decisions: [stalled/overdue tasks addressed]
 Next week's focus: [ONE thing]
 
 Nice work reflecting. See you next week.
+```
+
+**Offer visual dashboard:**
+```
+Want me to generate a visual dashboard for the week?
+(PNG chart with activity timeline, project progress, and task breakdown)
+```
+
+If yes:
+```
+generate_visual_report()
+append_to_note(
+  note_path: "[weekly note path]",
+  content: "![[assets/dashboards/dashboard-vault.png]]"
+)
 ```
 
 **Log to daily note:**

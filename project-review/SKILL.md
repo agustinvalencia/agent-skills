@@ -37,6 +37,8 @@ This skill:
 | `get_project_context` | Project metadata, backlinks, activity |
 | `get_project_status` | Kanban view with task breakdown |
 | `get_context_note` | Rich context for the project note |
+| `get_dashboard_report` | Structured metrics: velocity, progress %, recent completions |
+| `generate_visual_report` | Generate PNG dashboard chart for embedding |
 | `log_to_note` | Log review completion |
 | `log_to_daily_note` | Log review to daily note |
 
@@ -69,17 +71,21 @@ Show active projects with `list_projects(status_filter: "active")`
 
 ### 2. Gather Project Data
 
-**Call:**
+**Call in parallel:**
 ```
 get_project_context(project_name: "[project]")
 get_project_status(project_name: "[project]")
 get_context_note(note_path: "[project path]")
+get_dashboard_report(project: "[project ID]")
 ```
 
 **Extract:**
 - Title and description
 - Task counts (total, todo, doing, done, blocked)
 - Progress percentage
+- Velocity: `tasks_per_week_2w` and `tasks_per_week_4w` (is momentum building or slowing?)
+- Recent completions (last 7 days) from dashboard report
+- Stale notes flagged by the dashboard
 - Recent activity
 - Backlinks and references
 
@@ -245,7 +251,29 @@ Areas are ongoing by nature — they don't get "done".
 If this area is no longer relevant, we can pause it or remove it, but archiving is for projects with a finish line.
 ```
 
-### 9. Log Review
+### 9. Offer Visual Dashboard
+
+After the review, offer to generate a visual snapshot:
+
+```
+Want me to generate a visual dashboard for [Project]?
+(PNG chart with progress, task breakdown, and activity timeline)
+```
+
+If yes:
+```
+generate_visual_report(project: "[project ID]")
+```
+
+Then embed in the project note:
+```
+log_to_note(
+  note_path: "[path]",
+  content: "![[assets/dashboards/dashboard-[id].png]]"
+)
+```
+
+### 10. Log Review
 
 ```
 log_to_note(
@@ -285,12 +313,15 @@ No deep dive. Just status.
 - Clear next action
 - Progress being made
 - No long-stalled tasks
+- Velocity trending up or steady (2w >= 4w average)
 
 **Needs attention:**
 - No activity in 2+ weeks
 - Tasks stuck in "doing"
 - No clear next action
 - Scope unclear
+- Velocity dropping (2w < 4w average)
+- Stale notes flagged by dashboard
 
 **Consider closing:**
 - No activity in 1+ month

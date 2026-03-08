@@ -33,17 +33,19 @@ This skill:
 | `get_context_focus` | Current focus project |
 | `get_daily_dashboard` | Due/overdue/in-progress tasks |
 | `get_context_day` | Today's activity |
+| `get_dashboard_report` | Velocity and recent completions (momentum line) |
 
 ## Steps
 
 ### 1. Gather Everything (Silent)
 
-Call all three in parallel:
+Call all four in parallel:
 
 ```
 get_context_focus()
 get_daily_dashboard()
 get_context_day(date: "today")
+get_dashboard_report(activity_days: 7)
 ```
 
 ### 2. Present Status
@@ -55,6 +57,7 @@ Status — [Day], [Date], [Time]
 
 Focus: [project name] (or "None set")
 Today: [N] tasks completed, [M] notes modified
+Momentum: [X] tasks/week (last 2w), [Y] completed in 7d
 
 In progress:
 → [Task 1]
@@ -66,6 +69,8 @@ Due soon:
 
 [If no in-progress or due tasks: "Clear — nothing urgent."]
 ```
+
+Use `velocity.tasks_per_week_2w` and `velocity.completed_last_7d` from the dashboard report for the Momentum line. Omit the line if no tasks exist.
 
 That's it. Done.
 

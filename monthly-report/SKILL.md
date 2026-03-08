@@ -35,6 +35,8 @@ This skill:
 |------|---------|
 | `create_monthly_report` | Create the monthly report note from template |
 | `get_activity_report` | Aggregated monthly/weekly metrics |
+| `get_dashboard_report` | Structured metrics: velocity, project progress, stale notes |
+| `generate_visual_report` | Generate PNG dashboard charts for embedding |
 | `get_context_week` | Per-week breakdown for the period |
 | `get_project_progress` | All projects with completion rates |
 | `get_project_status` | Kanban view per project |
@@ -88,6 +90,7 @@ Collect everything before generating. Call in parallel:
 
 **Activity data:**
 - `get_activity_report(month: "YYYY-MM")` — aggregated metrics
+- `get_dashboard_report(activity_days: 31)` — structured vault-wide metrics with velocity and stale notes
 - `get_context_week` for each week in the period — weekly breakdown
 
 **Project data:**
@@ -267,7 +270,13 @@ append_to_note(
 **Work projects active:** X
 **Personal projects active:** Y
 **Projects completed:** Z
+**Velocity:** X tasks/week (4w avg)
 ```
+
+Use `velocity.tasks_per_week_4w` from the dashboard report for the velocity metric. Frame trends:
+- Rising → "Velocity up — strong momentum this month"
+- Steady → "Consistent output"
+- Declining → "Lighter month — some months are consolidation periods"
 
 **Habits:**
 ```markdown
@@ -302,7 +311,31 @@ A sentence or two is plenty. Or we can skip this.
 
 Write to `## Reflections` subsection.
 
-### 10. Finalise
+### 10. Generate Visual Dashboard
+
+Generate charts to embed in the report:
+
+```
+generate_visual_report()
+```
+
+Embed in the report note under Metrics:
+```
+append_to_note(
+  note_path: "Journal/YYYY/Monthly/YYYY-MM.md",
+  content: "![[assets/dashboards/dashboard-vault.png]]",
+  subsection: "Metrics"
+)
+```
+
+For work projects with significant activity, also generate per-project charts:
+```
+generate_visual_report(project: "[project ID]")
+```
+
+Embed under the relevant project subsection.
+
+### 11. Finalise
 
 Present a summary of the report:
 
