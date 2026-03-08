@@ -35,7 +35,7 @@ This skill:
 |------|---------|
 | `create_monthly_report` | Create the monthly report note from template |
 | `get_activity_report` | Aggregated monthly/weekly metrics |
-| `get_dashboard_report` | Structured metrics: velocity, project progress, stale notes |
+| `get_dashboard_report` | Structured metrics: velocity, project progress, overdue/upcoming/high-priority tasks, stale notes |
 | `generate_visual_report` | Generate PNG dashboard charts for embedding |
 | `get_context_week` | Per-week breakdown for the period |
 | `get_project_progress` | All projects with completion rates |

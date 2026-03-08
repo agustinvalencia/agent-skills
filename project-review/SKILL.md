@@ -37,7 +37,7 @@ This skill:
 | `get_project_context` | Project metadata, backlinks, activity |
 | `get_project_status` | Kanban view with task breakdown |
 | `get_context_note` | Rich context for the project note |
-| `get_dashboard_report` | Structured metrics: velocity, progress %, recent completions |
+| `get_dashboard_report` | Structured metrics: velocity, progress %, overdue/upcoming/high-priority tasks, stale notes |
 | `generate_visual_report` | Generate PNG dashboard chart for embedding |
 | `log_to_note` | Log review completion |
 | `log_to_daily_note` | Log review to daily note |
@@ -85,6 +85,9 @@ get_dashboard_report(project: "[project ID]")
 - Progress percentage
 - Velocity: `tasks_per_week_2w` and `tasks_per_week_4w` (is momentum building or slowing?)
 - Recent completions (last 7 days) from dashboard report
+- Overdue tasks: `overdue` array filtered by project (pre-computed `days_overdue`)
+- High priority: `high_priority` array filtered by project
+- Upcoming deadlines: `upcoming_deadlines` array filtered by project (next 14 days)
 - Stale notes flagged by the dashboard
 - Recent activity
 - Backlinks and references

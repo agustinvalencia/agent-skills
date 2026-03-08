@@ -33,7 +33,7 @@ This skill:
 | `get_context_focus` | Current focus project |
 | `get_daily_dashboard` | Due/overdue/in-progress tasks |
 | `get_context_day` | Today's activity |
-| `get_dashboard_report` | Velocity and recent completions (momentum line) |
+| `get_dashboard_report` | Velocity, overdue tasks, upcoming deadlines, momentum |
 
 ## Steps
 
@@ -71,6 +71,8 @@ Due soon:
 ```
 
 Use `velocity.tasks_per_week_2w` and `velocity.completed_last_7d` from the dashboard report for the Momentum line. Omit the line if no tasks exist.
+
+Use `overdue` and `upcoming_deadlines` arrays from the dashboard report for the "Due soon" section — these provide pre-computed overdue days and sorted deadlines.
 
 That's it. Done.
 

@@ -32,7 +32,7 @@ This skill relies on these MCP tools:
 |------|---------|
 | `get_context_week` | Week activity breakdown (current + previous) |
 | `get_activity_report` | Activity metrics and heatmap |
-| `get_dashboard_report` | Structured vault-wide metrics: velocity, project progress, stale notes |
+| `get_dashboard_report` | Structured vault-wide metrics: velocity, project progress, stale notes, overdue/upcoming/high-priority tasks |
 | `generate_visual_report` | Generate PNG dashboard for embedding in weekly note |
 | `get_project_progress` | All projects with completion rates |
 | `list_projects` | Active project list |
@@ -73,7 +73,9 @@ Collect everything first — process before presenting. Call these in parallel:
 - Velocity: from dashboard report — `velocity.tasks_per_week_2w` vs `tasks_per_week_4w` (accelerating or slowing?)
 - Focus pattern: check `days[].focus` to see what dominated
 - Stalled detection: tasks in "doing" that appear in both this and last week's context + `activity.stale_notes` from dashboard
-- Overdue: tasks with `due_date` in the past and status != done/cancelled
+- Overdue: use `overdue` array from dashboard report (pre-computed with `days_overdue`)
+- High priority: use `high_priority` array from dashboard report
+- Upcoming deadlines: use `upcoming_deadlines` array from dashboard report (next 14 days)
 - Inbox items: unchecked items from `## Inbox` sections in daily notes
 - Intention pattern: count days with `intention: true` vs `false` from daily note metadata
 - Closure pattern: count days with `closed: true` vs `false`
