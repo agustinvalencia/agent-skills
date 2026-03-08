@@ -37,6 +37,8 @@ This skill:
 | `get_context_focus` | Current focus project |
 | `get_daily_dashboard` | Due/overdue/in-progress tasks |
 | `log_to_daily_note` | Log energy level for pattern tracking |
+| **Apple Calendar MCP** | |
+| `today_schedule` | Check remaining meetings to factor into task suggestions |
 
 ## Steps
 
@@ -64,6 +66,7 @@ While processing their answer, collect context quickly:
 - `get_context_focus()` — current project
 - `get_daily_dashboard()` — due/overdue/in-progress
 - `list_tasks(status_filter: "todo")` — available tasks
+- `today_schedule()` (Apple Calendar MCP) — remaining meetings today
 
 ### 3. Match Energy to Tasks
 
@@ -91,6 +94,8 @@ Filter and sort tasks by energy level:
 - Prioritize: quickest wins first, then overdue small tasks
 
 **When effort metadata is missing:** Use task title and context to estimate complexity. Short, concrete tasks (e.g., "send email to X") are low energy. Open-ended tasks (e.g., "design new architecture") are high energy.
+
+**Factor in remaining calendar:** If the user has meetings coming up soon (within 1-2h), prefer short tasks that can be completed before the next meeting. Don't suggest starting a deep 1d task with a meeting in 45 minutes. If calendar is unavailable, skip this consideration.
 
 ### 4. Suggest 1-3 Matching Tasks
 

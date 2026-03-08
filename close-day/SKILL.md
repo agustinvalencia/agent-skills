@@ -39,6 +39,8 @@ This skill:
 | `append_to_note` | Write closing thoughts |
 | `update_metadata` | Mark day as closed |
 | `log_to_daily_note` | Log day close |
+| **Apple Calendar MCP** | |
+| `get_events_range` | Fetch tomorrow's calendar for gentle prep |
 
 ## Steps
 
@@ -51,6 +53,7 @@ Collect the day's activity:
 - `get_context_focus` - Current focus project context
 - `get_daily_dashboard` - Quick status (but ignore overdue at night)
 - `get_metadata` on today's daily note - Check `intention` field
+- `get_events_range` with tomorrow's date (Apple Calendar MCP) - Tomorrow's calendar for gentle prep
 
 **Extract from `get_context_day`:**
 - `date` - Today's date
@@ -177,13 +180,32 @@ Write anything shared to the Notes or Closing Thoughts section.
 
 ### 7. Gentle Tomorrow Prep (Optional)
 
-Don't overwhelm with tomorrow's tasks. Just plant a seed:
+Don't overwhelm with tomorrow's tasks. Just plant a seed using calendar data from step 1:
 
+**If tomorrow has calendar events:**
 ```
-For tomorrow, one thing to keep in mind:
-→ [Most relevant item - a deadline, appointment, or continued focus]
+Tomorrow's calendar:
+- [time] [event title]
+- [time] [event title]
+
+One thing to keep in mind:
+→ [Most relevant item — first meeting time, a deadline, or continued focus]
 
 That's it. The rest can wait until morning.
+```
+
+**If tomorrow is clear:**
+```
+Tomorrow's calendar is clear — open day ahead.
+
+One thing to keep in mind:
+→ [Most relevant task or continued focus]
+```
+
+**If calendar is unavailable**, fall back to the task-only version:
+```
+For tomorrow, one thing to keep in mind:
+→ [Most relevant item - a deadline or continued focus]
 ```
 
 **Action:** If user agrees to a task, set its `planned_for` date to tomorrow:

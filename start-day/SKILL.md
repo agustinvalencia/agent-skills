@@ -26,6 +26,9 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 | `append_to_note` | Write standup and intention to daily note |
 | `update_metadata` | Mark intention as set |
 | `log_to_daily_note` | Log the day start |
+| **Apple Calendar MCP** | |
+| `today_schedule` | Fetch today's calendar events automatically |
+| `find_free_slots` | Identify available deep work windows |
 
 ## Steps
 
@@ -39,6 +42,8 @@ Collect state using MCP tools - don't dump this on the user:
 - `get_context_day` with `date: "yesterday"` - Returns yesterday's completions and activity
 - `get_daily_dashboard` - Returns overdue/due today/in-progress tasks
 - `list_tasks` with `status_filter: "blocked"` - Any blocked work
+- `today_schedule` (Apple Calendar MCP) - Today's meetings and events
+- `find_free_slots` with `target_date: "today"` (Apple Calendar MCP) - Available time windows
 
 **Extract from `get_context_focus`:**
 - `project` - Current focus project name
@@ -192,21 +197,39 @@ update_metadata(
 
 If the user declines or skips, that's fine — don't push. The `intention: false` metadata stays, which helps spot patterns later (e.g., "you set an intention 3 out of 5 days this week").
 
-### 7. Ask for Planned Meetings
+### 7. Show Today's Calendar
 
-Ask the user if there are meetings that should be considered in today's agenda.
-If the daily note has an agenda section, add them:
+Use the calendar data gathered in step 1 to show meetings and free time. No need to ask — it's already fetched.
 
+**If there are events today:**
 ```
-Any meetings today?
-(I'll add them to your agenda)
+Your calendar today:
+- [time] [event title]
+- [time] [event title]
+
+Free blocks for deep work:
+- [start]–[end] ([duration])
+- [start]–[end] ([duration])
 ```
 
+Write the agenda to the daily note:
 ```
-- [time start] - [meeting]
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "- [time] [event]\n- [time] [event]\n\nFree blocks: [start]–[end], [start]–[end]",
+  subsection: "Agenda"
+)
 ```
 
-If none, move on quickly. Don't dwell.
+**If no events:**
+```
+Calendar is clear today — full day for deep work.
+```
+
+**If calendar is unavailable** (MCP error or no calendars configured), fall back to asking:
+```
+Any meetings today? (I'll add them to your agenda)
+```
 
 ### 8. Identify Smallest First Step
 

@@ -40,6 +40,9 @@ This skill relies on these MCP tools:
 | `append_to_note` | Write plan to weekly note |
 | `update_metadata` | Schedule tasks via `planned_for` |
 | `create_daily_note` | Pre-fill daily notes for the week |
+| **Apple Calendar MCP** | |
+| `week_schedule` | Fetch this week's calendar events for capacity estimation |
+| `find_free_slots` | Identify deep work windows per day |
 
 ## Steps
 
@@ -54,6 +57,8 @@ Collect everything first — process before presenting. Call these in parallel:
 - `list_tasks` with `status_filter: "todo"` — pending tasks
 - `list_tasks` with `status_filter: "blocked"` — blocked work
 - `list_projects(status_filter: "active")` — active projects and areas
+- `week_schedule` (Apple Calendar MCP) — this week's meetings and events
+- `find_free_slots` for each remaining weekday (Apple Calendar MCP) — available deep work windows
 
 **Extract and prepare:**
 - In-flight work: tasks already in "doing" (commitments that carry over)
@@ -62,6 +67,8 @@ Collect everything first — process before presenting. Call these in parallel:
 - Blocked work: tasks that need unblocking before progress
 - Current focus: what project has momentum
 - Project health: which projects have activity, which are quiet
+- Calendar load: count meetings per day, identify meeting-heavy vs meeting-free days
+- Deep work windows: free slots of 1h+ per day (for scheduling tasks effectively)
 
 ### 2. Orient and Celebrate
 
@@ -118,6 +125,22 @@ Heads up — these are blocked:
 
 Worth unblocking early this week?
 ```
+
+**Calendar capacity** (from Apple Calendar MCP):
+```
+Your week's calendar:
+- Monday: [N] meetings, ~[X]h free
+- Tuesday: [N] meetings, ~[X]h free
+- Wednesday: meeting-heavy — only [X]h free
+- Thursday: clear — full day for deep work
+- Friday: [N] meetings, ~[X]h free
+
+Best days for deep work: [days with most free time]
+```
+
+If calendar is unavailable, skip this section silently.
+
+Use this data when scheduling tasks in step 8 — schedule deep work tasks on meeting-light days, and lighter tasks on meeting-heavy days.
 
 ### 4. Pick ONE Main Goal
 
@@ -223,10 +246,12 @@ I'll keep it light — no more than 2-3 tasks per day.
 
 **If yes:**
 - Distribute across weekdays only (Monday-Friday) unless user says otherwise
+- Use calendar data to schedule smartly: place deep work tasks on meeting-light days, lighter tasks on meeting-heavy days
 - Respect effort estimates if available — don't overload any day
-- Flag if a day looks heavy:
+- Flag if a day looks heavy (combining meetings + planned tasks):
   ```
-  Wednesday already has [X] planned — want to move something to Thursday?
+  Wednesday has 3 meetings and ~2h free — probably not the day for [heavy task].
+  How about Thursday instead? It's clear.
   ```
 
 **For each scheduled task:**
@@ -290,7 +315,7 @@ log_to_daily_note("Planned the week ([Week ID]). Main goal: [goal]")
 - Don't create a detailed hour-by-hour schedule (rigidity kills ADHD flow)
 - Don't shame about last week's unfinished work (that's weekly-review territory)
 - Don't force scheduling if they just want a goal (friction)
-- Don't require meetings/calendar info to proceed (blocking)
+- Don't block on calendar data — if Apple Calendar MCP is unavailable, proceed without it
 - Don't spend more than 10 minutes (planning fatigue)
 - Don't add tasks to the plan that weren't the user's choice
 

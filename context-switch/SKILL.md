@@ -52,6 +52,8 @@ Use set-focus for:
 | `log_to_note` | Log pause state on project |
 | `set_focus` | Set new project focus |
 | `log_to_daily_note` | Log transition |
+| **Apple Calendar MCP** | |
+| `today_schedule` | Show remaining meetings when switching to/from meeting mode |
 
 ## Steps
 
@@ -177,9 +179,18 @@ Personal time. Options:
 ```
 
 **For meetings:**
+Fetch remaining meetings via `today_schedule` (Apple Calendar MCP):
 ```
-You have: [meetings from calendar if available]
-Or just in reactive mode until you're done.
+Remaining meetings today:
+- [time] [event title]
+- [time] [event title]
+
+In reactive mode until you're done.
+```
+
+If calendar is unavailable:
+```
+Meeting mode. In reactive mode until you're done.
 ```
 
 ### 7. Log Transition
