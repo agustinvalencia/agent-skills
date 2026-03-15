@@ -3,7 +3,7 @@ name: start-day
 description: Start the day with a low-friction morning briefing. Shows ONE priority task, current focus, writes a standup to the daily note, and helps set a single intention. ADHD-friendly - minimal overwhelm, maximum momentum. Use when the user says good morning, wants to start their day, asks what's on the agenda, or says "standup" or "daily standup".
 metadata:
   author: mdvault
-  version: "3.0"
+  version: "3.2"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -22,6 +22,7 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 | `get_context_focus` | Current focus project with task counts |
 | `get_context_day` | Today's and yesterday's activity |
 | `get_daily_dashboard` | Overdue/due today/in-progress tasks |
+| `read_note` | Read today's daily note for pre-planned content |
 | `create_daily_note` | Ensure today's note exists |
 | `list_tasks` | Check for blocked tasks |
 | `append_to_note` | Write standup and intention to daily note |
@@ -77,6 +78,24 @@ If `daily_note.exists` is `false` from the context above, create today's daily n
 - Call `create_daily_note` MCP tool (no arguments needed for today)
 - This MUST happen before any `add_to_daily_note`, `log_to_daily_note`, or `append_to_note` calls, otherwise a bare note without proper template sections will be created
 
+### 1c. Read Daily Note for Pre-planned Content (Silent)
+
+**This is critical.** The daily note may already contain content written by previous sessions — weekly planning (`/weekly-planning`), close-day (`/close-day`), or manual edits. Skipping this means ignoring work the user already did.
+
+**Call:** `read_note(note_path: "[today's daily note path]")`
+
+**Scan for pre-filled sections:**
+
+| Section | What to look for | How it affects the flow |
+|---------|-----------------|----------------------|
+| `## Intention` | Text already written (from close-day or manual) | Skip step 6 — don't ask again, acknowledge it instead |
+| `## To Do` | Tasks or plan items (from weekly-planning) | Use these as the priority list in step 5, don't override |
+| `## Agenda` | Pre-filled calendar or meeting notes | Merge with live calendar data in step 7, don't duplicate |
+| `## Notes` | Any pre-captured thoughts | Mention briefly ("You noted something last night…") |
+| `## Logs` | Entries beyond "Created" | Shows prior activity today (late start, already working) |
+
+**Store what you find** — the extracted pre-planned content feeds into steps 4, 5, 6, and 7.
+
 ### 2. Warm Greeting with Orientation
 
 Start with day context (combats time blindness):
@@ -96,6 +115,9 @@ If there's any recent progress, mention it FIRST:
 - "Yesterday you completed 5 tasks — solid day!"
 - "Your weekly note is filled in - good reflection work."
 - "You've been consistent with daily notes this week."
+- "You already planned today during your weekly review — future-you thanks past-you!"
+
+If the daily note had pre-planned content (from step 1c), acknowledge the planning effort. Planning ahead is a win worth celebrating, especially for ADHD brains.
 
 Find something. Even "You showed up today" counts.
 
@@ -118,6 +140,7 @@ Compose a standup summary from the gathered context and write it to the daily no
   - [Task in progress]
 - Planned for today:
   - [Tasks with planned_for = today, with effort if set]
+  - [Items from daily note ## To Do section, if pre-filled — merge, don't duplicate]
 - Next up:
   - [Next task from priority list if no planned tasks]
 
@@ -141,12 +164,15 @@ append_to_note(
 
 ### 5. Surface ONE Priority
 
-Don't list all tasks. Pick ONE based on:
-1. **Planned for today** (`planned_for` = today — user's specific intention)
-2. Overdue with nearest deadline
-3. Due today
-4. Blocking other work
-5. User's stated focus area
+Don't list all tasks. Pick ONE based on this priority order:
+1. **Pre-planned in daily note** (items from `## To Do` written by weekly-planning or close-day — the user's past self already decided)
+2. **Planned for today** (`planned_for` = today — user's specific intention via task metadata)
+3. Overdue with nearest deadline
+4. Due today
+5. Blocking other work
+6. User's stated focus area
+
+**Respect prior planning:** If the daily note already has a To Do list, treat it as the user's plan. Don't override it with dashboard priorities unless something is genuinely urgent (overdue + high priority). The whole point of planning ahead is that morning-you doesn't have to re-decide.
 
 **Check effort load:** If multiple tasks are `planned_for` today, sum their `effort` values. If the total exceeds 1d, flag it gently:
 ```
@@ -171,6 +197,19 @@ Let's not tackle all of them. Which area feels most urgent: [Project A] or [Proj
 ```
 
 ### 6. Set One Intention
+
+**If the daily note already has an intention (from step 1c):**
+
+Don't ask again. Acknowledge it and move on:
+
+```
+Your intention for today: "[pre-written intention]"
+Still feels right, or want to adjust?
+```
+
+If the user confirms or doesn't respond, keep it. If they want to change it, overwrite the section. Either way, ensure `intention: true` metadata is set.
+
+**If no intention exists:**
 
 Ask the user for a single intention. This anchors the day and prevents "raw dogging" — drifting without direction.
 
@@ -198,9 +237,11 @@ update_metadata(
 
 If the user declines or skips, that's fine — don't push. The `intention: false` metadata stays, which helps spot patterns later (e.g., "you set an intention 3 out of 5 days this week").
 
-### 7. Show Today's Calendar
+### 7. Show Today's Calendar & Suggest a Schedule
 
 Use the calendar data gathered in step 1 to show meetings and free time. No need to ask — it's already fetched.
+
+**If the daily note already has an `## Agenda` section (from step 1c):** Merge with live calendar data. If the pre-filled agenda matches the live data, don't rewrite it — just confirm. If there are new events or changes, update the section.
 
 **If there are events today:**
 ```
@@ -213,15 +254,6 @@ Free blocks for deep work:
 - [start]–[end] ([duration])
 ```
 
-Write the agenda to the daily note:
-```
-append_to_note(
-  note_path: "[today's daily note path]",
-  content: "- [time] [event]\n- [time] [event]\n\nFree blocks: [start]–[end], [start]–[end]",
-  subsection: "Agenda"
-)
-```
-
 **If no events:**
 ```
 Calendar is clear today — full day for deep work.
@@ -231,6 +263,57 @@ Calendar is clear today — full day for deep work.
 ```
 Any meetings today? (I'll add them to your agenda)
 ```
+
+#### 7b. Suggest When to Do What
+
+Map today's tasks to the available free slots. This is a **suggestion, not a rigid schedule** — ADHD brains rebel against over-structured plans but benefit from a loose shape to the day.
+
+**Inputs:**
+- Free slots from `find_free_slots` (step 1)
+- Today's tasks: pre-planned (step 1c `## To Do`), `planned_for` today, priority task (step 5)
+- Effort estimates from task metadata (if set)
+
+**Matching rules:**
+1. **Deep work tasks** (coding, writing, complex thinking) → longest free slot, preferably morning
+2. **Quick tasks** (effort ≤ 0.5h) → short gaps between meetings or end of day
+3. **Meetings prep** → slot immediately before the meeting
+4. **Tasks without effort estimates** → assume 1h as a default for scheduling purposes
+5. If total task effort exceeds available free time, flag it and help trim (don't silently overschedule)
+
+**Present as a gentle suggestion:**
+```
+Here's a rough shape for the day:
+
+  [09:00–11:30]  → [Deep work task] (2h estimated)
+  [11:30–12:00]  → [Quick task] (30min)
+  [12:00–13:00]  lunch
+  [13:00–13:30]  → Prep for [meeting name]
+  [13:30–14:30]  [Meeting]
+  [14:30–16:00]  → [Second task] (1h estimated)
+
+This is just a suggestion — shuffle as you like.
+```
+
+**If there's more work than time:**
+```
+You've got ~[total effort] of tasks but ~[free hours] of free time.
+I'd suggest focusing on just:
+→ [Top priority task]
+→ [One quick win if there's a gap]
+
+The rest can wait — better to finish one thing than half-start three.
+```
+
+**Write the suggested schedule to the daily note:**
+```
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[schedule as above]",
+  subsection: "Agenda"
+)
+```
+
+**When to skip:** If the user is in Quick Mode, has no calendar data, or has only one task — don't generate a schedule. Just point them at the one thing.
 
 ### 8. Identify Smallest First Step
 
@@ -290,6 +373,11 @@ For team context:
 - Don't shame for yesterday's incomplete work (shame spiral)
 - Don't require filling out the full daily note template (friction)
 - Don't ask about the standup — just write it silently
+- Don't ignore pre-planned content in the daily note — past-you already did the thinking
+- Don't overwrite pre-filled sections (Intention, To Do, Agenda) — merge or confirm instead
+- Don't re-ask for an intention if one was already set
+- Don't create a rigid minute-by-minute schedule (ADHD brains rebel against over-structure)
+- Don't silently overschedule — if tasks exceed free time, say so and help prioritise
 
 ## Edge Cases
 
@@ -303,8 +391,8 @@ Hey! It's [Day] afternoon.
 Let's get oriented quickly...
 ```
 
-Still ask for the intention (even a late-day anchor helps), but skip the meeting question — just surface the priority and go.
-Still write the standup to the daily note.
+Still ask for the intention (even a late-day anchor helps), but skip past meetings — only show what's left.
+Still write the standup to the daily note. For the suggested schedule, only use remaining free slots from now onwards — don't show a plan for hours that already passed.
 
 ### No Tasks at All
 
