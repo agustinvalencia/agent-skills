@@ -32,7 +32,7 @@ This skill:
 
 | Tool | Purpose |
 |------|---------|
-| `add_to_daily_note` | Capture items to daily note Inbox |
+| `append_to_daily_note` | Capture items to daily note Inbox |
 | `log_to_daily_note` | Log brain dump session |
 
 ## Steps
@@ -57,7 +57,7 @@ As user dumps, capture in real-time or batch at end:
 
 **For each item, call:**
 ```
-add_to_daily_note(
+append_to_daily_note(
   content: "- [ ] [item]",
   subsection: "Inbox"
 )
@@ -65,7 +65,7 @@ add_to_daily_note(
 
 Or batch capture:
 ```
-add_to_daily_note(
+append_to_daily_note(
   content: "- [ ] Item 1\n- [ ] Item 2\n- [ ] Item 3...",
   subsection: "Inbox"
 )

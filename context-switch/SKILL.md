@@ -49,7 +49,7 @@ Use set-focus for:
 |------|---------|
 | `get_context_focus` | Current focus project |
 | `get_context_day` | Today's activity |
-| `add_to_daily_note` | Capture open loops to Inbox |
+| `append_to_daily_note` | Capture open loops to Inbox |
 | `log_to_note` | Log pause state on project |
 | `set_focus` | Set new project focus |
 | `log_to_daily_note` | Log transition |
@@ -88,7 +88,7 @@ Before we switch - anything floating in your head from [Current Context]?
 
 Capture anything to Inbox:
 ```
-add_to_daily_note(
+append_to_daily_note(
   content: "[captured items]",
   subsection: "Inbox"
 )

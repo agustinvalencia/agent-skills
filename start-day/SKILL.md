@@ -76,7 +76,7 @@ Collect state using MCP tools - don't dump this on the user:
 
 If `daily_note.exists` is `false` from the context above, create today's daily note **before doing anything else**:
 - Call `create_daily_note` MCP tool (no arguments needed for today)
-- This MUST happen before any `add_to_daily_note`, `log_to_daily_note`, or `append_to_note` calls, otherwise a bare note without proper template sections will be created
+- This MUST happen before any `append_to_daily_note`, `log_to_daily_note`, or `append_to_note` calls, otherwise a bare note without proper template sections will be created
 
 ### 1c. Read Daily Note for Pre-planned Content (Silent)
 
@@ -309,6 +309,73 @@ The rest can wait — better to finish one thing than half-start three.
 append_to_note(
   note_path: "[today's daily note path]",
   content: "[schedule as above]",
+  subsection: "Agenda"
+)
+```
+
+#### 7c. Generate Daily Visual Timeline
+
+After writing the text schedule, generate a mermaid gantt chart and append it to the Agenda section. This gives the user a glanceable visual of their day with a red "now" marker line.
+
+**Use real datetimes** (`YYYY-MM-DD HH:mm`) so mermaid renders proper thick bars AND shows the todayMarker (red current-time line). Use human-readable durations (`1h`, `30m`, `2h30m`, `90m`).
+
+**Categorise blocks into sections:**
+- `Deep Work` — coding, writing, complex thinking tasks
+- `Meetings` — calendar events (mark as `crit` for red colour)
+- `Admin` — quick tasks, emails, prep
+- `Personal` — gym, lunch, errands, commute
+
+**Template:**
+````
+```mermaid
+---
+config:
+  gantt:
+    barHeight: 30
+    barGap: 6
+    topPadding: 30
+    sectionFontSize: 12
+---
+gantt
+    title [Day name] [Date]
+    dateFormat YYYY-MM-DD HH:mm
+    axisFormat %H:%M
+    tickInterval 1hour
+
+    section Deep Work
+    [Task label]       :YYYY-MM-DD HH:mm, [duration]
+
+    section Meetings
+    [Meeting label]    :crit, YYYY-MM-DD HH:mm, [duration]
+
+    section Personal
+    [Activity label]   :YYYY-MM-DD HH:mm, [duration]
+```
+````
+
+**Duration formats:** `1h`, `2h`, `30m`, `90m`, `2h30m`, `55m`, etc.
+
+**Example:**
+```
+    section Deep Work
+    HPO-007 Honeymoon research       :2026-03-16 08:00, 2h
+    WMD-025 prep                     :2026-03-16 11:00, 1h
+
+    section Meetings
+    90pct presentation 6GVE          :crit, 2026-03-16 10:00, 1h
+    Rehearsal 10pct                  :crit, 2026-03-16 14:00, 30m
+
+    section Personal
+    Bike to Medley                   :2026-03-16 12:00, 10m
+    Gym                              :2026-03-16 12:10, 1h
+    Bike home + lunch                :2026-03-16 13:10, 30m
+```
+
+**Write to daily note:**
+```
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[mermaid gantt block as above]",
   subsection: "Agenda"
 )
 ```

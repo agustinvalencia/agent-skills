@@ -34,7 +34,7 @@ No preamble. If user says something to capture, capture it:
 
 **Call immediately:**
 ```
-add_to_daily_note(
+append_to_daily_note(
   content: "- [ ] [captured thought]",
   subsection: "Inbox"
 )
@@ -117,7 +117,7 @@ User: need to buy milk, also dentist appointment on Friday, and remind me about 
 Capture all at once:
 
 ```
-add_to_daily_note(
+append_to_daily_note(
   content: "- [ ] Buy milk\n- Dentist appointment Friday\n- [ ] Follow up on proposal",
   subsection: "Inbox"
 )
