@@ -272,7 +272,57 @@ log_to_daily_note(
 )
 ```
 
+**Fix the "Created" log entry:** `create_daily_note` logs `- HH:MM : Created` using the current time, which is misleading for pre-created notes (it looks like the note was created at that time on the note's own date). After creating each note, edit the Logs section to replace the `Created` entry with:
+```
+- [[YYYY-MM-DD]] HH:MM: Created during weekly planning
+```
+Where the wikilink date and time are *today's* (when the planning session is happening), not the note's date. This preserves context about when and why the note was created.
+
 Keep daily pre-fills minimal — the `start-day` skill will flesh things out each morning.
+
+#### 8b. Generate Week at a Glance (MANDATORY)
+
+**Do NOT skip this step.** Always generate the mermaid gantt chart after scheduling and append it to the weekly note. This gives a glanceable visual of what's happening when.
+
+**Use date-based format** — each task spans one or more days. Group by theme/project, not by day.
+
+**Mark critical/deadline items** with `:crit` for red highlighting.
+
+**Template:**
+````
+```mermaid
+gantt
+    title [Week ID] — [date range]
+    dateFormat YYYY-MM-DD
+    axisFormat %a %d
+
+    section [Theme 1]
+    [Task label]     :[id], YYYY-MM-DD, Nd
+
+    section [Theme 2]
+    [Task label]     :crit, [id], YYYY-MM-DD, Nd
+
+    section Admin
+    [Task label]     :[id], YYYY-MM-DD, Nd
+```
+````
+
+**Guidelines:**
+- Group tasks into 3-5 sections by theme (project name, life area, or category)
+- Tasks spanning multiple days get multi-day bars (e.g., "FMA-005 Draft" spanning Mon–Wed)
+- Single-day tasks get `1d`
+- Use `:crit` for deadline-sensitive items or blockers
+- Keep section names short (e.g., "WMD Infra", "Honeymoon", "Admin")
+- Only include scheduled/planned tasks, not the full backlog
+
+**Write to weekly note:**
+```
+append_to_note(
+  note_path: "[weekly note path]",
+  content: "[mermaid gantt block as above]",
+  subsection: "Plan"
+)
+```
 
 ### 9. Set Focus
 

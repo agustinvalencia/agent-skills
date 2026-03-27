@@ -38,6 +38,7 @@ This skill relies on these MCP tools:
 | `list_projects` | Active project list |
 | `list_tasks` | Task queries (stalled, overdue, in-progress) |
 | `get_project_status` | Kanban view per project |
+| `get_area_report` | Area health criteria vs actuals for a period |
 | `get_metadata` | Check intention/closed flags on daily notes |
 | `search_notes` | Find inbox items across daily notes |
 | `create_daily_note` | Create daily notes for next week's planned days |
@@ -176,6 +177,53 @@ log_to_note(
   content: "Project [paused/closed] during weekly review ([week]). Reason: [brief reason from user]"
 )
 ```
+
+#### 4b. Area Standards Check
+
+After the project/area walk-through, check how areas with `health_criteria` are tracking. This is the automated measurement step.
+
+**Call:** `get_area_report(area: "[area name]", period: "[current week]")` for each area that has `health_criteria`.
+
+**Present compassionately — patterns, not scores:**
+
+```
+Area standards:
+- Health: exercise 2/3 this week, meds 5/7 — weekends slipped
+- Finances: no criteria set (qualitative — SEB migration on track)
+```
+
+**If a standard is consistently unmet (2+ weeks in a row):**
+```
+Health exercise has been below target for [N] weeks.
+Want to create a project to address it, or adjust the target?
+```
+
+Options:
+- **Spawn project** → `create_project` with a concrete 4-week goal
+- **Adjust target** → update `health_criteria` in the area frontmatter
+- **Leave it** → no action, just awareness
+
+**If all standards are met:**
+```
+All area standards met this week — steady.
+```
+
+**If no areas have criteria:**
+Skip this step silently.
+
+**Write one-liner to weekly note:**
+```
+append_to_note(
+  note_path: "[weekly note path]",
+  content: "- Health: exercise [X]/[target], meds [X]/[target]",
+  subsection: "Review"
+)
+```
+
+**Do NOT:**
+- Show this as a report card or score
+- Shame for unmet criteria
+- Surface this at night (that's close-day territory — and close-day doesn't do area checks)
 
 **Energy checkpoint:**
 ```
@@ -373,6 +421,12 @@ After scheduling is confirmed, create daily notes for each workday that has plan
 create_daily_note(date: "YYYY-MM-DD")  // for each workday with planned tasks
 ```
 
+**Fix the "Created" log entry:** `create_daily_note` logs `- HH:MM : Created` using the current time, which is misleading for pre-created notes. After creating each note, edit the Logs section to replace the `Created` entry with:
+```
+- [[YYYY-MM-DD]] HH:MM: Created during weekly review
+```
+Where the wikilink date and time are *today's* (when the review session is happening), not the note's date.
+
 Pre-fill each daily note with a lightweight agenda via `log_to_daily_note`:
 ```
 log_to_daily_note(
@@ -397,6 +451,50 @@ log_to_note(
 Next week's focus is set: [ONE thing]
 [If tasks planned: "Scheduled [X] tasks across [Y] days"]
 [If daily notes created: "Pre-filled [Y] daily notes with your plan"]
+```
+
+#### 8b. Generate Week at a Glance (MANDATORY)
+
+**Do NOT skip this step.** Always generate the mermaid gantt chart after scheduling and append it to the **next week's** weekly note. This gives a glanceable visual of the planned week.
+
+**Use date-based format** — each task spans one or more days. Group by theme/project.
+
+**Mark critical/deadline items** with `:crit` for red highlighting.
+
+**Template:**
+````
+```mermaid
+gantt
+    title [Week ID] — [date range]
+    dateFormat YYYY-MM-DD
+    axisFormat %a %d
+
+    section [Theme 1]
+    [Task label]     :[id], YYYY-MM-DD, Nd
+
+    section [Theme 2]
+    [Task label]     :crit, [id], YYYY-MM-DD, Nd
+
+    section Admin
+    [Task label]     :[id], YYYY-MM-DD, Nd
+```
+````
+
+**Guidelines:**
+- Group tasks into 3-5 sections by theme (project name, life area, or category)
+- Tasks spanning multiple days get multi-day bars (e.g., "FMA-005 Draft" spanning Mon–Wed)
+- Single-day tasks get `1d`
+- Use `:crit` for deadline-sensitive items or blockers
+- Keep section names short (e.g., "WMD Infra", "Honeymoon", "Admin")
+- Only include scheduled/planned tasks, not the full backlog
+
+**Write to next week's note:**
+```
+append_to_note(
+  note_path: "[next week's note path]",
+  content: "[mermaid gantt block as above]",
+  subsection: "Plan"
+)
 ```
 
 ### 9. Close Positively

@@ -25,6 +25,7 @@ ADHD-friendly morning routine. Goal: get the user moving with ONE clear action.
 | `read_note` | Read today's daily note for pre-planned content |
 | `create_daily_note` | Ensure today's note exists |
 | `list_tasks` | Check for blocked tasks |
+| `get_context_week` | Check if last week's review was done (Mondays only) |
 | `append_to_note` | Write standup and intention to daily note |
 | `update_metadata` | Mark intention as set |
 | `log_to_daily_note` | Log the day start |
@@ -44,6 +45,7 @@ Collect state using MCP tools - don't dump this on the user:
 - `get_context_day` with `date: "yesterday"` - Returns yesterday's completions and activity
 - `get_daily_dashboard` - Returns overdue/due today/in-progress tasks
 - `list_tasks` with `status_filter: "blocked"` - Any blocked work
+- If today is **Monday**: `get_context_week` with `week: "last"` - Check if last week's review was done
 - `today_schedule` (Apple Calendar MCP) - Today's meetings and events
 - `find_free_slots` with `target_date: "today"` (Apple Calendar MCP) - Available time windows
 
@@ -95,6 +97,21 @@ If `daily_note.exists` is `false` from the context above, create today's daily n
 | `## Logs` | Entries beyond "Created" | Shows prior activity today (late start, already working) |
 
 **Store what you find** — the extracted pre-planned content feeds into steps 4, 5, 6, and 7.
+
+### 1d. Monday Check: Weekly Review Done? (Silent)
+
+If today is **Monday**, check whether last week's weekly review was completed. Use `get_context_week` with `week: "last"` and look for a weekly note with a filled-in review (wins, reflections, or a closed flag).
+
+**If the review is missing or incomplete**, interrupt the normal start-day flow after the greeting (step 2) and suggest doing the weekly review first:
+
+```
+Heads up — last week's review hasn't been done yet.
+Want to do a quick weekly review before we plan today? I can run /weekly-review now.
+```
+
+If the user agrees, invoke the `weekly-review` skill and resume `start-day` afterwards (the review will produce context that feeds into today's standup and planning). If they decline, continue normally — no pressure.
+
+**If the review is done**, continue as normal. No need to mention it.
 
 ### 2. Warm Greeting with Orientation
 
@@ -313,9 +330,9 @@ append_to_note(
 )
 ```
 
-#### 7c. Generate Daily Visual Timeline
+#### 7c. Generate Daily Visual Timeline (MANDATORY)
 
-After writing the text schedule, generate a mermaid gantt chart and append it to the Agenda section. This gives the user a glanceable visual of their day with a red "now" marker line.
+**Do NOT skip this step.** Always generate the mermaid gantt chart after writing the text schedule and append it to the Agenda section. This gives the user a glanceable visual of their day with a red "now" marker line.
 
 **Use real datetimes** (`YYYY-MM-DD HH:mm`) so mermaid renders proper thick bars AND shows the todayMarker (red current-time line). Use human-readable durations (`1h`, `30m`, `2h30m`, `90m`).
 

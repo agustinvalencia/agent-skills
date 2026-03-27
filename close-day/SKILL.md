@@ -108,6 +108,81 @@ Today you:
 
 Never list what wasn't done. Never mention overdue tasks at night.
 
+### 3b. Generate "What Actually Happened" Timeline (Silent)
+
+Reconstruct the day's actual flow from logs, task completions, meeting notes, and calendar events. Place it alongside the planned timeline in the daily note. This helps spot patterns over weeks — not to judge any single day.
+
+**Data sources (already gathered in step 1):**
+- `get_context_day` → `tasks.completed[]` with timestamps, `activity[]` log entries
+- Daily note `## Logs` section — timestamped entries showing what happened when
+- Calendar events — meetings that actually occurred
+- Task completions — when things got done
+
+**Reconstruct the actual blocks:**
+1. Walk through the Logs section chronologically — each timestamped entry hints at what was being worked on
+2. Map task completions to time slots
+3. Include meetings from the calendar (these usually happen as planned)
+4. Fill gaps with "untracked" or infer from log context
+
+**Generate a mermaid gantt chart using the same format as the plan:**
+
+````
+```mermaid
+---
+config:
+  gantt:
+    barHeight: 30
+    barGap: 6
+    topPadding: 30
+    sectionFontSize: 12
+---
+gantt
+    title [Day] — What Actually Happened
+    dateFormat YYYY-MM-DD HH:mm
+    axisFormat %H:%M
+    tickInterval 1hour
+
+    section Deep Work
+    [What was actually worked on]    :YYYY-MM-DD HH:mm, [duration]
+
+    section Meetings
+    [Meetings that happened]         :crit, YYYY-MM-DD HH:mm, [duration]
+
+    section Personal
+    [Actual personal time]           :YYYY-MM-DD HH:mm, [duration]
+```
+````
+
+**Append to the daily note under a new subsection:**
+```
+append_to_note(
+  note_path: "[today's daily note path]",
+  content: "[mermaid gantt block as above]",
+  subsection: "Flow"
+)
+```
+
+**Guidelines:**
+- Use the same sections and colour scheme as the planned timeline for easy visual comparison
+- Don't fabricate precision — if you only know "worked on WMD between 09:00 and the 11:00 meeting", that's fine
+- Include context switches and unplanned work — these are the interesting patterns
+- If a gym commute was logged, include bike-to/bike-from blocks with actual times
+- Keep it factual, not judgmental — "Weekly review 08:00–09:30" not "Spent too long on review"
+
+**Do NOT:**
+- Compare plan vs flow in text — the visual does this naturally
+- Highlight gaps or "wasted" time
+- Mention this timeline during the verbal close-day flow — just write it silently
+- Generate this if there are fewer than 3 log entries (not enough data to reconstruct)
+
+**Pattern spotting (weekly, not daily):**
+The real value comes from comparing flow charts across a week during `/weekly-review`. Over time, patterns emerge:
+- "Deep work never happens after 15:00"
+- "Tuesday meetings always eat the whole day"
+- "Gym at lunch stuck 3/4 times — that slot works"
+
+These insights should feed into the weekly review's Improvements section, not into nightly self-criticism.
+
 ### 4. Reflect on Intention (Gentle)
 
 Check the `intention` metadata from step 1.
