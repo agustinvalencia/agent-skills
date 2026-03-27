@@ -142,27 +142,31 @@ Find something. Even "You showed up today" counts.
 
 Compose a standup summary from the gathered context and write it to the daily note. This happens automatically — don't ask the user.
 
+**Task wikilinks:** Always use the full filename with a pipe alias so links resolve in Obsidian. The task path is available from MCP tool responses (e.g. `get_context_day` returns `tasks.completed[].path`). Extract the filename stem from the path and format as `[[TASK-ID-slug|TASK-ID]]`.
+
+Example: path `Projects/moving-apartment/Tasks/MAPT-025-check-in-wall-tv-supports.md` → `[[MAPT-025-check-in-wall-tv-supports|MAPT-025]]`
+
 **Compose the standup:**
 
 ```markdown
 ### Yesterday
 - Completed [N] tasks
-  - [Task 1]
-  - [Task 2]
+  - [[TASK-ID-slug|TASK-ID]] Task title
+  - [[TASK-ID-slug|TASK-ID]] Task title
 - [Any notable activity — meetings, notes modified, etc.]
 
 ### Today
 - Focus: [Current focus project]
 - In progress:
-  - [Task in progress]
+  - [[TASK-ID-slug|TASK-ID]] Task title
 - Planned for today:
-  - [Tasks with planned_for = today, with effort if set]
+  - [[TASK-ID-slug|TASK-ID]] Task title [effort if set]
   - [Items from daily note ## To Do section, if pre-filled — merge, don't duplicate]
 - Next up:
-  - [Next task from priority list if no planned tasks]
+  - [[TASK-ID-slug|TASK-ID]] Task title [if no planned tasks]
 
 ### Blockers
-- [Any blocked tasks, or "None"]
+- [[TASK-ID-slug|TASK-ID]] Task title — [reason], or "None"
 ```
 
 **Write to daily note:**
