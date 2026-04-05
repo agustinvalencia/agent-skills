@@ -272,9 +272,13 @@ log_to_daily_note(
 )
 ```
 
-**Fix the "Created" log entry:** `create_daily_note` logs `- HH:MM : Created` using the current time, which is misleading for pre-created notes (it looks like the note was created at that time on the note's own date). After creating each note, edit the Logs section to replace the `Created` entry with:
+**Fix the "Created" log entry:** `create_daily_note` logs `- **HH:MM**: Created` using the current time, which is misleading for pre-created notes (it looks like the note was created at that time on the note's own date). After creating each note, use `replace_in_note` to fix it:
 ```
-- [[YYYY-MM-DD]] HH:MM: Created during weekly planning
+replace_in_note(
+  note_path: "[daily note path]",
+  old_text: "- **HH:MM**: Created",
+  new_text: "- [[YYYY-MM-DD]] HH:MM: Created during weekly planning"
+)
 ```
 Where the wikilink date and time are *today's* (when the planning session is happening), not the note's date. This preserves context about when and why the note was created.
 

@@ -175,6 +175,15 @@ extra_vars: {"criteria": "First criterion\n- [ ] Second criterion\n- [ ] Third c
 
 Note: the template already includes `- [ ]` before `{{criteria}}`, so the first criterion needs no prefix — only subsequent items need `\n- [ ]`.
 
+**Updating criteria after creation:** If criteria need to be revised or the task was created without them (leaving a `{{criteria}}` placeholder), use `replace_in_note` to update:
+```
+replace_in_note(
+  note_path: "[task path]",
+  old_text: "{{criteria}}",
+  new_text: "Revised first criterion\n- [ ] Second criterion"
+)
+```
+
 Guidelines for generating criteria:
 - **Simple tasks** (call dentist, buy groceries): 1-2 criteria, e.g. `"Appointment booked for a specific date"` — make it verifiable, not just "done"
 - **Medium tasks** (submit report, review proposal): 2-3 criteria covering the key deliverables
