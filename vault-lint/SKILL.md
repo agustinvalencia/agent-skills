@@ -4,7 +4,7 @@ description: Check vault structural correctness — broken links, schema violati
 metadata:
   author: mdvault
   version: "1.0"
-compatibility: Requires mdvault MCP server with vault configured and mdv CLI with `check` command
+compatibility: Requires mdvault MCP server with vault configured and mdv CLI with `check` and `validate` commands
 ---
 
 # Vault Lint
@@ -18,15 +18,20 @@ Structural health check for the vault. Goal: surface real problems without overw
 
 | Tool | Purpose |
 |------|---------|
-| `vault_lint` | Run structural checks and get health report |
+| `vault_lint` | Run structural checks (broken links, orphans, db sync) |
+| `validate_note` | Validate frontmatter against Lua type definitions (schema) |
 | `read_note` | Read specific notes to help fix issues |
 | `update_metadata` | Fix metadata issues on individual notes |
 
 ## Steps
 
-### 1. Run the Check (Silent)
+### 1. Run Both Checks (Silent)
 
-Call `vault_lint()` with no arguments to run all checks. Do not show raw output.
+Run two checks in parallel — do not show raw output:
+1. `vault_lint()` — structural health (broken references, orphans, consistency)
+2. `validate_note()` — schema health (frontmatter against type definitions)
+
+These are complementary: `vault_lint` checks structure, `validate_note` checks schemas.
 
 ### 2. Lead with the Health Score
 
@@ -77,13 +82,15 @@ If more issues exist:
 
 ### 5. Offer to Fix Fixable Issues
 
-If any issues are marked as fixable (e.g. schema violations with auto-fix):
+If `validate_note` found schema errors (missing required fields, wrong types):
 
 ```
-I can auto-fix 3 schema issues (missing default values). Want me to run that?
+3 notes have missing frontmatter fields that can be auto-filled with defaults. Want me to fix them?
 ```
 
-Wait for confirmation before calling `vault_lint(fix=True)`.
+Wait for confirmation before calling `validate_note(fix=True)`. To fix a specific note: `validate_note(path="Journal/2026/Daily/2026-04-05.md", fix=True)`.
+
+For structural issues found by `vault_lint` that are fixable, offer those separately.
 
 ### 6. Help with Non-Fixable Issues
 
@@ -152,3 +159,15 @@ vault_lint(category="broken_references")
 ```
 
 Only show that category's results.
+
+### Validate a Specific Note or Type
+
+If the user asks to validate a specific note or note type:
+
+```python
+validate_note(path="Journal/2026/Daily/2026-04-05.md")
+validate_note(note_type="daily")
+validate_note(note_type="task", limit=20)
+```
+
+Show per-note errors grouped clearly. Offer `fix=True` if there are fixable issues.
