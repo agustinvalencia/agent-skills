@@ -3,7 +3,7 @@ name: create-meeting
 description: Create a new meeting note with auto-generated ID. Minimal friction - just needs a title. Attendees and date are optional. Use when the user mentions a meeting, says "meeting with", "schedule meeting", or "create meeting".
 metadata:
   author: mdvault
-  version: "1.0"
+  version: "1.1"
 compatibility: Requires mdvault MCP server (v0.3.0+) with vault configured
 ---
 
@@ -18,6 +18,8 @@ Standardized meeting note creation. Minimal friction, auto-generated IDs.
 | Tool | Purpose |
 |------|---------|
 | `create_meeting` | Create meeting note with auto-generated ID |
+| `append_to_daily_note` | Link meeting to the day's Agenda section |
+| `update_metadata` | Set start_time, end_time, project if needed after creation |
 
 ## Required Information
 
@@ -26,6 +28,9 @@ Standardized meeting note creation. Minimal friction, auto-generated IDs.
 | title | Yes | Ask user or extract from request | - |
 | attendees | No | Extract from context or ask | (empty) |
 | date | No | Extract or infer | Today |
+| start_time | No | Extract from context (e.g. "at 2pm") | (empty) |
+| end_time | No | Extract from context | (empty) |
+| project | No | Extract from context or current focus | (empty) |
 
 ## Procedure
 
@@ -70,11 +75,29 @@ What's this meeting about?
 create_meeting(
   title: "[title]",
   attendees: "[names or omit]",
-  date: "[YYYY-MM-DD or omit for today]"
+  date: "[YYYY-MM-DD or omit for today]",
+  extra_vars: {
+    "start_time": "HH:MM",   // if mentioned
+    "end_time": "HH:MM",     // if mentioned
+    "project": "project-name" // if relevant
+  }
 )
 ```
 
-### 4. Confirm Simply
+### 4. Link to Daily Note
+
+After creating the meeting, append a wikilink to today's daily note so the meeting appears in the day's record:
+
+```
+append_to_daily_note(
+  content: "- [[MTG-YYYY-MM-DD-NNN|Title]]",
+  subsection: "Agenda"
+)
+```
+
+If the meeting is for a different date, use `append_to_note` on that day's daily note instead.
+
+### 5. Confirm Simply
 
 ```
 Created: MTG-2026-02-03-001 - [Title]
@@ -124,6 +147,7 @@ Don't force structure. Natural names are fine.
 - Don't ask for meeting ID (auto-generated)
 - Don't ask for date if not mentioned (defaults to today)
 - Don't ask for attendees if not mentioned
+- Don't ask for start/end time if not mentioned
 - Don't ask for agenda (they'll add it to the note)
 - Don't create calendar events (out of scope)
 - Don't suggest meeting templates
