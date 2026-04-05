@@ -3,7 +3,7 @@ name: start-day
 description: Start the day with a low-friction morning briefing. Shows ONE priority task, current focus, writes a standup to the daily note, and helps set a single intention. ADHD-friendly - minimal overwhelm, maximum momentum. Use when the user says good morning, wants to start their day, asks what's on the agenda, or says "standup" or "daily standup".
 metadata:
   author: mdvault
-  version: "3.2"
+  version: "3.3"
 compatibility: Requires mdvault MCP server with vault configured
 ---
 
@@ -325,6 +325,13 @@ I'd suggest focusing on just:
 The rest can wait — better to finish one thing than half-start three.
 ```
 
+**Confirm before writing:** Present the schedule to the user and ask:
+```
+Does this shape work, or want to shuffle anything?
+```
+
+Once the user confirms (or doesn't object), **auto-dump both the text schedule and the visual timeline to the daily note** — don't wait for a separate request. If they want changes, adjust and then write. The write happens as a single action covering steps 7b and 7c together.
+
 **Write the suggested schedule to the daily note:**
 ```
 append_to_note(
@@ -336,7 +343,7 @@ append_to_note(
 
 #### 7c. Generate Daily Visual Timeline (MANDATORY)
 
-**Do NOT skip this step.** Always generate the mermaid gantt chart after writing the text schedule and append it to the Agenda section. This gives the user a glanceable visual of their day with a red "now" marker line.
+**Do NOT skip this step.** Always generate the mermaid gantt chart immediately after writing the text schedule and append it to the Agenda section. This gives the user a glanceable visual of their day with a red "now" marker line. Both the text schedule (7b) and visual timeline (7c) are written together after user confirmation — no separate request needed.
 
 **Use real datetimes** (`YYYY-MM-DD HH:mm`) so mermaid renders proper thick bars AND shows the todayMarker (red current-time line). Use human-readable durations (`1h`, `30m`, `2h30m`, `90m`).
 
